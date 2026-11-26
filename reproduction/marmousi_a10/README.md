@@ -86,3 +86,34 @@ sbatch reproduction/marmousi_a10/submit_a10.sbatch \
 本分支在 `results/full_a10/` 附带一次完整运行的摘要、最终模型、观测、指标和图片，运行条件与主要误差见其中的 `RESULTS.md`。
 
 参考 [PyFWI 软件论文 Fig. 3–5](https://doi.org/10.1016/j.softx.2023.101384) 和 [含水饱和度监测论文表 1、Eq. (9)–(15)、Fig. 9–14](https://doi.org/10.1111/1365-2478.13363)。
+
+## 方法论文的第二套实验
+
+### Marmousi 补充图
+
+已用原有 A10 两期模型生成 [PCS 基线、DV 间接饱和度、PCS 直接饱和度及剖面](results/full_a10/paper2/README.md)。重新生成只需 CPU，输入目录应当含 `models.npz`、`dv_sim/final.npz`、`pcs_sim/final.npz` 及 `pcs_baseline/final.npz`。
+
+```bash
+PYTHONPATH="$PWD/src" "${PYFWI_PYTHON:-python3}" reproduction/marmousi_a10/indirect.py \
+  --run reproduction/marmousi_a10/results/full_a10 \
+  --out "$RUN_ROOT/marmousi-paper2"
+```
+
+### 简单层状模型（Fig. 2–8）
+
+从仓库根目录执行，使用与 Marmousi 相同的依赖环境。先运行单炮、10 Hz 短测，再运行七炮、六频段的正式实验。
+
+```bash
+RUN_ROOT="${SCRATCH:-$PWD/runs}"
+reproduction/marmousi_a10/run_a10.sh --case layered --profile smoke --out "$RUN_ROOT/layer-smoke"
+sbatch reproduction/marmousi_a10/submit_a10.sbatch \
+  --case layered --profile full --out "$RUN_ROOT/layer-full"
+```
+
+三层参数、层界、半圆掩膜和 25% 相对饱和度增量沿用仓库 `hu_laminar`。采用 100 × 100 网格、10 m 网格间距并在距左端 0.5 km 处取中心剖面。七个 30 Hz 爆炸震源位于地表附近，同时记录地表和两侧井中的无噪声压力类炮集。计算约定使用 0.8 s 记录、1 ms 外部采样和原脚本的 PML 设置。模式使用单进程，偏移方向按保存的炮检坐标解释。
+
+输出 `paper_figures/` 包含两期和初始 PCS 模型、PCS 基线影像及中心剖面、时移弹性变化、三种饱和度对照和误差表。三种对照为 DV 两期自由拟合 PCS、DV 监测期仅拟合饱和度，以及 PCS 直接反演。
+
+可用 `--tikhonov-x` 做横向平滑权重试验。该选项惩罚归一化活跃模型的横向一阶差分，默认权重为零。要核对论文报告的百分比，还需校准该项权重与论文式 (6) 的梯度缩放，并对齐误差定义。
+
+本地 CPU OpenCL 已完成单炮短测的四个反演阶段及后处理。层状算例的 A10 全频段试验待运行。混合观测的左右井记录按坐标顺序输出，并限制右井内核只访问本井实际道数。

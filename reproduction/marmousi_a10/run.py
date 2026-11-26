@@ -18,9 +18,10 @@ from PyFWI.wave_propagation import WavePropagator
 
 from case import (
     DH, DT, FDOM, DV_LIMITS, DV_SCALE, PCS_LIMITS, PCS_SCALE, DV_KEYS, PCS_KEYS,
-    check_pcs_derivative, load_models, save_arrays, save_json, smooth_model,
+    check_pcs_derivative, load_models, pcs_to_dv, save_arrays, save_json, smooth_model,
 )
 from check_data import main as check_data
+from indirect import paper_figures
 from invert import pressure, run_stage
 from parallel import ParallelWave
 from results import evaluate, plot_gathers, plot_true_models
@@ -29,6 +30,7 @@ from results import evaluate, plot_gathers, plot_true_models
 def arguments():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, required=True, help="结果目录")
+    parser.add_argument("--case", choices=("marmousi", "layered"), default="marmousi")
     parser.add_argument("--profile", choices=("smoke", "full"), default="full")
     parser.add_argument("--device", default=os.environ.get("PYOPENCL_CTX"),
                         help="OpenCL 平台:设备索引，默认使用分配到的第一张 A10")
@@ -39,14 +41,19 @@ def arguments():
     parser.add_argument("--iterations", type=int, help="覆盖各频段的迭代上限")
     parser.add_argument("--sigma", type=float, default=5., help="高斯平滑标准差，单位为网格点")
     parser.add_argument("--coupling", type=float, default=1e-3, help="无量纲差异惩罚权重")
+    parser.add_argument("--tikhonov-x", type=float, default=0.,
+                        help="归一化模型的一阶横向差分惩罚权重")
     parser.add_argument("--resume", action="store_true", help="复用本目录已完成的频段")
     parser.add_argument("--workers", type=int, default=1,
                         help="并发炮的工作进程数；0 表示每炮一个，默认单进程")
     args = parser.parse_args()
     if ((args.iterations is not None and args.iterations < 1) or not np.isfinite(args.sigma)
             or args.sigma <= 0 or not np.isfinite(args.coupling) or args.coupling < 0
+            or not np.isfinite(args.tikhonov_x) or args.tikhonov_x < 0
             or args.workers < 0):
         parser.error("迭代次数和平滑标准差须为正，差异惩罚权重须非负，工作进程数须非负")
+    if args.case == "layered" and (args.truth != "pcs" or args.workers != 1):
+        parser.error("层状算例使用 PCS 真值和单进程")
     return args
 
 
@@ -65,13 +72,36 @@ def select_device(requested, allow_other):
     return requested, devices[requested]
 
 
+def layered_models():
+    # hu_laminar 的层值、层界和注入形状，见 model_dataset.py 及论文 Fig. 2。
+    shape = (100, 100)
+    initial = {k: np.full(shape, value) for k, value in zip(PCS_KEYS, (.30, .05, .20))}
+    baseline = {key: field.copy() for key, field in initial.items()}
+    for key, upper, lower in zip(PCS_KEYS, (.20, .10, .50), (.10, .15, .80)):
+        baseline[key][37:65] = upper
+        baseline[key][65:] = lower
+    monitor = {key: field.copy() for key, field in baseline.items()}
+    z, x = np.ogrid[:shape[0], :shape[1]]
+    reservoir = (z >= 37) & ((z - 37)**2 + (x - 50)**2 < 8**2)
+    monitor["sw"][reservoir] *= 1.25
+    pcs = [baseline, monitor]
+    return pcs, [pcs_to_dv(model) for model in pcs], initial
+
+
 def main():
     args = arguments()
     index, device = select_device(args.device, args.allow_non_a10)
-    check_data()
-    pcs, elastic, model_differences = load_models(args.truth)
-    initial_dv = smooth_model(elastic[0], args.sigma, DV_LIMITS)
-    initial_pcs = smooth_model(pcs[0], args.sigma, PCS_LIMITS)
+    layered = args.case == "layered"
+    dh = 10. if layered else DH
+    if layered:
+        pcs, elastic, initial_pcs = layered_models()
+        initial_dv = pcs_to_dv(initial_pcs)
+        model_differences = None
+    else:
+        check_data()
+        pcs, elastic, model_differences = load_models(args.truth)
+        initial_dv = smooth_model(elastic[0], args.sigma, DV_LIMITS)
+        initial_pcs = smooth_model(pcs[0], args.sigma, PCS_LIMITS)
     derivative_check = check_pcs_derivative(initial_pcs)
     print(f"PCS 链式梯度方向导数相对误差: {derivative_check}", flush=True)
     shape = pcs[0]["phi"].shape
@@ -79,14 +109,15 @@ def main():
     frequencies = [10] if args.profile == "smoke" else [10, 20, 25, 35, 40, 55]
     iterations = args.iterations or (2 if args.profile == "smoke" else 10)
     # Snap x coordinates so saved geometry is exactly the geometry in the kernels.
-    parameters = {"dh": DH, "dt": DT, "t": .55, "fdom": FDOM, "sdo": 4,
-                  "npml": 20, "pmlR": 1e-5, "pml_dir": 2, "rec_dis": DH,
-                  "acq_type": 1, "seimogram_shape": "2d", "energy_balancing": False}
-    sources, receivers, _, _ = acquisition.acq_parameters(
-        ns, DH, DH * shape[1], DH * shape[0], DH, parameters["sdo"], acq_type=1)
-    sources[:, 0] = np.rint(sources[:, 0] / DH) * DH
-    receivers[:, 1] -= 2 * DH
-    source = acquisition.Source(sources, DH, DT)
+    parameters = {"dh": dh, "dt": DT, "t": .8 if layered else .55, "fdom": FDOM, "sdo": 4,
+                  "npml": 20, "pmlR": 1e-5, "pml_dir": 2, "rec_dis": dh,
+                  "acq_type": 2 if layered else 1, "seimogram_shape": "2d", "energy_balancing": False}
+    sources, receivers, nr_surface, nr_well = acquisition.acq_parameters(
+        ns, dh, dh * shape[1], dh * shape[0], dh, parameters["sdo"],
+        acq_type=parameters["acq_type"])
+    sources[:, 0] = np.rint(sources[:, 0] / dh) * dh
+    receivers[nr_well:nr_well + nr_surface, 1] -= 2 * dh
+    source = acquisition.Source(sources, dh, DT)
     source.Ricker(FDOM)
 
     output = args.out.resolve()
@@ -102,6 +133,11 @@ def main():
               "dv_scale": list(DV_SCALE), "pcs_scale": list(PCS_SCALE),
               "dv_bounds": [list(bound) for bound in DV_LIMITS],
               "pcs_bounds": [list(bound) for bound in PCS_LIMITS]}
+    if layered:
+        config["case"] = args.case
+        config["n_well_receivers_per_side"] = nr_well
+    if args.tikhonov_x:
+        config["tikhonov_x"] = args.tikhonov_x
     if manifest.exists():
         previous = json.loads(manifest.read_text(encoding="utf-8"))
         if not args.resume or previous["config"] != config or previous["commit"] != commit:
@@ -112,7 +148,8 @@ def main():
     if workers > 1:
         wave = ParallelWave(parameters, sources, receivers, shape, workers)
     else:
-        wave = WavePropagator(parameters, source, receivers, shape, components=0, chpr=10)
+        wave = WavePropagator(parameters, source, receivers, shape, components=0, chpr=10,
+                              n_well_rec=nr_well)
     actual = wave.queue.device
     if actual.name != device.name:
         raise RuntimeError(f"OpenCL 实际设备与所选设备不一致: {actual.name}, {device.name}")
@@ -149,7 +186,7 @@ def main():
         for key, values in model.items()
     })
     plot_gathers(output / "shot_gathers.png", observations, wave.nr, ns)
-    plot_true_models(output, elastic)
+    plot_true_models(output, elastic, dh=dh)
     if args.forward_only:
         if workers > 1:
             wave.close()
@@ -157,15 +194,20 @@ def main():
 
     def solve(label, initial, keys, active, scale, limits):
         baseline, = run_stage(wave, observations[:1], initial, keys, scale, limits,
-                              frequencies, iterations, 0., output / f"{label}_baseline", args.resume)
+                              frequencies, iterations, 0., output / f"{label}_baseline", args.resume,
+                              tikhonov_x=args.tikhonov_x)
         return run_stage(wave, observations, baseline, active, scale, limits, frequencies,
-                         iterations, args.coupling, output / f"{label}_sim", args.resume)
+                         iterations, args.coupling, output / f"{label}_sim", args.resume,
+                         tikhonov_x=args.tikhonov_x)
 
     dv_result = solve("dv", initial_dv, DV_KEYS, DV_KEYS, DV_SCALE, DV_LIMITS)
     pcs_result = None
     if args.truth == "pcs":
         pcs_result = solve("pcs", initial_pcs, PCS_KEYS, ("sw",), PCS_SCALE, PCS_LIMITS)
-    evaluate(output, pcs, elastic, dv_result, pcs_result)
+    if layered:
+        paper_figures(output, output / "paper_figures", dh=dh, layered=True)
+    else:
+        evaluate(output, pcs, elastic, dv_result, pcs_result)
     if workers > 1:
         wave.close()
     print(f"复现完成，结果目录 {output}", flush=True)

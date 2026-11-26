@@ -86,7 +86,7 @@ __kernel void injSrc(__global float *vx,__global float *vz,
 
   int startOfThirdRec = n_extera_rec + n_main_rec;
 
-  if(i%dxr==0 && j == rec_top_right_const){
+  if(i%dxr==0 && j == rec_top_right_const && i/dxr<n_extera_rec){
     int ir = i/dxr;
       seismogram_vxi[nt * Nr + startOfThirdRec + ir]  =  vx[(i+ rec_top_right_var)*Nx + j];
       seismogram_vzi[nt * Nr + startOfThirdRec + ir]  =  vz[(i+ rec_top_right_var)*Nx + j];
@@ -447,7 +447,7 @@ __kernel void Adj_injSrc(
 
   int startOfThirdRec = n_extera_rec + n_main_rec;
 
-  if(i%dxr==0 && j == rec_top_right_const){
+  if(i%dxr==0 && j == rec_top_right_const && i/dxr<n_extera_rec){
     int ir = i/dxr;
 
       Avx[(i+ rec_top_right_var)*Nx + j] += res_vx[ofs + startOfThirdRec + ir];

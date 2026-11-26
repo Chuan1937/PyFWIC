@@ -47,7 +47,7 @@ def data_term(wave, model, observed, lowpass, weight):
 
 
 def run_stage(wave, observations, initial, selected, scale, limits, frequencies,
-              iterations, coupling, output, resume):
+              iterations, coupling, output, resume, tikhonov_x=0.):
     """Optimize the baseline alone or the two vintages simultaneously."""
     output.mkdir(parents=True, exist_ok=True)
     keys = PCS_KEYS if "sw" in initial else DV_KEYS
@@ -107,6 +107,14 @@ def run_stage(wave, observations, initial, selected, scale, limits, frequencies,
                 penalty = 0.5 * factor * float(diff @ diff)
                 gradient[:block_size] -= factor * diff
                 gradient[block_size:] += factor * diff
+            if tikhonov_x:
+                grid = values.reshape(len(vintages), len(selected), *shape)
+                horizontal = np.diff(grid, axis=-1)
+                factor = tikhonov_x / horizontal.size
+                penalty += 0.5 * factor * float(np.sum(horizontal**2))
+                grad_grid = gradient.reshape(grid.shape)
+                grad_grid[..., :-1] -= factor * horizontal
+                grad_grid[..., 1:] += factor * horizontal
             loss = float(sum(losses) + penalty)
             if not np.isfinite(loss) or not np.isfinite(gradient).all():
                 raise FloatingPointError(f"{output.name} {cutoff:g} Hz 的目标函数或梯度非有限")

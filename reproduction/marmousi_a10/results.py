@@ -12,7 +12,7 @@ def difference(baseline, monitor):
     return {key: monitor[key] - values for key, values in baseline.items()}
 
 
-def panel_grid(path, rows, names, units, *, symmetric=False, shared=False):
+def panel_grid(path, rows, names, units, *, symmetric=False, shared=False, dh=DH):
     fig, axes = plt.subplots(len(rows), len(names), figsize=(4.3 * len(names), 2.7 * len(rows)),
                              squeeze=False, layout="constrained")
     for j, (name, unit) in enumerate(zip(names, units)):
@@ -21,12 +21,14 @@ def panel_grid(path, rows, names, units, *, symmetric=False, shared=False):
             values = images[j]
             nz, nx = values.shape
             reference = truth if shared else values
+            if symmetric and shared and not np.any(truth):
+                reference = np.stack([images[j] for _, images in rows])
             bounds = (reference.min(), reference.max())
             if symmetric:
                 amplitude = max(abs(bounds[0]), abs(bounds[1]), 1e-12)
                 bounds = (-amplitude, amplitude)
             ax = axes[i, j]
-            image = ax.imshow(values, extent=(0, DH * nx / 1000, DH * nz / 1000, 0),
+            image = ax.imshow(values, extent=(0, dh * nx / 1000, dh * nz / 1000, 0),
                               interpolation="nearest", aspect="equal",
                               cmap="RdBu_r" if symmetric else "viridis",
                               vmin=bounds[0], vmax=bounds[1])
@@ -50,15 +52,15 @@ def plot_gathers(path, observed, nr, ns):
     plt.close(fig)
 
 
-def plot_true_models(output, elastic):
+def plot_true_models(output, elastic, dh=DH):
     names = ("Vp", "Vs", "Density")
     units = ("m/s", "m/s", "kg/m³")
     panel_grid(output / "true_elastic.png",
                [(label, list(model.values())) for label, model in zip(("Baseline", "Monitor"), elastic)],
-               names, units, shared=True)
+               names, units, shared=True, dh=dh)
     panel_grid(output / "true_elastic_difference.png",
                [("Truth", list(difference(*elastic).values()))],
-               ("ΔVp", "ΔVs", "Δρ"), units, symmetric=True)
+               ("ΔVp", "ΔVs", "Δρ"), units, symmetric=True, dh=dh)
 
 
 def evaluate(output, pcs, elastic, dv_result, pcs_result=None):

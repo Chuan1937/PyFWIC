@@ -715,9 +715,6 @@ class WavePropagator(WavePreparation):
 
             self.__kernel(s, coeff)
 
-        if self.acq_type == 2:
-            for par in self.seismogram:
-                self.seismogram[par][:, :self.n_well_rec] = np.flip(self.seismogram[par][:, :self.n_well_rec], axis=1)
         return self.seismogram
     
     def __injSrc(self, t, s):
@@ -887,10 +884,6 @@ class WavePropagator(WavePreparation):
         self.adjoint_buffer_preparing()
         self.__bind_gradient()
 
-        # To reorder the receivers in the left well
-        if self.acq_type == 2:
-            for par in self.seismogram:
-                self.seismogram[par][:, :self.n_well_rec] = np.flip(self.seismogram[par][:, :self.n_well_rec], axis=1)
 
         res = prepare_residual(res, 1)
         if show:
