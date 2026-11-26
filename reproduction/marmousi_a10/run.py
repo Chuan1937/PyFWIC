@@ -46,6 +46,8 @@ def arguments():
     parser.add_argument("--resume", action="store_true", help="复用本目录已完成的频段")
     parser.add_argument("--workers", type=int, default=1,
                         help="并发炮的工作进程数；0 表示每炮一个，默认单进程")
+    parser.add_argument("--branch", choices=("both", "dv", "pcs"), default="both",
+                        help="只跑一个反演分支，配合 run_split.sh 双卡并行")
     args = parser.parse_args()
     if ((args.iterations is not None and args.iterations < 1) or not np.isfinite(args.sigma)
             or args.sigma <= 0 or not np.isfinite(args.coupling) or args.coupling < 0
@@ -138,6 +140,8 @@ def main():
         config["n_well_receivers_per_side"] = nr_well
     if args.tikhonov_x:
         config["tikhonov_x"] = args.tikhonov_x
+    if args.branch != "both":
+        config["branch"] = args.branch
     if manifest.exists():
         previous = json.loads(manifest.read_text(encoding="utf-8"))
         if not args.resume or previous["config"] != config or previous["commit"] != commit:
@@ -200,17 +204,19 @@ def main():
                          iterations, args.coupling, output / f"{label}_sim", args.resume,
                          tikhonov_x=args.tikhonov_x)
 
-    dv_result = solve("dv", initial_dv, DV_KEYS, DV_KEYS, DV_SCALE, DV_LIMITS)
-    pcs_result = None
-    if args.truth == "pcs":
+    dv_result = pcs_result = None
+    if args.branch in ("both", "dv"):
+        dv_result = solve("dv", initial_dv, DV_KEYS, DV_KEYS, DV_SCALE, DV_LIMITS)
+    if args.branch in ("both", "pcs") and args.truth == "pcs":
         pcs_result = solve("pcs", initial_pcs, PCS_KEYS, ("sw",), PCS_SCALE, PCS_LIMITS)
-    if layered:
-        paper_figures(output, output / "paper_figures", dh=dh, layered=True)
-    else:
-        evaluate(output, pcs, elastic, dv_result, pcs_result)
+    if args.branch == "both":
+        if layered:
+            paper_figures(output, output / "paper_figures", dh=dh, layered=True)
+        else:
+            evaluate(output, pcs, elastic, dv_result, pcs_result)
     if workers > 1:
         wave.close()
-    print(f"复现完成，结果目录 {output}", flush=True)
+    print(f"复现完成，分支 {args.branch}，结果目录 {output}", flush=True)
 
 
 if __name__ == "__main__":
