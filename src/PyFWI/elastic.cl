@@ -311,6 +311,101 @@ __kernel void update_tauxz(int coeff,
 
 
         ////////////////////////////////////////////////////////////////////////
+        // Fused updates: same arithmetic and ordering as update_velx/velz and
+        // update_tauz/tauxz, with half the kernel launches per time step.
+        ////////////////////////////////////////////////////////////////////////
+__kernel void update_vel(int coeff,
+            __global float *vx, __global float *vz,
+            __global float *taux, __global float *tauz, __global float *tauxz,
+            __global float *rho_b,
+            __global float *dxpml, __global float *dzpml
+            )
+
+{
+  int i = get_global_id(0)+sdo ;
+  int j = get_global_id(1)+sdo ;
+
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
+
+  float DxmTx = (c1*(taux[center]-taux[left]) + c2*(taux[right]-taux[left2])+
+               c3*(taux[right2]-taux[left3]) + c4*(taux[right3]-taux[left4]))/dx ;
+
+  float DzmTxz = (c1*(tauxz[center]-tauxz[above]) + c2*(tauxz[below]-tauxz[above2])+
+               c3*(tauxz[below2]-tauxz[above3]) + c4*(tauxz[below3]-tauxz[above4]))/dz;
+
+  float DxpTxz= (c1*(tauxz[right]-tauxz[center]) + c2*(tauxz[right2]-tauxz[left])+
+               c3*(tauxz[right3]-tauxz[left2]) + c4*(tauxz[right4]-tauxz[left3]))/dx;
+
+  float DzpTz= (c1*(tauz[below]-tauz[center]) + c2*(tauz[below2]-tauz[above])+
+               c3*(tauz[below3]-tauz[above2]) + c4*(tauz[below4]-tauz[above3]))/dz;
+
+  if (coeff==1){
+      vx[center] += coeff * dt * (rho_b[center] * (DxmTx + DzmTxz));
+      vx[center] += coeff * dt * (- (dxpml[center] + dzpml[center])*vx[center]);
+
+      vz[center] += coeff * dt * (rho_b[center] * (DzpTz + DxpTxz));
+      vz[center] += coeff * dt * (-(dzpml[center] + dxpml[center])*vz[center]);
+
+    }else if(coeff==-1){
+      vx[center] += coeff * dt * (+ (dxpml[center] + dzpml[center])*vx[center]);
+      vx[center] += coeff * dt * (rho_b[center] * (DxmTx + DzmTxz));
+
+      vz[center] += coeff * dt * (+(dzpml[center] + dxpml[center])*vz[center]);
+      vz[center] += coeff * dt * (rho_b[center] * (DzpTz + DxpTxz));
+    }
+
+}
+
+__kernel void update_tau(int coeff,
+            __global float *vx, __global float *vz,
+            __global float *taux, __global float *tauz, __global float *tauxz,
+            __global float *lambda, __global float *mu,
+            __global float *dxpml, __global float *dzpml
+            )
+
+{
+  int i = get_global_id(0)+sdo ;
+  int j = get_global_id(1)+sdo ;
+
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
+
+  float DxpVx= (c1*(vx[right]-vx[center]) + c2*(vx[right2]-vx[left])+
+               c3*(vx[right3]-vx[left2]) + c4*(vx[right4]-vx[left3]))/dx;
+
+  float DzmVz= (c1*(vz[center]-vz[above]) + c2*(vz[below]-vz[above2])+
+               c3*(vz[below2]-vz[above3]) + c4*(vz[below3]-vz[above4]))/dz;
+
+  float DxmVz= (c1*(vz[center]-vz[left]) + c2*(vz[right]-vz[left2])+
+               c3*(vz[right2]-vz[left3]) + c4*(vz[right3]-vz[left4]))/dx;
+
+  float DzpVx= (c1*(vx[below]-vx[center]) + c2*(vx[below2]-vx[above])+
+               c3*(vx[below3]-vx[above2]) + c4*(vx[below4]-vx[above3]))/dz;
+
+  if (coeff==1){
+      taux[center]+= coeff* dt * ((lambda[center] + 2 * mu[center]) * DxpVx + lambda[center] * DzmVz);
+      tauz[center]+= coeff* dt * ((lambda[center] + 2 * mu[center]) * DzmVz + lambda[center] * DxpVx);
+
+      taux[center] += coeff * dt * (-(dxpml[center]+dzpml[center])*taux[center]);
+      tauz[center] += coeff * dt * (-(dxpml[center]+dzpml[center])*tauz[center]);
+
+      tauxz[center] += coeff * dt * (mu[center] *(DxmVz + DzpVx));
+      tauxz[center] += coeff * dt * (-(dxpml[center] + dzpml[center])*tauxz[center]);
+
+    }else if(coeff==-1){
+      taux[center] += coeff * dt * (+(dxpml[center]+dzpml[center])*taux[center]);
+      tauz[center] += coeff * dt * (+(dxpml[center]+dzpml[center])*tauz[center]);
+
+      taux[center]+= coeff* dt * ((lambda[center] + 2 * mu[center]) * DxpVx + lambda[center] * DzmVz);
+      tauz[center]+= coeff* dt * ((lambda[center] + 2 * mu[center]) * DzmVz + lambda[center] * DxpVx);
+
+      tauxz[center] += coeff * dt * (+(dxpml[center] + dzpml[center])*tauxz[center]);
+      tauxz[center] += coeff * dt * (mu[center] *(DxmVz + DzpVx));
+    }
+
+}
+
+
+        ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
         ////                    adjoint    source injection                        ////
         ////////////////////////////////////////////////////////////////////////
@@ -320,7 +415,7 @@ __kernel void Adj_injSrc(
                          __global float *Ataux, __global float *Atauz, __global float *Atauxz,
                          __global float *res_vx, __global float * res_vz,
                          __global float *res_taux, __global float *res_tauz, __global float *res_tauxz,
-                         int dxr
+                         int dxr, int ts
                          )
 
 
@@ -328,24 +423,25 @@ __kernel void Adj_injSrc(
 
   int i = get_global_id(0) ;
   int j = get_global_id(1);
+  int ofs = ts * Nr;
 
     if(i%dxr==0 && j == rec_top_left_const && i/dxr<n_extera_rec){
     int ir = i/dxr;
-        Avx[(i+ rec_top_left_var)*Nx + j] += res_vx[ir];
-        Avz[(i+ rec_top_left_var)*Nx + j] += res_vz[ir];
-        Ataux[(i+ rec_top_left_var)*Nx + j] += res_taux[ir];
-        Atauz[(i+ rec_top_left_var)*Nx + j] += res_tauz[ir];
-        Atauxz[(i+ rec_top_left_var)*Nx + j] += res_tauxz[ir];
+        Avx[(i+ rec_top_left_var)*Nx + j] += res_vx[ofs + ir];
+        Avz[(i+ rec_top_left_var)*Nx + j] += res_vz[ofs + ir];
+        Ataux[(i+ rec_top_left_var)*Nx + j] += res_taux[ofs + ir];
+        Atauz[(i+ rec_top_left_var)*Nx + j] += res_tauz[ofs + ir];
+        Atauxz[(i+ rec_top_left_var)*Nx + j] += res_tauxz[ofs + ir];
 }
   if(j%dxr==0 && i == rec_surface_const){
     int ir =  j/dxr;
     if (ir < n_main_rec){
 
-        Avx[i*Nx + (j+ rec_surface_var)] += res_vx[n_extera_rec + ir];
-        Avz[i*Nx + (j+ rec_surface_var)] += res_vz[n_extera_rec + ir];
-        Ataux[i*Nx + (j+ rec_surface_var)] += res_taux[n_extera_rec + ir];
-        Atauz[i*Nx + (j+ rec_surface_var)] += res_tauz[n_extera_rec + ir];
-        Atauxz[i*Nx + (j+ rec_surface_var)] += res_tauxz[n_extera_rec + ir];
+        Avx[i*Nx + (j+ rec_surface_var)] += res_vx[ofs + n_extera_rec + ir];
+        Avz[i*Nx + (j+ rec_surface_var)] += res_vz[ofs + n_extera_rec + ir];
+        Ataux[i*Nx + (j+ rec_surface_var)] += res_taux[ofs + n_extera_rec + ir];
+        Atauz[i*Nx + (j+ rec_surface_var)] += res_tauz[ofs + n_extera_rec + ir];
+        Atauxz[i*Nx + (j+ rec_surface_var)] += res_tauxz[ofs + n_extera_rec + ir];
         }
   }
 
@@ -354,11 +450,11 @@ __kernel void Adj_injSrc(
   if(i%dxr==0 && j == rec_top_right_const){
     int ir = i/dxr;
 
-      Avx[(i+ rec_top_right_var)*Nx + j] += res_vx[startOfThirdRec + ir];
-      Avz[(i+ rec_top_right_var)*Nx + j] += res_vz[startOfThirdRec + ir];
-      Ataux[(i+ rec_top_right_var)*Nx + j] += res_taux[startOfThirdRec + ir];
-      Atauz[(i+ rec_top_right_var)*Nx + j] += res_tauz[startOfThirdRec + ir];
-      Atauxz[(i+ rec_top_right_var)*Nx + j] += res_tauxz[startOfThirdRec + ir];
+      Avx[(i+ rec_top_right_var)*Nx + j] += res_vx[ofs + startOfThirdRec + ir];
+      Avz[(i+ rec_top_right_var)*Nx + j] += res_vz[ofs + startOfThirdRec + ir];
+      Ataux[(i+ rec_top_right_var)*Nx + j] += res_taux[ofs + startOfThirdRec + ir];
+      Atauz[(i+ rec_top_right_var)*Nx + j] += res_tauz[ofs + startOfThirdRec + ir];
+      Atauxz[(i+ rec_top_right_var)*Nx + j] += res_tauxz[ofs + startOfThirdRec + ir];
       
 }
 

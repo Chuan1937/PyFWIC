@@ -37,21 +37,22 @@ __kernel void Adj_injSrc(
                          __global float *Ataux, __global float *Atauz, __global float *Atauxz,
                          __global float *res_vx, __global float * res_vz,
                          __global float *res_taux, __global float *res_tauz, __global float *res_tauxz,
-                         int dxr
+                         int dxr, int ts
                          )
 
 
 {
   int i = get_global_id(0) ;
   int j = get_global_id(1) ;
+  int ofs = ts * Nr;
 
 if(i%dxr==0 && j == rec_top_right_const){
     int ir =  i/dxr;
-    Avx[(i+rec_top_right_var)*Nx + j] += res_vx[ir];
-    Avz[(i+rec_top_right_var)*Nx + j] += res_vz[ir];
-    Ataux[(i+rec_top_right_var)*Nx + j] += res_taux[ir];
-    Atauz[(i+rec_top_right_var)*Nx + j] += res_tauz[ir];
-    Atauxz[(i+rec_top_right_var)*Nx + j] += res_tauxz[ir];
+    Avx[(i+rec_top_right_var)*Nx + j] += res_vx[ofs + ir];
+    Avz[(i+rec_top_right_var)*Nx + j] += res_vz[ofs + ir];
+    Ataux[(i+rec_top_right_var)*Nx + j] += res_taux[ofs + ir];
+    Atauz[(i+rec_top_right_var)*Nx + j] += res_tauz[ofs + ir];
+    Atauxz[(i+rec_top_right_var)*Nx + j] += res_tauxz[ofs + ir];
     
   }
 

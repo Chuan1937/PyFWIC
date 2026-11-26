@@ -12,12 +12,18 @@ export PYFWI_PYTHON="$PWD/.venv-marmousi/bin/python"
 "$PYFWI_PYTHON" -m pip install -r reproduction/marmousi_a10/requirements.txt
 ```
 
-在已分配 GPU 的计算节点先跑单炮短测，再跑 7 炮全频段。将结果放在服务器的作业盘。默认选择 OpenCL 可见的第一张 A10，也可指定 `--device 平台号:设备号`。
+在已分配 GPU 的计算节点先跑单炮短测，再跑 7 炮全频段。将结果放在服务器的作业盘。默认选择 OpenCL 可见的第一张 A10，可用 `CUDA_VISIBLE_DEVICES` 限定可见的卡，也可指定 `--device 平台号:设备号`。经内核与数据传输优化后，默认单进程（`--workers 1`）已能让 A10 满载，完整运行不再需要按炮开进程；用 `taskset` 绑定少量 CPU 核并保持线程数为 1 即可。
 
 ```bash
+export PYFWI_PYTHON="${PYFWI_PYTHON:-$PWD/.venv-marmousi/bin/python}"
+export CUDA_VISIBLE_DEVICES=0          # 选中空闲的 A10；另一套作业改用 1
+export NUMEXPR_NUM_THREADS=1
 RUN_ROOT="${SCRATCH:-$PWD/runs}"
-reproduction/marmousi_a10/run_a10.sh --profile smoke --out "$RUN_ROOT/marmousi-smoke"
-reproduction/marmousi_a10/run_a10.sh --profile full --out "$RUN_ROOT/marmousi-full"
+
+taskset -c 0-1 reproduction/marmousi_a10/run_a10.sh \
+  --profile smoke --out "$RUN_ROOT/marmousi-smoke"
+taskset -c 0-3 reproduction/marmousi_a10/run_a10.sh \
+  --profile full --out "$RUN_ROOT/marmousi-full"
 ```
 
 Slurm 环境可以从仓库根目录直接提交。分区名、A10 资源名与时限按集群配置覆盖。提交前设好 `PYFWI_PYTHON`，以及可写的输出目录。
@@ -33,11 +39,23 @@ sbatch reproduction/marmousi_a10/submit_a10.sbatch \
 - `--allow-non-a10` 用于其他 OpenCL 设备上的小规模测试。正常服务器作业会检查实际选中的设备名。
 - 如需先检查数据，可执行 `"$PYFWI_PYTHON" reproduction/marmousi_a10/check_data.py`。主程序会自动执行该检查，无需解压。
 
+### 并发与 CPU 绑定
+
+经内核与数据传输优化后，默认的单进程路径已能把 A10 压到约 100% 利用率和约 145 W 功耗，因此完整运行使用默认的 `--workers 1`，不必再按炮开进程。`taskset` 仍建议保留：短测绑 `0-1`，完整运行绑 `0-3`，`OMP_NUM_THREADS`、`OPENBLAS_NUM_THREADS`、`MKL_NUM_THREADS`、`NUMEXPR_NUM_THREADS` 保持为 1。前三个 `run_a10.sh` 已默认设为 1，`NUMEXPR_NUM_THREADS` 由上面的命令导出。
+
+- `--workers 1`（默认）走单进程路径，结果与旧实现逐位一致：正演与伴随的最大绝对差为 0.0，物理、滤波、上下界、频段、迭代次数和归一化均未改动。
+- `--workers 0` 仍表示每炮一个工作进程：短测 1 个，完整 7 炮 7 个（上限即炮数）。该模式保留给其他设备或负载；在这张 A10 上并未更快。实测 7 炮每次评估的正演/伴随耗时为 `W=1` 0.695 s / 1.16 s，`W=4` 0.558 s / 1.26 s，`W=7` 0.564 s / 1.28 s，净评估时间基本持平（`W=1` 约 1.85 s，`W=4` 约 1.82 s）。
+- 多进程版本按炮在进程间累加梯度，用 float64 求和，与单进程只差最后几位（相对约 2e-6）。这只属于调度差异，不改变反演设置。
+- 父进程与 worker 共用一张 A10，用 `CUDA_VISIBLE_DEVICES` 选定空闲卡；两张卡上可各跑一套作业，互不抢占。
+- `run.json` 会记录 `workers` 字段。它位于 `config` 之外，因此不参与 `--resume` 的配置一致性判定。
+
 ## 耗时估算
 
-单张 A10 的预算先按短测约 0.5–2 分钟、完整 DV + PCS 约 **1–6 小时**，首次可申请 8 小时。排队与首次环境安装另计。这个范围是根据求解次数和本地 CPU OpenCL 短测推算，A10 的实际速度以后续短测为准。
+单张 A10 的实测总时长为 **13–14 分钟**（7 炮、6 频段、DV/PCS 四个阶段，共 275 次目标函数评估、约 2,900 次单炮单期正演＋伴随）。首次排队、环境安装和图形输出另计。早期文档里的 1–6 小时（首次申请 8 小时）是按本地 CPU OpenCL 短测外推的保守上界，不是 A10 实测；7 炮共用一次评估的主机开销，因此实际远低于按单炮逐次累加的估计。
 
-完整运行有 7 炮、6 个频段、两个单期基线阶段和两个双期时移阶段。若每个阶段每频段约 11–20 次目标函数评估，计算量相当于约 2,800–5,000 次单炮单期的正演＋伴随。服务器短测后，取 `dv_baseline/band_01.csv` 最后一行的 `seconds / evaluation`，乘以 2,800–5,000 即可估计正式计算的秒数。实际线搜索次数会改变总耗时。
+完整运行有 7 炮、6 个频段、两个单期基线阶段和两个双期时移阶段。若每个阶段每频段约 11–20 次目标函数评估，计算量相当于约 2,800–5,000 次单炮单期的正演＋伴随。服务器短测后，取某个 `band_XX.csv` 中 `(最后一行 seconds − 第一行 seconds) / (评估次数 − 1)` 得到单次评估秒数，再乘以预计的评估次数即可。7 炮在一次评估内完成，不要再乘炮数。实际线搜索次数会改变总耗时。
+
+本分支加入了内核与数据传输优化：整炮残差一次上传、在 `Adj_injSrc` 内按时间索引；速度/应力更新成对融合（`update_vel`、`update_tau`）；地表 `injSrc`/`Adj_injSrc` 改用接收点的一维网格；波场检查点存入设备缓冲，用异步设备间拷贝代替阻塞的主机拷贝。7 炮单次评估的墙钟时间由约 3.5 s 降到约 1.86 s（约 1.9 倍），单进程即可让 A10 保持约 100% 利用率和约 145 W 功耗（峰值约 156 W，标称上限 150 W）。这些改动只涉及调度和数据搬运，正演与伴随与原实现逐位一致（最大绝对差 0.0），物理、滤波、上下界、频段、迭代次数和归一化均未改动。完整算例的实测墙钟时间为 13 分 20 秒，其中优化器内约 712 秒，其余为启动、观测正演和出图。
 
 ## 模型来源与观测配置
 
@@ -64,5 +82,7 @@ sbatch reproduction/marmousi_a10/submit_a10.sbatch \
 | `true_elastic*.png`、`shot_gathers.png` | 真值、两期差值、中间炮两期炮集和放大 5 倍的差值炮集 |
 | `elastic_change_comparison.png`、`saturation_change.png` | 真值和估计的弹性差值、PCS 含水饱和度差值及误差 |
 | `metrics.csv`、`reservoir_profiles.*`、`time_lapse_changes.npz` | 相对 L2、储层外 RMS、穿过两处储层的剖面及差值数组 |
+
+本分支在 `results/full_a10/` 附带一次完整运行的摘要、最终模型、观测、指标和图片，运行条件与主要误差见其中的 `RESULTS.md`。
 
 参考 [PyFWI 软件论文 Fig. 3–5](https://doi.org/10.1016/j.softx.2023.101384) 和 [含水饱和度监测论文表 1、Eq. (9)–(15)、Fig. 9–14](https://doi.org/10.1111/1365-2478.13363)。

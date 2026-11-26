@@ -22,6 +22,7 @@ from case import (
 )
 from check_data import main as check_data
 from invert import pressure, run_stage
+from parallel import ParallelWave
 from results import evaluate, plot_gathers, plot_true_models
 
 
@@ -39,10 +40,13 @@ def arguments():
     parser.add_argument("--sigma", type=float, default=5., help="高斯平滑标准差，单位为网格点")
     parser.add_argument("--coupling", type=float, default=1e-3, help="无量纲差异惩罚权重")
     parser.add_argument("--resume", action="store_true", help="复用本目录已完成的频段")
+    parser.add_argument("--workers", type=int, default=1,
+                        help="并发炮的工作进程数；0 表示每炮一个，默认单进程")
     args = parser.parse_args()
     if ((args.iterations is not None and args.iterations < 1) or not np.isfinite(args.sigma)
-            or args.sigma <= 0 or not np.isfinite(args.coupling) or args.coupling < 0):
-        parser.error("迭代次数和平滑标准差须为正，差异惩罚权重须非负")
+            or args.sigma <= 0 or not np.isfinite(args.coupling) or args.coupling < 0
+            or args.workers < 0):
+        parser.error("迭代次数和平滑标准差须为正，差异惩罚权重须非负，工作进程数须非负")
     return args
 
 
@@ -104,12 +108,17 @@ def main():
             raise ValueError("输出目录已有运行记录。请换目录，或在同一提交和配置下使用 --resume")
     elif any(output.iterdir()):
         raise ValueError("请选择空的输出目录")
-    wave = WavePropagator(parameters, source, receivers, shape, components=0, chpr=10)
+    workers = min(args.workers or ns, ns)
+    if workers > 1:
+        wave = ParallelWave(parameters, sources, receivers, shape, workers)
+    else:
+        wave = WavePropagator(parameters, source, receivers, shape, components=0, chpr=10)
     actual = wave.queue.device
-    if actual != device:
+    if actual.name != device.name:
         raise RuntimeError(f"OpenCL 实际设备与所选设备不一致: {actual.name}, {device.name}")
-    print(f"运行设备 {index}: {actual.name}；网格 {shape}，{ns} 炮，{wave.nr} 道/炮", flush=True)
-    save_json(manifest, {"commit": commit, "config": config,
+    print(f"运行设备 {index}: {actual.name}；网格 {shape}，{ns} 炮，{wave.nr} 道/炮，"
+          f"{workers} 个工作进程", flush=True)
+    save_json(manifest, {"commit": commit, "config": config, "workers": workers,
                          "device": {"index": index, "name": actual.name,
                                     "platform": actual.platform.name, "driver": actual.driver_version,
                                     "memory_bytes": actual.global_mem_size},
@@ -142,6 +151,8 @@ def main():
     plot_gathers(output / "shot_gathers.png", observations, wave.nr, ns)
     plot_true_models(output, elastic)
     if args.forward_only:
+        if workers > 1:
+            wave.close()
         return
 
     def solve(label, initial, keys, active, scale, limits):
@@ -155,6 +166,8 @@ def main():
     if args.truth == "pcs":
         pcs_result = solve("pcs", initial_pcs, PCS_KEYS, ("sw",), PCS_SCALE, PCS_LIMITS)
     evaluate(output, pcs, elastic, dv_result, pcs_result)
+    if workers > 1:
+        wave.close()
     print(f"复现完成，结果目录 {output}", flush=True)
 
 

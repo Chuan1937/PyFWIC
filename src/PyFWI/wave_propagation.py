@@ -147,13 +147,9 @@ class WavePreparation:
         self.dx_pml, self.dz_pml = tools.pml_counstruction(self.tnz, self.tnx, self.dh, self.npml,
                                                      pmlR, pml_dir)
 
-        self.W = {
-            'vx': np.zeros((self.tnz, self.tnx, self.ns, self.nchp), dtype=np.float32),
-            'vz': np.zeros((self.tnz, self.tnx, self.ns, self.nchp), dtype=np.float32),
-            'taux': np.zeros((self.tnz, self.tnx, self.ns, self.nchp), dtype=np.float32),
-            'tauz': np.zeros((self.tnz, self.tnx, self.ns, self.nchp), dtype=np.float32),
-            'tauxz': np.zeros((self.tnz, self.tnx, self.ns, self.nchp), dtype=np.float32),
-        }
+        # Wavefield checkpoints stay on the device; per-checkpoint host copies
+        # were blocking the queue on every tenth time step.
+        self.W_b = {}
 
         self.D = tools.Fdm(order=self.sdo * 2)
 
@@ -192,7 +188,8 @@ class WavePreparation:
             self.prg.Adj_injSrc = self.prg_surf.Adj_injSrc
 
         for name in ("MakeAllZero", "MakeGradZero", "update_velx", "update_velz",
-                     "update_tauz", "update_tauxz", "Adj_update_tau", "Adj_update_v", "Grad"):
+                     "update_tauz", "update_tauxz", "update_vel", "update_tau",
+                     "Adj_update_tau", "Adj_update_v", "Grad"):
             setattr(self.prg, name, cl.Kernel(self.prg, name))
         if self.acq_type == 2:
             self.prg.injSrc = cl.Kernel(self.prg, "injSrc")
@@ -200,8 +197,9 @@ class WavePreparation:
 
         self.mf = cl.mem_flags
 
-        # Buffer for residuals
-        res = np.zeros((np.int32(self.nr))).astype(np.float32, order='C')
+        # Buffer for the whole shot residual: upload once per adjoint run
+        # instead of copying five small slices at every time step.
+        res = np.zeros((self.nt_ext, self.nr)).astype(np.float32, order='C')
 
         self.res_vx_b = cl.Buffer(self.ctx, self.mf.READ_WRITE |
                                   self.mf.COPY_HOST_PTR, hostbuf=res)
@@ -213,6 +211,13 @@ class WavePreparation:
                                     self.mf.COPY_HOST_PTR, hostbuf=res)
         self.res_tauxz_b = cl.Buffer(self.ctx, self.mf.READ_WRITE |
                                      self.mf.COPY_HOST_PTR, hostbuf=res)
+
+        checkpoint_bytes = self.tnz * self.tnx * 4
+        self.checkpoint_bytes = checkpoint_bytes
+        for key in ("vx", "vz", "taux", "tauz", "tauxz"):
+            self.W_b[key] = cl.Buffer(
+                self.ctx, self.mf.READ_WRITE,
+                int(self.ns) * self.nchp * checkpoint_bytes)
 
 
         v = np.zeros((self.tnz, self.tnx)).astype(np.float32, order='C')
@@ -637,6 +642,56 @@ class WavePropagator(WavePreparation):
                                  components=components, 
                                  n_well_rec=n_well_rec, chpr=chpr)
 
+    def __enqueue(self, kernel):
+        """Launch a kernel whose arguments were bound once with set_args."""
+        cl.enqueue_nd_range_kernel(self.queue, kernel, (self.tnz, self.tnx), None)
+
+    def __bind_forward(self):
+        coeff = np.int32(+1)
+        self.prg.update_vel.set_args(
+            coeff, self.vx_b, self.vz_b, self.taux_b, self.tauz_b, self.tauxz_b,
+            self.rho_b, self.vdx_pml_b, self.vdz_pml_b)
+        self.prg.update_tau.set_args(
+            coeff, self.vx_b, self.vz_b, self.taux_b, self.tauz_b, self.tauxz_b,
+            self.lam_b, self.mu_b, self.vdx_pml_b, self.vdz_pml_b)
+
+    def __bind_gradient(self):
+        coeff = np.int32(-1)
+        self.prg.update_tau.set_args(
+            coeff, self.vx_b, self.vz_b, self.taux_b, self.tauz_b, self.tauxz_b,
+            self.lam_b, self.mu_b, self.vdx_pml_b, self.vdz_pml_b)
+        self.prg.update_vel.set_args(
+            coeff, self.vx_b, self.vz_b, self.taux_b, self.tauz_b, self.tauxz_b,
+            self.rho_b, self.vdx_pml_b, self.vdz_pml_b)
+        self.prg.Adj_update_tau.set_args(
+            self.avx_b, self.avz_b, self.ataux_b, self.atauz_b, self.atauxz_b,
+            self.rho_b, self.vdx_pml_b, self.vdz_pml_b)
+        self.prg.Adj_update_v.set_args(
+            self.avx_b, self.avz_b, self.ataux_b, self.atauz_b, self.atauxz_b,
+            self.lam_b, self.mu_b, self.vdx_pml_b, self.vdz_pml_b)
+        self.prg.Grad.set_args(
+            self.vx_b, self.vz_b, self.taux_b, self.tauz_b, self.tauxz_b,
+            self.avx_b, self.avz_b, self.ataux_b, self.atauz_b, self.atauxz_b,
+            self.lam_b, self.mu_b, self.rho_b,
+            self.Gmu_b, self.g_mu_precond_b, self.Glam_b, self.g_lam_precond_b,
+            self.Grho_b, self.g_rho_precond_b)
+        self.adjoint_size = ((self.n_surface_rec,) if self.acq_type == 1
+                             else (self.tnz, self.tnx))
+        self.prg.Adj_injSrc.set_args(
+            self.avx_b, self.avz_b, self.ataux_b, self.atauz_b, self.atauxz_b,
+            self.res_vx_b, self.res_vz_b, self.res_taux_b, self.res_tauz_b,
+            self.res_tauxz_b, self.dxr, np.int32(0))
+
+    def __bind_source(self, s):
+        self.prg.injSrc.set_args(
+            self.vx_b, self.vz_b, self.taux_b, self.tauz_b, self.tauxz_b,
+            self.seismogramid_vx_b, self.seismogramid_vz_b,
+            self.seismogramid_taux_b, self.seismogramid_tauz_b,
+            self.seismogramid_tauxz_b, self.dxr,
+            self.srcx[s], self.srcz[s],
+            np.float32(0), np.float32(0), np.float32(0), np.float32(0),
+            np.int32(0))
+
     def forward_propagator(self, model):
         """ This function is in charge of forward modelling for acoustic case
 
@@ -647,6 +702,7 @@ class WavePropagator(WavePreparation):
 
         """
         coeff = np.int32(+1)
+        self.__bind_forward()
 
         if self.forward_show:
             self.initial_wavefield_plot(model)
@@ -666,55 +722,26 @@ class WavePropagator(WavePreparation):
     
     def __injSrc(self, t, s):
         src_kv_x, src_kv_z, src_kt_x, src_kt_z, src_kt_xz = np.float32(self.src(t))
-
-        self.prg.injSrc(self.queue, (self.tnz, self.tnx), None,
-                        self.vx_b, self.vz_b,
-                            self.taux_b, self.tauz_b, self.tauxz_b,
-                        self.seismogramid_vx_b, self.seismogramid_vz_b,
-                        self.seismogramid_taux_b, self.seismogramid_tauz_b, self.seismogramid_tauxz_b,
-                        self.dxr,
-                        self.srcx[s], self.srcz[s],
-                        src_kv_x, src_kv_z,
-                        src_kt_x, src_kt_z, 
-                        t)
+        kernel = self.prg.injSrc
+        kernel.set_arg(13, np.float32(src_kv_x))
+        kernel.set_arg(14, np.float32(src_kv_z))
+        kernel.set_arg(15, np.float32(src_kt_x))
+        kernel.set_arg(16, np.float32(src_kt_z))
+        kernel.set_arg(17, np.int32(t))
+        # The surface kernel uses one work item per receiver plus one for the source.
+        size = ((self.n_surface_rec + 1,) if self.acq_type == 1
+                else (self.tnz, self.tnx))
+        cl.enqueue_nd_range_kernel(self.queue, kernel, size, None)
         
     def __update_fwd(self, coeff):
-        self.prg.update_velx(self.queue, (self.tnz, self.tnx), None,
-                                coeff,
-                                self.vx_b,
-                                self.taux_b, self.tauxz_b,
-                                self.rho_b,
-                                self.vdx_pml_b, self.vdz_pml_b
-                                )
-
-        self.prg.update_velz(self.queue, (self.tnz, self.tnx), None,
-                                coeff,
-                                self.vz_b,
-                                self.tauz_b, self.tauxz_b,
-                                self.rho_b,
-                                self.vdx_pml_b, self.vdz_pml_b
-                                 )
-
-        self.prg.update_tauz(self.queue, (self.tnz, self.tnx), None,
-                                coeff,
-                                self.vx_b, self.vz_b,
-                                self.taux_b, self.tauz_b,
-                                self.lam_b, self.mu_b,
-                                self.vdx_pml_b, self.vdz_pml_b
-                                 )
-
-        self.prg.update_tauxz(self.queue, (self.tnz, self.tnx), None,
-                                coeff,
-                                self.vx_b, self.vz_b,
-                                self.tauxz_b,
-                                self.mu_b,
-                                self.vdx_pml_b, self.vdz_pml_b
-                                  )
+        self.__enqueue(self.prg.update_vel)
+        self.__enqueue(self.prg.update_tau)
             
     def __kernel(self, s, coeff=+1):
         showpurose = np.zeros((self.tnz, self.tnx), dtype=np.float32)
         chpc = 0
         t_src = 0
+        self.__bind_source(s)
         for t in np.arange(self.nt):
             if t % self.dt_scale == 0:
                 self.__injSrc(np.int32(t_src), s)
@@ -723,22 +750,12 @@ class WavePropagator(WavePreparation):
             self.__update_fwd(coeff=coeff)
 
             if t in self.chp:
-                copy_purpose = np.zeros((self.tnz, self.tnx), dtype=np.float32)
-                cl.enqueue_copy(self.queue, copy_purpose, self.vx_b)
-                self.W['vx'][:, :, s, chpc] = np.copy(copy_purpose)
-
-                cl.enqueue_copy(self.queue, copy_purpose, self.vz_b)
-                self.W['vz'][:, :, s, chpc] = np.copy(copy_purpose)
-
-                cl.enqueue_copy(self.queue, copy_purpose, self.taux_b)
-                self.W['taux'][:, :, s, chpc] = np.copy(copy_purpose)
-
-                cl.enqueue_copy(self.queue, copy_purpose, self.tauz_b)
-                self.W['tauz'][:, :, s, chpc] = np.copy(copy_purpose)
-
-                cl.enqueue_copy(self.queue, copy_purpose, self.tauxz_b)
-                self.W['tauxz'][:, :, s, chpc] = np.copy(copy_purpose)
-
+                offset = (s * self.nchp + chpc) * self.checkpoint_bytes
+                for key, buffer in (("vx", self.vx_b), ("vz", self.vz_b),
+                                    ("taux", self.taux_b), ("tauz", self.tauz_b),
+                                    ("tauxz", self.tauxz_b)):
+                    cl.enqueue_copy(self.queue, self.W_b[key], buffer,
+                                    dst_offset=offset, byte_count=self.checkpoint_bytes)
                 chpc += 1
 
 
@@ -763,10 +780,20 @@ class WavePropagator(WavePreparation):
 
             self.__kernel_gradient(res, s)
 
+    def __upload_residual(self, res, s):
+        """Upload one shot's full residual once; the adjoint kernel indexes time."""
+        columns = slice(s * self.nr, (s + 1) * self.nr)
+        for key, buffer in (("vx", self.res_vx_b), ("vz", self.res_vz_b),
+                            ("taux", self.res_taux_b), ("tauz", self.res_tauz_b),
+                            ("tauxz", self.res_tauxz_b)):
+            data = np.ascontiguousarray(res[key][:, columns], dtype=np.float32)
+            cl.enqueue_copy(self.queue, buffer, data)
+
     def __kernel_gradient(self, res, s, coeff=-1):
         chpc = self.nchp - 1
 
         coeff = np.int32(coeff)
+        self.__upload_residual(res, s)
 
         vx_show = np.zeros((self.tnz, self.tnx), dtype=np.float32)
         adj_vx_show = np.zeros((self.tnz, self.tnx), dtype=np.float32)
@@ -775,92 +802,29 @@ class WavePropagator(WavePreparation):
         # time loop
         for t in range(self.nt - 1, 0, -1):  # range(self.nt-1,self.nt-2,-1):#
             if t == self.chp[chpc]:
-                vx = np.copy(self.W['vx'][:, :, s, chpc])
-                cl.enqueue_copy(self.queue, self.vx_b, vx)
-
-                vz = np.copy(self.W['vz'][:, :, s, chpc])
-                cl.enqueue_copy(self.queue, self.vz_b, vz)
-
-                taux = np.copy(self.W['taux'][:, :, s, chpc])
-                cl.enqueue_copy(self.queue, self.taux_b, taux)
-
-                tauz = np.copy(self.W['tauz'][:, :, s, chpc])
-                cl.enqueue_copy(self.queue, self.tauz_b, tauz)
-
-                tauxz = np.copy(self.W['tauxz'][:, :, s, chpc])
-                cl.enqueue_copy(self.queue, self.tauxz_b, tauxz)
-
+                offset = (s * self.nchp + chpc) * self.checkpoint_bytes
+                for key, buffer in (("vx", self.vx_b), ("vz", self.vz_b),
+                                    ("taux", self.taux_b), ("tauz", self.tauz_b),
+                                    ("tauxz", self.tauxz_b)):
+                    cl.enqueue_copy(self.queue, buffer, self.W_b[key],
+                                    src_offset=offset, byte_count=self.checkpoint_bytes)
                 chpc -= 1
 
             else:
                 """ Backward propagation  """
-                self.prg.update_tauxz(self.queue, (self.tnz, self.tnx), None,
-                                      coeff,
-                                      self.vx_b, self.vz_b,
-                                      self.tauxz_b,
-                                      self.mu_b,
-                                      self.vdx_pml_b, self.vdz_pml_b
-                                      )
-
-                self.prg.update_tauz(self.queue, (self.tnz, self.tnx), None,
-                                     coeff,
-                                     self.vx_b, self.vz_b,
-                                     self.taux_b, self.tauz_b,
-                                     self.lam_b, self.mu_b,
-                                     self.vdx_pml_b, self.vdz_pml_b
-                                     )
-
-                self.prg.update_velz(self.queue, (self.tnz, self.tnx), None,
-                                     coeff,
-                                     self.vz_b,
-                                     self.tauz_b, self.tauxz_b,
-                                     self.rho_b,
-                                     self.vdx_pml_b, self.vdz_pml_b
-                                     )
-
-                self.prg.update_velx(self.queue, (self.tnz, self.tnx), None,
-                                     coeff,
-                                     self.vx_b,
-                                     self.taux_b, self.tauxz_b,
-                                     self.rho_b,
-                                     self.vdx_pml_b, self.vdz_pml_b
-                                     )
+                self.__enqueue(self.prg.update_tau)
+                self.__enqueue(self.prg.update_vel)
 
             """ Adjoint modeling """
             if t % self.dt_scale == 0:
-                self.make_residual(res, s, t_src)
-                    
-                self.prg.Adj_injSrc(self.queue, (self.tnz, self.tnx), None,
-                                    self.avx_b, self.avz_b,
-                                    self.ataux_b, self.atauz_b, self.atauxz_b,
-                                    self.res_vx_b, self.res_vz_b,
-                                    self.res_taux_b, self.res_tauz_b, self.res_tauxz_b,
-                                    self.dxr)
+                self.prg.Adj_injSrc.set_arg(11, np.int32(t_src - 1))
+                cl.enqueue_nd_range_kernel(self.queue, self.prg.Adj_injSrc,
+                                           self.adjoint_size, None)
                 t_src -= 1
 
-            self.prg.Adj_update_tau(self.queue, (self.tnz, self.tnx), None,
-                                    self.avx_b, self.avz_b,
-                                    self.ataux_b, self.atauz_b, self.atauxz_b,
-                                    self.rho_b,
-                                    self.vdx_pml_b, self.vdz_pml_b)
-
-            self.prg.Adj_update_v(self.queue, (self.tnz, self.tnx), None,
-                                  self.avx_b, self.avz_b,
-                                  self.ataux_b, self.atauz_b, self.atauxz_b,
-                                  self.lam_b, self.mu_b,
-                                  self.vdx_pml_b, self.vdz_pml_b
-                                  )
-
-            self.prg.Grad(self.queue, (self.tnz, self.tnx), None,
-                             self.vx_b, self.vz_b,
-                             self.taux_b, self.tauz_b, self.tauxz_b,
-                             self.avx_b, self.avz_b,
-                             self.ataux_b, self.atauz_b, self.atauxz_b,
-                             self.lam_b, self.mu_b, self.rho_b,
-                             self.Gmu_b, self.g_mu_precond_b,
-                             self.Glam_b, self.g_lam_precond_b,
-                             self.Grho_b, self.g_rho_precond_b
-                             )
+            self.__enqueue(self.prg.Adj_update_tau)
+            self.__enqueue(self.prg.Adj_update_v)
+            self.__enqueue(self.prg.Grad)
 
             # Plotting wave propagation
             if self.backward_show and (np.remainder(t, 20) == 0 or t == self.nt_ext - 2):
@@ -921,6 +885,7 @@ class WavePropagator(WavePreparation):
         """
         self.backward_show = show
         self.adjoint_buffer_preparing()
+        self.__bind_gradient()
 
         # To reorder the receivers in the left well
         if self.acq_type == 2:
