@@ -1,0 +1,2101 @@
+line,x_m,z_m,parameter,method,value
+center,500.0,0.0,phi,Truth,0.0
+center,500.0,10.0,phi,Truth,0.0
+center,500.0,20.0,phi,Truth,0.0
+center,500.0,30.0,phi,Truth,0.0
+center,500.0,40.0,phi,Truth,0.0
+center,500.0,50.0,phi,Truth,0.0
+center,500.0,60.0,phi,Truth,0.0
+center,500.0,70.0,phi,Truth,0.0
+center,500.0,80.0,phi,Truth,0.0
+center,500.0,90.0,phi,Truth,0.0
+center,500.0,100.0,phi,Truth,0.0
+center,500.0,110.0,phi,Truth,0.0
+center,500.0,120.0,phi,Truth,0.0
+center,500.0,130.0,phi,Truth,0.0
+center,500.0,140.0,phi,Truth,0.0
+center,500.0,150.0,phi,Truth,0.0
+center,500.0,160.0,phi,Truth,0.0
+center,500.0,170.0,phi,Truth,0.0
+center,500.0,180.0,phi,Truth,0.0
+center,500.0,190.0,phi,Truth,0.0
+center,500.0,200.0,phi,Truth,0.0
+center,500.0,210.0,phi,Truth,0.0
+center,500.0,220.0,phi,Truth,0.0
+center,500.0,230.0,phi,Truth,0.0
+center,500.0,240.0,phi,Truth,0.0
+center,500.0,250.0,phi,Truth,0.0
+center,500.0,260.0,phi,Truth,0.0
+center,500.0,270.0,phi,Truth,0.0
+center,500.0,280.0,phi,Truth,0.0
+center,500.0,290.0,phi,Truth,0.0
+center,500.0,300.0,phi,Truth,0.0
+center,500.0,310.0,phi,Truth,0.0
+center,500.0,320.0,phi,Truth,0.0
+center,500.0,330.0,phi,Truth,0.0
+center,500.0,340.0,phi,Truth,0.0
+center,500.0,350.0,phi,Truth,0.0
+center,500.0,360.0,phi,Truth,0.0
+center,500.0,370.0,phi,Truth,0.0
+center,500.0,380.0,phi,Truth,0.0
+center,500.0,390.0,phi,Truth,0.0
+center,500.0,400.0,phi,Truth,0.0
+center,500.0,410.0,phi,Truth,0.0
+center,500.0,420.0,phi,Truth,0.0
+center,500.0,430.0,phi,Truth,0.0
+center,500.0,440.0,phi,Truth,0.0
+center,500.0,450.0,phi,Truth,0.0
+center,500.0,460.0,phi,Truth,0.0
+center,500.0,470.0,phi,Truth,0.0
+center,500.0,480.0,phi,Truth,0.0
+center,500.0,490.0,phi,Truth,0.0
+center,500.0,500.0,phi,Truth,0.0
+center,500.0,510.0,phi,Truth,0.0
+center,500.0,520.0,phi,Truth,0.0
+center,500.0,530.0,phi,Truth,0.0
+center,500.0,540.0,phi,Truth,0.0
+center,500.0,550.0,phi,Truth,0.0
+center,500.0,560.0,phi,Truth,0.0
+center,500.0,570.0,phi,Truth,0.0
+center,500.0,580.0,phi,Truth,0.0
+center,500.0,590.0,phi,Truth,0.0
+center,500.0,600.0,phi,Truth,0.0
+center,500.0,610.0,phi,Truth,0.0
+center,500.0,620.0,phi,Truth,0.0
+center,500.0,630.0,phi,Truth,0.0
+center,500.0,640.0,phi,Truth,0.0
+center,500.0,650.0,phi,Truth,0.0
+center,500.0,660.0,phi,Truth,0.0
+center,500.0,670.0,phi,Truth,0.0
+center,500.0,680.0,phi,Truth,0.0
+center,500.0,690.0,phi,Truth,0.0
+center,500.0,700.0,phi,Truth,0.0
+center,500.0,710.0,phi,Truth,0.0
+center,500.0,720.0,phi,Truth,0.0
+center,500.0,730.0,phi,Truth,0.0
+center,500.0,740.0,phi,Truth,0.0
+center,500.0,750.0,phi,Truth,0.0
+center,500.0,760.0,phi,Truth,0.0
+center,500.0,770.0,phi,Truth,0.0
+center,500.0,780.0,phi,Truth,0.0
+center,500.0,790.0,phi,Truth,0.0
+center,500.0,800.0,phi,Truth,0.0
+center,500.0,810.0,phi,Truth,0.0
+center,500.0,820.0,phi,Truth,0.0
+center,500.0,830.0,phi,Truth,0.0
+center,500.0,840.0,phi,Truth,0.0
+center,500.0,850.0,phi,Truth,0.0
+center,500.0,860.0,phi,Truth,0.0
+center,500.0,870.0,phi,Truth,0.0
+center,500.0,880.0,phi,Truth,0.0
+center,500.0,890.0,phi,Truth,0.0
+center,500.0,900.0,phi,Truth,0.0
+center,500.0,910.0,phi,Truth,0.0
+center,500.0,920.0,phi,Truth,0.0
+center,500.0,930.0,phi,Truth,0.0
+center,500.0,940.0,phi,Truth,0.0
+center,500.0,950.0,phi,Truth,0.0
+center,500.0,960.0,phi,Truth,0.0
+center,500.0,970.0,phi,Truth,0.0
+center,500.0,980.0,phi,Truth,0.0
+center,500.0,990.0,phi,Truth,0.0
+center,500.0,0.0,phi,DV indirect (all PCS),0.0
+center,500.0,10.0,phi,DV indirect (all PCS),0.0
+center,500.0,20.0,phi,DV indirect (all PCS),0.0
+center,500.0,30.0,phi,DV indirect (all PCS),0.0
+center,500.0,40.0,phi,DV indirect (all PCS),0.0
+center,500.0,50.0,phi,DV indirect (all PCS),0.0
+center,500.0,60.0,phi,DV indirect (all PCS),0.0
+center,500.0,70.0,phi,DV indirect (all PCS),0.0
+center,500.0,80.0,phi,DV indirect (all PCS),0.0007964287601950892
+center,500.0,90.0,phi,DV indirect (all PCS),-7.217144465482273e-05
+center,500.0,100.0,phi,DV indirect (all PCS),-0.0006335576873901516
+center,500.0,110.0,phi,DV indirect (all PCS),-0.00043622612357197
+center,500.0,120.0,phi,DV indirect (all PCS),-0.00033613740470245235
+center,500.0,130.0,phi,DV indirect (all PCS),-6.400786184368457e-05
+center,500.0,140.0,phi,DV indirect (all PCS),-0.00028262422362029804
+center,500.0,150.0,phi,DV indirect (all PCS),0.0004137634762619302
+center,500.0,160.0,phi,DV indirect (all PCS),0.0010447420294446563
+center,500.0,170.0,phi,DV indirect (all PCS),0.0002483971627272319
+center,500.0,180.0,phi,DV indirect (all PCS),-0.0003142163753753757
+center,500.0,190.0,phi,DV indirect (all PCS),-0.0003097046076807608
+center,500.0,200.0,phi,DV indirect (all PCS),-0.0005294265646065832
+center,500.0,210.0,phi,DV indirect (all PCS),-0.0010725730089811703
+center,500.0,220.0,phi,DV indirect (all PCS),-0.001135682220286427
+center,500.0,230.0,phi,DV indirect (all PCS),-0.001435634170579403
+center,500.0,240.0,phi,DV indirect (all PCS),-0.0014225182835225225
+center,500.0,250.0,phi,DV indirect (all PCS),-0.0014939711985703652
+center,500.0,260.0,phi,DV indirect (all PCS),-0.0012045074986650195
+center,500.0,270.0,phi,DV indirect (all PCS),-0.0008281612005594519
+center,500.0,280.0,phi,DV indirect (all PCS),-0.0008912526301525503
+center,500.0,290.0,phi,DV indirect (all PCS),-0.003904673253002866
+center,500.0,300.0,phi,DV indirect (all PCS),-0.0008918860518301597
+center,500.0,310.0,phi,DV indirect (all PCS),-0.00022240844828480544
+center,500.0,320.0,phi,DV indirect (all PCS),-0.001176155941591095
+center,500.0,330.0,phi,DV indirect (all PCS),-0.0010486063167484128
+center,500.0,340.0,phi,DV indirect (all PCS),0.0003738364248320747
+center,500.0,350.0,phi,DV indirect (all PCS),-0.004907452322314709
+center,500.0,360.0,phi,DV indirect (all PCS),0.0016647333755342442
+center,500.0,370.0,phi,DV indirect (all PCS),-0.0011117393256542818
+center,500.0,380.0,phi,DV indirect (all PCS),-0.009404670814755822
+center,500.0,390.0,phi,DV indirect (all PCS),-0.006839738905723758
+center,500.0,400.0,phi,DV indirect (all PCS),-0.004423803166100693
+center,500.0,410.0,phi,DV indirect (all PCS),-0.004516671135326944
+center,500.0,420.0,phi,DV indirect (all PCS),-0.0019753504688690415
+center,500.0,430.0,phi,DV indirect (all PCS),-0.0019425465003017894
+center,500.0,440.0,phi,DV indirect (all PCS),-0.0034937894280593906
+center,500.0,450.0,phi,DV indirect (all PCS),-0.003947799457961199
+center,500.0,460.0,phi,DV indirect (all PCS),-0.0017865279635910225
+center,500.0,470.0,phi,DV indirect (all PCS),0.005470713143479633
+center,500.0,480.0,phi,DV indirect (all PCS),0.005412377747651964
+center,500.0,490.0,phi,DV indirect (all PCS),-0.0026014077824501602
+center,500.0,500.0,phi,DV indirect (all PCS),-0.0018002715921156542
+center,500.0,510.0,phi,DV indirect (all PCS),-0.0040086740963778955
+center,500.0,520.0,phi,DV indirect (all PCS),-0.002883828077950068
+center,500.0,530.0,phi,DV indirect (all PCS),-0.00033925866647388503
+center,500.0,540.0,phi,DV indirect (all PCS),-0.00026010079360483385
+center,500.0,550.0,phi,DV indirect (all PCS),-0.001150608390384833
+center,500.0,560.0,phi,DV indirect (all PCS),8.983031090387117e-05
+center,500.0,570.0,phi,DV indirect (all PCS),0.0010171637760741925
+center,500.0,580.0,phi,DV indirect (all PCS),0.0027445120498521547
+center,500.0,590.0,phi,DV indirect (all PCS),-0.0037388510583867274
+center,500.0,600.0,phi,DV indirect (all PCS),-0.0010749544537386746
+center,500.0,610.0,phi,DV indirect (all PCS),0.0025390194281854073
+center,500.0,620.0,phi,DV indirect (all PCS),0.0008722029198877657
+center,500.0,630.0,phi,DV indirect (all PCS),0.0001754268638335943
+center,500.0,640.0,phi,DV indirect (all PCS),0.00016148438639629337
+center,500.0,650.0,phi,DV indirect (all PCS),-0.00012299645754315636
+center,500.0,660.0,phi,DV indirect (all PCS),-4.1517215053743506e-05
+center,500.0,670.0,phi,DV indirect (all PCS),0.0004932770275869469
+center,500.0,680.0,phi,DV indirect (all PCS),-0.00012032624824809268
+center,500.0,690.0,phi,DV indirect (all PCS),-0.0009590714929922917
+center,500.0,700.0,phi,DV indirect (all PCS),-0.0006253618500320912
+center,500.0,710.0,phi,DV indirect (all PCS),0.0003943937993733382
+center,500.0,720.0,phi,DV indirect (all PCS),0.00011440167651166622
+center,500.0,730.0,phi,DV indirect (all PCS),0.00030566128224190914
+center,500.0,740.0,phi,DV indirect (all PCS),0.0002490347862517672
+center,500.0,750.0,phi,DV indirect (all PCS),6.575577907314001e-05
+center,500.0,760.0,phi,DV indirect (all PCS),-0.0005269162678366857
+center,500.0,770.0,phi,DV indirect (all PCS),-0.000534908237262377
+center,500.0,780.0,phi,DV indirect (all PCS),0.00025935196365434177
+center,500.0,790.0,phi,DV indirect (all PCS),-0.0010746576474381375
+center,500.0,800.0,phi,DV indirect (all PCS),-0.0008284775399258204
+center,500.0,810.0,phi,DV indirect (all PCS),0.001212036697225971
+center,500.0,820.0,phi,DV indirect (all PCS),0.0016762318982571633
+center,500.0,830.0,phi,DV indirect (all PCS),0.000468285162745552
+center,500.0,840.0,phi,DV indirect (all PCS),-0.00015217675675099906
+center,500.0,850.0,phi,DV indirect (all PCS),-0.00018311499458995018
+center,500.0,860.0,phi,DV indirect (all PCS),-0.00030423078111052604
+center,500.0,870.0,phi,DV indirect (all PCS),-0.0002686716822153934
+center,500.0,880.0,phi,DV indirect (all PCS),-0.0002758724472035068
+center,500.0,890.0,phi,DV indirect (all PCS),-5.7362511699521335e-06
+center,500.0,900.0,phi,DV indirect (all PCS),0.00021533996542077993
+center,500.0,910.0,phi,DV indirect (all PCS),0.00021148801282616647
+center,500.0,920.0,phi,DV indirect (all PCS),0.0001906955255102094
+center,500.0,930.0,phi,DV indirect (all PCS),6.447727189246022e-05
+center,500.0,940.0,phi,DV indirect (all PCS),-5.360685080030292e-05
+center,500.0,950.0,phi,DV indirect (all PCS),-0.00016388161549374392
+center,500.0,960.0,phi,DV indirect (all PCS),-0.00015890046702610183
+center,500.0,970.0,phi,DV indirect (all PCS),-4.2115372375417515e-05
+center,500.0,980.0,phi,DV indirect (all PCS),0.0
+center,500.0,990.0,phi,DV indirect (all PCS),0.0
+center,500.0,0.0,phi,DV indirect (Sw only),0.0
+center,500.0,10.0,phi,DV indirect (Sw only),0.0
+center,500.0,20.0,phi,DV indirect (Sw only),0.0
+center,500.0,30.0,phi,DV indirect (Sw only),0.0
+center,500.0,40.0,phi,DV indirect (Sw only),0.0
+center,500.0,50.0,phi,DV indirect (Sw only),0.0
+center,500.0,60.0,phi,DV indirect (Sw only),0.0
+center,500.0,70.0,phi,DV indirect (Sw only),0.0
+center,500.0,80.0,phi,DV indirect (Sw only),0.0
+center,500.0,90.0,phi,DV indirect (Sw only),0.0
+center,500.0,100.0,phi,DV indirect (Sw only),0.0
+center,500.0,110.0,phi,DV indirect (Sw only),0.0
+center,500.0,120.0,phi,DV indirect (Sw only),0.0
+center,500.0,130.0,phi,DV indirect (Sw only),0.0
+center,500.0,140.0,phi,DV indirect (Sw only),0.0
+center,500.0,150.0,phi,DV indirect (Sw only),0.0
+center,500.0,160.0,phi,DV indirect (Sw only),0.0
+center,500.0,170.0,phi,DV indirect (Sw only),0.0
+center,500.0,180.0,phi,DV indirect (Sw only),0.0
+center,500.0,190.0,phi,DV indirect (Sw only),0.0
+center,500.0,200.0,phi,DV indirect (Sw only),0.0
+center,500.0,210.0,phi,DV indirect (Sw only),0.0
+center,500.0,220.0,phi,DV indirect (Sw only),0.0
+center,500.0,230.0,phi,DV indirect (Sw only),0.0
+center,500.0,240.0,phi,DV indirect (Sw only),0.0
+center,500.0,250.0,phi,DV indirect (Sw only),0.0
+center,500.0,260.0,phi,DV indirect (Sw only),0.0
+center,500.0,270.0,phi,DV indirect (Sw only),0.0
+center,500.0,280.0,phi,DV indirect (Sw only),0.0
+center,500.0,290.0,phi,DV indirect (Sw only),0.0
+center,500.0,300.0,phi,DV indirect (Sw only),0.0
+center,500.0,310.0,phi,DV indirect (Sw only),0.0
+center,500.0,320.0,phi,DV indirect (Sw only),0.0
+center,500.0,330.0,phi,DV indirect (Sw only),0.0
+center,500.0,340.0,phi,DV indirect (Sw only),0.0
+center,500.0,350.0,phi,DV indirect (Sw only),0.0
+center,500.0,360.0,phi,DV indirect (Sw only),0.0
+center,500.0,370.0,phi,DV indirect (Sw only),0.0
+center,500.0,380.0,phi,DV indirect (Sw only),0.0
+center,500.0,390.0,phi,DV indirect (Sw only),0.0
+center,500.0,400.0,phi,DV indirect (Sw only),0.0
+center,500.0,410.0,phi,DV indirect (Sw only),0.0
+center,500.0,420.0,phi,DV indirect (Sw only),0.0
+center,500.0,430.0,phi,DV indirect (Sw only),0.0
+center,500.0,440.0,phi,DV indirect (Sw only),0.0
+center,500.0,450.0,phi,DV indirect (Sw only),0.0
+center,500.0,460.0,phi,DV indirect (Sw only),0.0
+center,500.0,470.0,phi,DV indirect (Sw only),0.0
+center,500.0,480.0,phi,DV indirect (Sw only),0.0
+center,500.0,490.0,phi,DV indirect (Sw only),0.0
+center,500.0,500.0,phi,DV indirect (Sw only),0.0
+center,500.0,510.0,phi,DV indirect (Sw only),0.0
+center,500.0,520.0,phi,DV indirect (Sw only),0.0
+center,500.0,530.0,phi,DV indirect (Sw only),0.0
+center,500.0,540.0,phi,DV indirect (Sw only),0.0
+center,500.0,550.0,phi,DV indirect (Sw only),0.0
+center,500.0,560.0,phi,DV indirect (Sw only),0.0
+center,500.0,570.0,phi,DV indirect (Sw only),0.0
+center,500.0,580.0,phi,DV indirect (Sw only),0.0
+center,500.0,590.0,phi,DV indirect (Sw only),0.0
+center,500.0,600.0,phi,DV indirect (Sw only),0.0
+center,500.0,610.0,phi,DV indirect (Sw only),0.0
+center,500.0,620.0,phi,DV indirect (Sw only),0.0
+center,500.0,630.0,phi,DV indirect (Sw only),0.0
+center,500.0,640.0,phi,DV indirect (Sw only),0.0
+center,500.0,650.0,phi,DV indirect (Sw only),0.0
+center,500.0,660.0,phi,DV indirect (Sw only),0.0
+center,500.0,670.0,phi,DV indirect (Sw only),0.0
+center,500.0,680.0,phi,DV indirect (Sw only),0.0
+center,500.0,690.0,phi,DV indirect (Sw only),0.0
+center,500.0,700.0,phi,DV indirect (Sw only),0.0
+center,500.0,710.0,phi,DV indirect (Sw only),0.0
+center,500.0,720.0,phi,DV indirect (Sw only),0.0
+center,500.0,730.0,phi,DV indirect (Sw only),0.0
+center,500.0,740.0,phi,DV indirect (Sw only),0.0
+center,500.0,750.0,phi,DV indirect (Sw only),0.0
+center,500.0,760.0,phi,DV indirect (Sw only),0.0
+center,500.0,770.0,phi,DV indirect (Sw only),0.0
+center,500.0,780.0,phi,DV indirect (Sw only),0.0
+center,500.0,790.0,phi,DV indirect (Sw only),0.0
+center,500.0,800.0,phi,DV indirect (Sw only),0.0
+center,500.0,810.0,phi,DV indirect (Sw only),0.0
+center,500.0,820.0,phi,DV indirect (Sw only),0.0
+center,500.0,830.0,phi,DV indirect (Sw only),0.0
+center,500.0,840.0,phi,DV indirect (Sw only),0.0
+center,500.0,850.0,phi,DV indirect (Sw only),0.0
+center,500.0,860.0,phi,DV indirect (Sw only),0.0
+center,500.0,870.0,phi,DV indirect (Sw only),0.0
+center,500.0,880.0,phi,DV indirect (Sw only),0.0
+center,500.0,890.0,phi,DV indirect (Sw only),0.0
+center,500.0,900.0,phi,DV indirect (Sw only),0.0
+center,500.0,910.0,phi,DV indirect (Sw only),0.0
+center,500.0,920.0,phi,DV indirect (Sw only),0.0
+center,500.0,930.0,phi,DV indirect (Sw only),0.0
+center,500.0,940.0,phi,DV indirect (Sw only),0.0
+center,500.0,950.0,phi,DV indirect (Sw only),0.0
+center,500.0,960.0,phi,DV indirect (Sw only),0.0
+center,500.0,970.0,phi,DV indirect (Sw only),0.0
+center,500.0,980.0,phi,DV indirect (Sw only),0.0
+center,500.0,990.0,phi,DV indirect (Sw only),0.0
+center,500.0,0.0,phi,PCS direct,0.0
+center,500.0,10.0,phi,PCS direct,0.0
+center,500.0,20.0,phi,PCS direct,0.0
+center,500.0,30.0,phi,PCS direct,0.0
+center,500.0,40.0,phi,PCS direct,0.0
+center,500.0,50.0,phi,PCS direct,0.0
+center,500.0,60.0,phi,PCS direct,0.0
+center,500.0,70.0,phi,PCS direct,0.0
+center,500.0,80.0,phi,PCS direct,0.0
+center,500.0,90.0,phi,PCS direct,0.0
+center,500.0,100.0,phi,PCS direct,0.0
+center,500.0,110.0,phi,PCS direct,0.0
+center,500.0,120.0,phi,PCS direct,0.0
+center,500.0,130.0,phi,PCS direct,0.0
+center,500.0,140.0,phi,PCS direct,0.0
+center,500.0,150.0,phi,PCS direct,0.0
+center,500.0,160.0,phi,PCS direct,0.0
+center,500.0,170.0,phi,PCS direct,0.0
+center,500.0,180.0,phi,PCS direct,0.0
+center,500.0,190.0,phi,PCS direct,0.0
+center,500.0,200.0,phi,PCS direct,0.0
+center,500.0,210.0,phi,PCS direct,0.0
+center,500.0,220.0,phi,PCS direct,0.0
+center,500.0,230.0,phi,PCS direct,0.0
+center,500.0,240.0,phi,PCS direct,0.0
+center,500.0,250.0,phi,PCS direct,0.0
+center,500.0,260.0,phi,PCS direct,0.0
+center,500.0,270.0,phi,PCS direct,0.0
+center,500.0,280.0,phi,PCS direct,0.0
+center,500.0,290.0,phi,PCS direct,0.0
+center,500.0,300.0,phi,PCS direct,0.0
+center,500.0,310.0,phi,PCS direct,0.0
+center,500.0,320.0,phi,PCS direct,0.0
+center,500.0,330.0,phi,PCS direct,0.0
+center,500.0,340.0,phi,PCS direct,0.0
+center,500.0,350.0,phi,PCS direct,0.0
+center,500.0,360.0,phi,PCS direct,0.0
+center,500.0,370.0,phi,PCS direct,0.0
+center,500.0,380.0,phi,PCS direct,0.0
+center,500.0,390.0,phi,PCS direct,0.0
+center,500.0,400.0,phi,PCS direct,0.0
+center,500.0,410.0,phi,PCS direct,0.0
+center,500.0,420.0,phi,PCS direct,0.0
+center,500.0,430.0,phi,PCS direct,0.0
+center,500.0,440.0,phi,PCS direct,0.0
+center,500.0,450.0,phi,PCS direct,0.0
+center,500.0,460.0,phi,PCS direct,0.0
+center,500.0,470.0,phi,PCS direct,0.0
+center,500.0,480.0,phi,PCS direct,0.0
+center,500.0,490.0,phi,PCS direct,0.0
+center,500.0,500.0,phi,PCS direct,0.0
+center,500.0,510.0,phi,PCS direct,0.0
+center,500.0,520.0,phi,PCS direct,0.0
+center,500.0,530.0,phi,PCS direct,0.0
+center,500.0,540.0,phi,PCS direct,0.0
+center,500.0,550.0,phi,PCS direct,0.0
+center,500.0,560.0,phi,PCS direct,0.0
+center,500.0,570.0,phi,PCS direct,0.0
+center,500.0,580.0,phi,PCS direct,0.0
+center,500.0,590.0,phi,PCS direct,0.0
+center,500.0,600.0,phi,PCS direct,0.0
+center,500.0,610.0,phi,PCS direct,0.0
+center,500.0,620.0,phi,PCS direct,0.0
+center,500.0,630.0,phi,PCS direct,0.0
+center,500.0,640.0,phi,PCS direct,0.0
+center,500.0,650.0,phi,PCS direct,0.0
+center,500.0,660.0,phi,PCS direct,0.0
+center,500.0,670.0,phi,PCS direct,0.0
+center,500.0,680.0,phi,PCS direct,0.0
+center,500.0,690.0,phi,PCS direct,0.0
+center,500.0,700.0,phi,PCS direct,0.0
+center,500.0,710.0,phi,PCS direct,0.0
+center,500.0,720.0,phi,PCS direct,0.0
+center,500.0,730.0,phi,PCS direct,0.0
+center,500.0,740.0,phi,PCS direct,0.0
+center,500.0,750.0,phi,PCS direct,0.0
+center,500.0,760.0,phi,PCS direct,0.0
+center,500.0,770.0,phi,PCS direct,0.0
+center,500.0,780.0,phi,PCS direct,0.0
+center,500.0,790.0,phi,PCS direct,0.0
+center,500.0,800.0,phi,PCS direct,0.0
+center,500.0,810.0,phi,PCS direct,0.0
+center,500.0,820.0,phi,PCS direct,0.0
+center,500.0,830.0,phi,PCS direct,0.0
+center,500.0,840.0,phi,PCS direct,0.0
+center,500.0,850.0,phi,PCS direct,0.0
+center,500.0,860.0,phi,PCS direct,0.0
+center,500.0,870.0,phi,PCS direct,0.0
+center,500.0,880.0,phi,PCS direct,0.0
+center,500.0,890.0,phi,PCS direct,0.0
+center,500.0,900.0,phi,PCS direct,0.0
+center,500.0,910.0,phi,PCS direct,0.0
+center,500.0,920.0,phi,PCS direct,0.0
+center,500.0,930.0,phi,PCS direct,0.0
+center,500.0,940.0,phi,PCS direct,0.0
+center,500.0,950.0,phi,PCS direct,0.0
+center,500.0,960.0,phi,PCS direct,0.0
+center,500.0,970.0,phi,PCS direct,0.0
+center,500.0,980.0,phi,PCS direct,0.0
+center,500.0,990.0,phi,PCS direct,0.0
+center,500.0,0.0,cc,Truth,0.0
+center,500.0,10.0,cc,Truth,0.0
+center,500.0,20.0,cc,Truth,0.0
+center,500.0,30.0,cc,Truth,0.0
+center,500.0,40.0,cc,Truth,0.0
+center,500.0,50.0,cc,Truth,0.0
+center,500.0,60.0,cc,Truth,0.0
+center,500.0,70.0,cc,Truth,0.0
+center,500.0,80.0,cc,Truth,0.0
+center,500.0,90.0,cc,Truth,0.0
+center,500.0,100.0,cc,Truth,0.0
+center,500.0,110.0,cc,Truth,0.0
+center,500.0,120.0,cc,Truth,0.0
+center,500.0,130.0,cc,Truth,0.0
+center,500.0,140.0,cc,Truth,0.0
+center,500.0,150.0,cc,Truth,0.0
+center,500.0,160.0,cc,Truth,0.0
+center,500.0,170.0,cc,Truth,0.0
+center,500.0,180.0,cc,Truth,0.0
+center,500.0,190.0,cc,Truth,0.0
+center,500.0,200.0,cc,Truth,0.0
+center,500.0,210.0,cc,Truth,0.0
+center,500.0,220.0,cc,Truth,0.0
+center,500.0,230.0,cc,Truth,0.0
+center,500.0,240.0,cc,Truth,0.0
+center,500.0,250.0,cc,Truth,0.0
+center,500.0,260.0,cc,Truth,0.0
+center,500.0,270.0,cc,Truth,0.0
+center,500.0,280.0,cc,Truth,0.0
+center,500.0,290.0,cc,Truth,0.0
+center,500.0,300.0,cc,Truth,0.0
+center,500.0,310.0,cc,Truth,0.0
+center,500.0,320.0,cc,Truth,0.0
+center,500.0,330.0,cc,Truth,0.0
+center,500.0,340.0,cc,Truth,0.0
+center,500.0,350.0,cc,Truth,0.0
+center,500.0,360.0,cc,Truth,0.0
+center,500.0,370.0,cc,Truth,0.0
+center,500.0,380.0,cc,Truth,0.0
+center,500.0,390.0,cc,Truth,0.0
+center,500.0,400.0,cc,Truth,0.0
+center,500.0,410.0,cc,Truth,0.0
+center,500.0,420.0,cc,Truth,0.0
+center,500.0,430.0,cc,Truth,0.0
+center,500.0,440.0,cc,Truth,0.0
+center,500.0,450.0,cc,Truth,0.0
+center,500.0,460.0,cc,Truth,0.0
+center,500.0,470.0,cc,Truth,0.0
+center,500.0,480.0,cc,Truth,0.0
+center,500.0,490.0,cc,Truth,0.0
+center,500.0,500.0,cc,Truth,0.0
+center,500.0,510.0,cc,Truth,0.0
+center,500.0,520.0,cc,Truth,0.0
+center,500.0,530.0,cc,Truth,0.0
+center,500.0,540.0,cc,Truth,0.0
+center,500.0,550.0,cc,Truth,0.0
+center,500.0,560.0,cc,Truth,0.0
+center,500.0,570.0,cc,Truth,0.0
+center,500.0,580.0,cc,Truth,0.0
+center,500.0,590.0,cc,Truth,0.0
+center,500.0,600.0,cc,Truth,0.0
+center,500.0,610.0,cc,Truth,0.0
+center,500.0,620.0,cc,Truth,0.0
+center,500.0,630.0,cc,Truth,0.0
+center,500.0,640.0,cc,Truth,0.0
+center,500.0,650.0,cc,Truth,0.0
+center,500.0,660.0,cc,Truth,0.0
+center,500.0,670.0,cc,Truth,0.0
+center,500.0,680.0,cc,Truth,0.0
+center,500.0,690.0,cc,Truth,0.0
+center,500.0,700.0,cc,Truth,0.0
+center,500.0,710.0,cc,Truth,0.0
+center,500.0,720.0,cc,Truth,0.0
+center,500.0,730.0,cc,Truth,0.0
+center,500.0,740.0,cc,Truth,0.0
+center,500.0,750.0,cc,Truth,0.0
+center,500.0,760.0,cc,Truth,0.0
+center,500.0,770.0,cc,Truth,0.0
+center,500.0,780.0,cc,Truth,0.0
+center,500.0,790.0,cc,Truth,0.0
+center,500.0,800.0,cc,Truth,0.0
+center,500.0,810.0,cc,Truth,0.0
+center,500.0,820.0,cc,Truth,0.0
+center,500.0,830.0,cc,Truth,0.0
+center,500.0,840.0,cc,Truth,0.0
+center,500.0,850.0,cc,Truth,0.0
+center,500.0,860.0,cc,Truth,0.0
+center,500.0,870.0,cc,Truth,0.0
+center,500.0,880.0,cc,Truth,0.0
+center,500.0,890.0,cc,Truth,0.0
+center,500.0,900.0,cc,Truth,0.0
+center,500.0,910.0,cc,Truth,0.0
+center,500.0,920.0,cc,Truth,0.0
+center,500.0,930.0,cc,Truth,0.0
+center,500.0,940.0,cc,Truth,0.0
+center,500.0,950.0,cc,Truth,0.0
+center,500.0,960.0,cc,Truth,0.0
+center,500.0,970.0,cc,Truth,0.0
+center,500.0,980.0,cc,Truth,0.0
+center,500.0,990.0,cc,Truth,0.0
+center,500.0,0.0,cc,DV indirect (all PCS),0.0
+center,500.0,10.0,cc,DV indirect (all PCS),0.0
+center,500.0,20.0,cc,DV indirect (all PCS),0.0
+center,500.0,30.0,cc,DV indirect (all PCS),0.0
+center,500.0,40.0,cc,DV indirect (all PCS),0.0
+center,500.0,50.0,cc,DV indirect (all PCS),0.0
+center,500.0,60.0,cc,DV indirect (all PCS),0.0
+center,500.0,70.0,cc,DV indirect (all PCS),0.0
+center,500.0,80.0,cc,DV indirect (all PCS),-0.004000196974411341
+center,500.0,90.0,cc,DV indirect (all PCS),-0.000674405483301728
+center,500.0,100.0,cc,DV indirect (all PCS),-0.000550142341776555
+center,500.0,110.0,cc,DV indirect (all PCS),-0.0006062352855058517
+center,500.0,120.0,cc,DV indirect (all PCS),0.0
+center,500.0,130.0,cc,DV indirect (all PCS),0.0
+center,500.0,140.0,cc,DV indirect (all PCS),0.00021639633579699329
+center,500.0,150.0,cc,DV indirect (all PCS),-0.0009809748722359878
+center,500.0,160.0,cc,DV indirect (all PCS),-0.0020983028603686984
+center,500.0,170.0,cc,DV indirect (all PCS),-0.0013628490802224545
+center,500.0,180.0,cc,DV indirect (all PCS),0.0
+center,500.0,190.0,cc,DV indirect (all PCS),0.0
+center,500.0,200.0,cc,DV indirect (all PCS),0.0
+center,500.0,210.0,cc,DV indirect (all PCS),0.0
+center,500.0,220.0,cc,DV indirect (all PCS),0.0
+center,500.0,230.0,cc,DV indirect (all PCS),0.0
+center,500.0,240.0,cc,DV indirect (all PCS),0.0
+center,500.0,250.0,cc,DV indirect (all PCS),0.0
+center,500.0,260.0,cc,DV indirect (all PCS),0.0
+center,500.0,270.0,cc,DV indirect (all PCS),0.0
+center,500.0,280.0,cc,DV indirect (all PCS),0.0
+center,500.0,290.0,cc,DV indirect (all PCS),0.005067520311153043
+center,500.0,300.0,cc,DV indirect (all PCS),0.0
+center,500.0,310.0,cc,DV indirect (all PCS),0.0
+center,500.0,320.0,cc,DV indirect (all PCS),0.0
+center,500.0,330.0,cc,DV indirect (all PCS),0.0
+center,500.0,340.0,cc,DV indirect (all PCS),0.0
+center,500.0,350.0,cc,DV indirect (all PCS),0.0
+center,500.0,360.0,cc,DV indirect (all PCS),0.0
+center,500.0,370.0,cc,DV indirect (all PCS),0.0
+center,500.0,380.0,cc,DV indirect (all PCS),0.01569749122388053
+center,500.0,390.0,cc,DV indirect (all PCS),0.005153422853359482
+center,500.0,400.0,cc,DV indirect (all PCS),0.0
+center,500.0,410.0,cc,DV indirect (all PCS),0.0
+center,500.0,420.0,cc,DV indirect (all PCS),0.0
+center,500.0,430.0,cc,DV indirect (all PCS),0.0
+center,500.0,440.0,cc,DV indirect (all PCS),0.0
+center,500.0,450.0,cc,DV indirect (all PCS),0.0
+center,500.0,460.0,cc,DV indirect (all PCS),0.0
+center,500.0,470.0,cc,DV indirect (all PCS),-0.011889066257423073
+center,500.0,480.0,cc,DV indirect (all PCS),-0.008622344326025481
+center,500.0,490.0,cc,DV indirect (all PCS),0.0041182207671036815
+center,500.0,500.0,cc,DV indirect (all PCS),0.004080911336014192
+center,500.0,510.0,cc,DV indirect (all PCS),0.006475696672652909
+center,500.0,520.0,cc,DV indirect (all PCS),0.004607865210434013
+center,500.0,530.0,cc,DV indirect (all PCS),0.0015694404391022876
+center,500.0,540.0,cc,DV indirect (all PCS),0.0010006445163679295
+center,500.0,550.0,cc,DV indirect (all PCS),0.0009537481528655994
+center,500.0,560.0,cc,DV indirect (all PCS),-0.0007933316692892434
+center,500.0,570.0,cc,DV indirect (all PCS),0.00022574676430081597
+center,500.0,580.0,cc,DV indirect (all PCS),-0.003568075947885843
+center,500.0,590.0,cc,DV indirect (all PCS),0.005509544103152436
+center,500.0,600.0,cc,DV indirect (all PCS),0.0023775845170879994
+center,500.0,610.0,cc,DV indirect (all PCS),-0.0028740693617695934
+center,500.0,620.0,cc,DV indirect (all PCS),-0.0010857314951759067
+center,500.0,630.0,cc,DV indirect (all PCS),0.00023128609411476875
+center,500.0,640.0,cc,DV indirect (all PCS),0.00012540983254458182
+center,500.0,650.0,cc,DV indirect (all PCS),0.0006128102632000088
+center,500.0,660.0,cc,DV indirect (all PCS),6.117538700778358e-05
+center,500.0,670.0,cc,DV indirect (all PCS),-0.0006579902309400282
+center,500.0,680.0,cc,DV indirect (all PCS),0.0006647782790212553
+center,500.0,690.0,cc,DV indirect (all PCS),0.0015092588189712375
+center,500.0,700.0,cc,DV indirect (all PCS),0.0014006748713897427
+center,500.0,710.0,cc,DV indirect (all PCS),-0.0004674213061642979
+center,500.0,720.0,cc,DV indirect (all PCS),-3.71588752862001e-05
+center,500.0,730.0,cc,DV indirect (all PCS),-0.0006999063294308855
+center,500.0,740.0,cc,DV indirect (all PCS),-0.0006059982949803283
+center,500.0,750.0,cc,DV indirect (all PCS),-2.071685006257984e-05
+center,500.0,760.0,cc,DV indirect (all PCS),0.0011838684427942364
+center,500.0,770.0,cc,DV indirect (all PCS),0.0010396271869139648
+center,500.0,780.0,cc,DV indirect (all PCS),5.543067012089842e-05
+center,500.0,790.0,cc,DV indirect (all PCS),0.00180932691054074
+center,500.0,800.0,cc,DV indirect (all PCS),0.000659997719770461
+center,500.0,810.0,cc,DV indirect (all PCS),-0.001961042005176234
+center,500.0,820.0,cc,DV indirect (all PCS),-0.002744161708778517
+center,500.0,830.0,cc,DV indirect (all PCS),-0.0009331626333573956
+center,500.0,840.0,cc,DV indirect (all PCS),0.00033207136325981434
+center,500.0,850.0,cc,DV indirect (all PCS),0.0002274087333077393
+center,500.0,860.0,cc,DV indirect (all PCS),0.0005756372398444329
+center,500.0,870.0,cc,DV indirect (all PCS),0.0005512752614245803
+center,500.0,880.0,cc,DV indirect (all PCS),0.0004066024756343156
+center,500.0,890.0,cc,DV indirect (all PCS),-7.33996099439721e-05
+center,500.0,900.0,cc,DV indirect (all PCS),-0.00037211261026148107
+center,500.0,910.0,cc,DV indirect (all PCS),-0.00032439643997233397
+center,500.0,920.0,cc,DV indirect (all PCS),-0.0002742966965987026
+center,500.0,930.0,cc,DV indirect (all PCS),-5.525317984535205e-05
+center,500.0,940.0,cc,DV indirect (all PCS),6.339788743734559e-05
+center,500.0,950.0,cc,DV indirect (all PCS),0.00026605602213974205
+center,500.0,960.0,cc,DV indirect (all PCS),0.00024191169135236862
+center,500.0,970.0,cc,DV indirect (all PCS),-3.6987743287503205e-06
+center,500.0,980.0,cc,DV indirect (all PCS),0.0
+center,500.0,990.0,cc,DV indirect (all PCS),0.0
+center,500.0,0.0,cc,DV indirect (Sw only),0.0
+center,500.0,10.0,cc,DV indirect (Sw only),0.0
+center,500.0,20.0,cc,DV indirect (Sw only),0.0
+center,500.0,30.0,cc,DV indirect (Sw only),0.0
+center,500.0,40.0,cc,DV indirect (Sw only),0.0
+center,500.0,50.0,cc,DV indirect (Sw only),0.0
+center,500.0,60.0,cc,DV indirect (Sw only),0.0
+center,500.0,70.0,cc,DV indirect (Sw only),0.0
+center,500.0,80.0,cc,DV indirect (Sw only),0.0
+center,500.0,90.0,cc,DV indirect (Sw only),0.0
+center,500.0,100.0,cc,DV indirect (Sw only),0.0
+center,500.0,110.0,cc,DV indirect (Sw only),0.0
+center,500.0,120.0,cc,DV indirect (Sw only),0.0
+center,500.0,130.0,cc,DV indirect (Sw only),0.0
+center,500.0,140.0,cc,DV indirect (Sw only),0.0
+center,500.0,150.0,cc,DV indirect (Sw only),0.0
+center,500.0,160.0,cc,DV indirect (Sw only),0.0
+center,500.0,170.0,cc,DV indirect (Sw only),0.0
+center,500.0,180.0,cc,DV indirect (Sw only),0.0
+center,500.0,190.0,cc,DV indirect (Sw only),0.0
+center,500.0,200.0,cc,DV indirect (Sw only),0.0
+center,500.0,210.0,cc,DV indirect (Sw only),0.0
+center,500.0,220.0,cc,DV indirect (Sw only),0.0
+center,500.0,230.0,cc,DV indirect (Sw only),0.0
+center,500.0,240.0,cc,DV indirect (Sw only),0.0
+center,500.0,250.0,cc,DV indirect (Sw only),0.0
+center,500.0,260.0,cc,DV indirect (Sw only),0.0
+center,500.0,270.0,cc,DV indirect (Sw only),0.0
+center,500.0,280.0,cc,DV indirect (Sw only),0.0
+center,500.0,290.0,cc,DV indirect (Sw only),0.0
+center,500.0,300.0,cc,DV indirect (Sw only),0.0
+center,500.0,310.0,cc,DV indirect (Sw only),0.0
+center,500.0,320.0,cc,DV indirect (Sw only),0.0
+center,500.0,330.0,cc,DV indirect (Sw only),0.0
+center,500.0,340.0,cc,DV indirect (Sw only),0.0
+center,500.0,350.0,cc,DV indirect (Sw only),0.0
+center,500.0,360.0,cc,DV indirect (Sw only),0.0
+center,500.0,370.0,cc,DV indirect (Sw only),0.0
+center,500.0,380.0,cc,DV indirect (Sw only),0.0
+center,500.0,390.0,cc,DV indirect (Sw only),0.0
+center,500.0,400.0,cc,DV indirect (Sw only),0.0
+center,500.0,410.0,cc,DV indirect (Sw only),0.0
+center,500.0,420.0,cc,DV indirect (Sw only),0.0
+center,500.0,430.0,cc,DV indirect (Sw only),0.0
+center,500.0,440.0,cc,DV indirect (Sw only),0.0
+center,500.0,450.0,cc,DV indirect (Sw only),0.0
+center,500.0,460.0,cc,DV indirect (Sw only),0.0
+center,500.0,470.0,cc,DV indirect (Sw only),0.0
+center,500.0,480.0,cc,DV indirect (Sw only),0.0
+center,500.0,490.0,cc,DV indirect (Sw only),0.0
+center,500.0,500.0,cc,DV indirect (Sw only),0.0
+center,500.0,510.0,cc,DV indirect (Sw only),0.0
+center,500.0,520.0,cc,DV indirect (Sw only),0.0
+center,500.0,530.0,cc,DV indirect (Sw only),0.0
+center,500.0,540.0,cc,DV indirect (Sw only),0.0
+center,500.0,550.0,cc,DV indirect (Sw only),0.0
+center,500.0,560.0,cc,DV indirect (Sw only),0.0
+center,500.0,570.0,cc,DV indirect (Sw only),0.0
+center,500.0,580.0,cc,DV indirect (Sw only),0.0
+center,500.0,590.0,cc,DV indirect (Sw only),0.0
+center,500.0,600.0,cc,DV indirect (Sw only),0.0
+center,500.0,610.0,cc,DV indirect (Sw only),0.0
+center,500.0,620.0,cc,DV indirect (Sw only),0.0
+center,500.0,630.0,cc,DV indirect (Sw only),0.0
+center,500.0,640.0,cc,DV indirect (Sw only),0.0
+center,500.0,650.0,cc,DV indirect (Sw only),0.0
+center,500.0,660.0,cc,DV indirect (Sw only),0.0
+center,500.0,670.0,cc,DV indirect (Sw only),0.0
+center,500.0,680.0,cc,DV indirect (Sw only),0.0
+center,500.0,690.0,cc,DV indirect (Sw only),0.0
+center,500.0,700.0,cc,DV indirect (Sw only),0.0
+center,500.0,710.0,cc,DV indirect (Sw only),0.0
+center,500.0,720.0,cc,DV indirect (Sw only),0.0
+center,500.0,730.0,cc,DV indirect (Sw only),0.0
+center,500.0,740.0,cc,DV indirect (Sw only),0.0
+center,500.0,750.0,cc,DV indirect (Sw only),0.0
+center,500.0,760.0,cc,DV indirect (Sw only),0.0
+center,500.0,770.0,cc,DV indirect (Sw only),0.0
+center,500.0,780.0,cc,DV indirect (Sw only),0.0
+center,500.0,790.0,cc,DV indirect (Sw only),0.0
+center,500.0,800.0,cc,DV indirect (Sw only),0.0
+center,500.0,810.0,cc,DV indirect (Sw only),0.0
+center,500.0,820.0,cc,DV indirect (Sw only),0.0
+center,500.0,830.0,cc,DV indirect (Sw only),0.0
+center,500.0,840.0,cc,DV indirect (Sw only),0.0
+center,500.0,850.0,cc,DV indirect (Sw only),0.0
+center,500.0,860.0,cc,DV indirect (Sw only),0.0
+center,500.0,870.0,cc,DV indirect (Sw only),0.0
+center,500.0,880.0,cc,DV indirect (Sw only),0.0
+center,500.0,890.0,cc,DV indirect (Sw only),0.0
+center,500.0,900.0,cc,DV indirect (Sw only),0.0
+center,500.0,910.0,cc,DV indirect (Sw only),0.0
+center,500.0,920.0,cc,DV indirect (Sw only),0.0
+center,500.0,930.0,cc,DV indirect (Sw only),0.0
+center,500.0,940.0,cc,DV indirect (Sw only),0.0
+center,500.0,950.0,cc,DV indirect (Sw only),0.0
+center,500.0,960.0,cc,DV indirect (Sw only),0.0
+center,500.0,970.0,cc,DV indirect (Sw only),0.0
+center,500.0,980.0,cc,DV indirect (Sw only),0.0
+center,500.0,990.0,cc,DV indirect (Sw only),0.0
+center,500.0,0.0,cc,PCS direct,0.0
+center,500.0,10.0,cc,PCS direct,0.0
+center,500.0,20.0,cc,PCS direct,0.0
+center,500.0,30.0,cc,PCS direct,0.0
+center,500.0,40.0,cc,PCS direct,0.0
+center,500.0,50.0,cc,PCS direct,0.0
+center,500.0,60.0,cc,PCS direct,0.0
+center,500.0,70.0,cc,PCS direct,0.0
+center,500.0,80.0,cc,PCS direct,0.0
+center,500.0,90.0,cc,PCS direct,0.0
+center,500.0,100.0,cc,PCS direct,0.0
+center,500.0,110.0,cc,PCS direct,0.0
+center,500.0,120.0,cc,PCS direct,0.0
+center,500.0,130.0,cc,PCS direct,0.0
+center,500.0,140.0,cc,PCS direct,0.0
+center,500.0,150.0,cc,PCS direct,0.0
+center,500.0,160.0,cc,PCS direct,0.0
+center,500.0,170.0,cc,PCS direct,0.0
+center,500.0,180.0,cc,PCS direct,0.0
+center,500.0,190.0,cc,PCS direct,0.0
+center,500.0,200.0,cc,PCS direct,0.0
+center,500.0,210.0,cc,PCS direct,0.0
+center,500.0,220.0,cc,PCS direct,0.0
+center,500.0,230.0,cc,PCS direct,0.0
+center,500.0,240.0,cc,PCS direct,0.0
+center,500.0,250.0,cc,PCS direct,0.0
+center,500.0,260.0,cc,PCS direct,0.0
+center,500.0,270.0,cc,PCS direct,0.0
+center,500.0,280.0,cc,PCS direct,0.0
+center,500.0,290.0,cc,PCS direct,0.0
+center,500.0,300.0,cc,PCS direct,0.0
+center,500.0,310.0,cc,PCS direct,0.0
+center,500.0,320.0,cc,PCS direct,0.0
+center,500.0,330.0,cc,PCS direct,0.0
+center,500.0,340.0,cc,PCS direct,0.0
+center,500.0,350.0,cc,PCS direct,0.0
+center,500.0,360.0,cc,PCS direct,0.0
+center,500.0,370.0,cc,PCS direct,0.0
+center,500.0,380.0,cc,PCS direct,0.0
+center,500.0,390.0,cc,PCS direct,0.0
+center,500.0,400.0,cc,PCS direct,0.0
+center,500.0,410.0,cc,PCS direct,0.0
+center,500.0,420.0,cc,PCS direct,0.0
+center,500.0,430.0,cc,PCS direct,0.0
+center,500.0,440.0,cc,PCS direct,0.0
+center,500.0,450.0,cc,PCS direct,0.0
+center,500.0,460.0,cc,PCS direct,0.0
+center,500.0,470.0,cc,PCS direct,0.0
+center,500.0,480.0,cc,PCS direct,0.0
+center,500.0,490.0,cc,PCS direct,0.0
+center,500.0,500.0,cc,PCS direct,0.0
+center,500.0,510.0,cc,PCS direct,0.0
+center,500.0,520.0,cc,PCS direct,0.0
+center,500.0,530.0,cc,PCS direct,0.0
+center,500.0,540.0,cc,PCS direct,0.0
+center,500.0,550.0,cc,PCS direct,0.0
+center,500.0,560.0,cc,PCS direct,0.0
+center,500.0,570.0,cc,PCS direct,0.0
+center,500.0,580.0,cc,PCS direct,0.0
+center,500.0,590.0,cc,PCS direct,0.0
+center,500.0,600.0,cc,PCS direct,0.0
+center,500.0,610.0,cc,PCS direct,0.0
+center,500.0,620.0,cc,PCS direct,0.0
+center,500.0,630.0,cc,PCS direct,0.0
+center,500.0,640.0,cc,PCS direct,0.0
+center,500.0,650.0,cc,PCS direct,0.0
+center,500.0,660.0,cc,PCS direct,0.0
+center,500.0,670.0,cc,PCS direct,0.0
+center,500.0,680.0,cc,PCS direct,0.0
+center,500.0,690.0,cc,PCS direct,0.0
+center,500.0,700.0,cc,PCS direct,0.0
+center,500.0,710.0,cc,PCS direct,0.0
+center,500.0,720.0,cc,PCS direct,0.0
+center,500.0,730.0,cc,PCS direct,0.0
+center,500.0,740.0,cc,PCS direct,0.0
+center,500.0,750.0,cc,PCS direct,0.0
+center,500.0,760.0,cc,PCS direct,0.0
+center,500.0,770.0,cc,PCS direct,0.0
+center,500.0,780.0,cc,PCS direct,0.0
+center,500.0,790.0,cc,PCS direct,0.0
+center,500.0,800.0,cc,PCS direct,0.0
+center,500.0,810.0,cc,PCS direct,0.0
+center,500.0,820.0,cc,PCS direct,0.0
+center,500.0,830.0,cc,PCS direct,0.0
+center,500.0,840.0,cc,PCS direct,0.0
+center,500.0,850.0,cc,PCS direct,0.0
+center,500.0,860.0,cc,PCS direct,0.0
+center,500.0,870.0,cc,PCS direct,0.0
+center,500.0,880.0,cc,PCS direct,0.0
+center,500.0,890.0,cc,PCS direct,0.0
+center,500.0,900.0,cc,PCS direct,0.0
+center,500.0,910.0,cc,PCS direct,0.0
+center,500.0,920.0,cc,PCS direct,0.0
+center,500.0,930.0,cc,PCS direct,0.0
+center,500.0,940.0,cc,PCS direct,0.0
+center,500.0,950.0,cc,PCS direct,0.0
+center,500.0,960.0,cc,PCS direct,0.0
+center,500.0,970.0,cc,PCS direct,0.0
+center,500.0,980.0,cc,PCS direct,0.0
+center,500.0,990.0,cc,PCS direct,0.0
+center,500.0,0.0,sw,Truth,0.0
+center,500.0,10.0,sw,Truth,0.0
+center,500.0,20.0,sw,Truth,0.0
+center,500.0,30.0,sw,Truth,0.0
+center,500.0,40.0,sw,Truth,0.0
+center,500.0,50.0,sw,Truth,0.0
+center,500.0,60.0,sw,Truth,0.0
+center,500.0,70.0,sw,Truth,0.0
+center,500.0,80.0,sw,Truth,0.0
+center,500.0,90.0,sw,Truth,0.0
+center,500.0,100.0,sw,Truth,0.0
+center,500.0,110.0,sw,Truth,0.0
+center,500.0,120.0,sw,Truth,0.0
+center,500.0,130.0,sw,Truth,0.0
+center,500.0,140.0,sw,Truth,0.0
+center,500.0,150.0,sw,Truth,0.0
+center,500.0,160.0,sw,Truth,0.0
+center,500.0,170.0,sw,Truth,0.0
+center,500.0,180.0,sw,Truth,0.0
+center,500.0,190.0,sw,Truth,0.0
+center,500.0,200.0,sw,Truth,0.0
+center,500.0,210.0,sw,Truth,0.0
+center,500.0,220.0,sw,Truth,0.0
+center,500.0,230.0,sw,Truth,0.0
+center,500.0,240.0,sw,Truth,0.0
+center,500.0,250.0,sw,Truth,0.0
+center,500.0,260.0,sw,Truth,0.0
+center,500.0,270.0,sw,Truth,0.0
+center,500.0,280.0,sw,Truth,0.0
+center,500.0,290.0,sw,Truth,0.0
+center,500.0,300.0,sw,Truth,0.0
+center,500.0,310.0,sw,Truth,0.0
+center,500.0,320.0,sw,Truth,0.0
+center,500.0,330.0,sw,Truth,0.0
+center,500.0,340.0,sw,Truth,0.0
+center,500.0,350.0,sw,Truth,0.0
+center,500.0,360.0,sw,Truth,0.0
+center,500.0,370.0,sw,Truth,0.125
+center,500.0,380.0,sw,Truth,0.125
+center,500.0,390.0,sw,Truth,0.125
+center,500.0,400.0,sw,Truth,0.125
+center,500.0,410.0,sw,Truth,0.125
+center,500.0,420.0,sw,Truth,0.125
+center,500.0,430.0,sw,Truth,0.125
+center,500.0,440.0,sw,Truth,0.125
+center,500.0,450.0,sw,Truth,0.0
+center,500.0,460.0,sw,Truth,0.0
+center,500.0,470.0,sw,Truth,0.0
+center,500.0,480.0,sw,Truth,0.0
+center,500.0,490.0,sw,Truth,0.0
+center,500.0,500.0,sw,Truth,0.0
+center,500.0,510.0,sw,Truth,0.0
+center,500.0,520.0,sw,Truth,0.0
+center,500.0,530.0,sw,Truth,0.0
+center,500.0,540.0,sw,Truth,0.0
+center,500.0,550.0,sw,Truth,0.0
+center,500.0,560.0,sw,Truth,0.0
+center,500.0,570.0,sw,Truth,0.0
+center,500.0,580.0,sw,Truth,0.0
+center,500.0,590.0,sw,Truth,0.0
+center,500.0,600.0,sw,Truth,0.0
+center,500.0,610.0,sw,Truth,0.0
+center,500.0,620.0,sw,Truth,0.0
+center,500.0,630.0,sw,Truth,0.0
+center,500.0,640.0,sw,Truth,0.0
+center,500.0,650.0,sw,Truth,0.0
+center,500.0,660.0,sw,Truth,0.0
+center,500.0,670.0,sw,Truth,0.0
+center,500.0,680.0,sw,Truth,0.0
+center,500.0,690.0,sw,Truth,0.0
+center,500.0,700.0,sw,Truth,0.0
+center,500.0,710.0,sw,Truth,0.0
+center,500.0,720.0,sw,Truth,0.0
+center,500.0,730.0,sw,Truth,0.0
+center,500.0,740.0,sw,Truth,0.0
+center,500.0,750.0,sw,Truth,0.0
+center,500.0,760.0,sw,Truth,0.0
+center,500.0,770.0,sw,Truth,0.0
+center,500.0,780.0,sw,Truth,0.0
+center,500.0,790.0,sw,Truth,0.0
+center,500.0,800.0,sw,Truth,0.0
+center,500.0,810.0,sw,Truth,0.0
+center,500.0,820.0,sw,Truth,0.0
+center,500.0,830.0,sw,Truth,0.0
+center,500.0,840.0,sw,Truth,0.0
+center,500.0,850.0,sw,Truth,0.0
+center,500.0,860.0,sw,Truth,0.0
+center,500.0,870.0,sw,Truth,0.0
+center,500.0,880.0,sw,Truth,0.0
+center,500.0,890.0,sw,Truth,0.0
+center,500.0,900.0,sw,Truth,0.0
+center,500.0,910.0,sw,Truth,0.0
+center,500.0,920.0,sw,Truth,0.0
+center,500.0,930.0,sw,Truth,0.0
+center,500.0,940.0,sw,Truth,0.0
+center,500.0,950.0,sw,Truth,0.0
+center,500.0,960.0,sw,Truth,0.0
+center,500.0,970.0,sw,Truth,0.0
+center,500.0,980.0,sw,Truth,0.0
+center,500.0,990.0,sw,Truth,0.0
+center,500.0,0.0,sw,DV indirect (all PCS),0.0
+center,500.0,10.0,sw,DV indirect (all PCS),0.0
+center,500.0,20.0,sw,DV indirect (all PCS),0.0
+center,500.0,30.0,sw,DV indirect (all PCS),0.0
+center,500.0,40.0,sw,DV indirect (all PCS),0.0
+center,500.0,50.0,sw,DV indirect (all PCS),0.0
+center,500.0,60.0,sw,DV indirect (all PCS),0.0
+center,500.0,70.0,sw,DV indirect (all PCS),0.0
+center,500.0,80.0,sw,DV indirect (all PCS),0.0
+center,500.0,90.0,sw,DV indirect (all PCS),0.0042636124760356275
+center,500.0,100.0,sw,DV indirect (all PCS),-0.0016624457240440038
+center,500.0,110.0,sw,DV indirect (all PCS),0.001472542458965831
+center,500.0,120.0,sw,DV indirect (all PCS),0.002965117968914077
+center,500.0,130.0,sw,DV indirect (all PCS),0.005568891748528093
+center,500.0,140.0,sw,DV indirect (all PCS),0.0030740760594767935
+center,500.0,150.0,sw,DV indirect (all PCS),0.005453153605287253
+center,500.0,160.0,sw,DV indirect (all PCS),0.008245905408831189
+center,500.0,170.0,sw,DV indirect (all PCS),0.0051967287193164236
+center,500.0,180.0,sw,DV indirect (all PCS),0.005585831915807193
+center,500.0,190.0,sw,DV indirect (all PCS),0.0012740158675659252
+center,500.0,200.0,sw,DV indirect (all PCS),0.0017253061998098729
+center,500.0,210.0,sw,DV indirect (all PCS),-0.001663087589343637
+center,500.0,220.0,sw,DV indirect (all PCS),0.0005142492558393164
+center,500.0,230.0,sw,DV indirect (all PCS),-0.0012519858636496073
+center,500.0,240.0,sw,DV indirect (all PCS),0.0015867335339108668
+center,500.0,250.0,sw,DV indirect (all PCS),-0.004329406578989614
+center,500.0,260.0,sw,DV indirect (all PCS),-0.0064210998315339385
+center,500.0,270.0,sw,DV indirect (all PCS),-0.0056740057456016735
+center,500.0,280.0,sw,DV indirect (all PCS),-0.00043279345321439733
+center,500.0,290.0,sw,DV indirect (all PCS),-0.01916933842897056
+center,500.0,300.0,sw,DV indirect (all PCS),-0.011324688155742946
+center,500.0,310.0,sw,DV indirect (all PCS),-0.004801380679372913
+center,500.0,320.0,sw,DV indirect (all PCS),-0.010581498010678647
+center,500.0,330.0,sw,DV indirect (all PCS),-0.007092671940876372
+center,500.0,340.0,sw,DV indirect (all PCS),-0.00862414035838488
+center,500.0,350.0,sw,DV indirect (all PCS),-0.12976239954123125
+center,500.0,360.0,sw,DV indirect (all PCS),-0.007441451006100996
+center,500.0,370.0,sw,DV indirect (all PCS),-0.021928185099725495
+center,500.0,380.0,sw,DV indirect (all PCS),0.010506568151790185
+center,500.0,390.0,sw,DV indirect (all PCS),0.0
+center,500.0,400.0,sw,DV indirect (all PCS),0.013560318890539769
+center,500.0,410.0,sw,DV indirect (all PCS),0.0
+center,500.0,420.0,sw,DV indirect (all PCS),0.06181534367620922
+center,500.0,430.0,sw,DV indirect (all PCS),0.0
+center,500.0,440.0,sw,DV indirect (all PCS),0.0
+center,500.0,450.0,sw,DV indirect (all PCS),-0.06474336062910757
+center,500.0,460.0,sw,DV indirect (all PCS),-0.1606108213307441
+center,500.0,470.0,sw,DV indirect (all PCS),-0.07906615716929508
+center,500.0,480.0,sw,DV indirect (all PCS),0.0
+center,500.0,490.0,sw,DV indirect (all PCS),0.0
+center,500.0,500.0,sw,DV indirect (all PCS),0.0
+center,500.0,510.0,sw,DV indirect (all PCS),0.0
+center,500.0,520.0,sw,DV indirect (all PCS),0.0
+center,500.0,530.0,sw,DV indirect (all PCS),0.0
+center,500.0,540.0,sw,DV indirect (all PCS),0.0
+center,500.0,550.0,sw,DV indirect (all PCS),0.0
+center,500.0,560.0,sw,DV indirect (all PCS),0.0
+center,500.0,570.0,sw,DV indirect (all PCS),0.0
+center,500.0,580.0,sw,DV indirect (all PCS),-0.004442613670538623
+center,500.0,590.0,sw,DV indirect (all PCS),0.0
+center,500.0,600.0,sw,DV indirect (all PCS),0.0
+center,500.0,610.0,sw,DV indirect (all PCS),0.0
+center,500.0,620.0,sw,DV indirect (all PCS),-0.004192132063102507
+center,500.0,630.0,sw,DV indirect (all PCS),0.0
+center,500.0,640.0,sw,DV indirect (all PCS),0.0
+center,500.0,650.0,sw,DV indirect (all PCS),0.0
+center,500.0,660.0,sw,DV indirect (all PCS),0.0
+center,500.0,670.0,sw,DV indirect (all PCS),0.0
+center,500.0,680.0,sw,DV indirect (all PCS),0.0
+center,500.0,690.0,sw,DV indirect (all PCS),-0.002772101580083272
+center,500.0,700.0,sw,DV indirect (all PCS),-0.003262270758091132
+center,500.0,710.0,sw,DV indirect (all PCS),0.0031784666995609556
+center,500.0,720.0,sw,DV indirect (all PCS),-0.0006655952048725683
+center,500.0,730.0,sw,DV indirect (all PCS),0.0016330534818997933
+center,500.0,740.0,sw,DV indirect (all PCS),0.00015110208674151693
+center,500.0,750.0,sw,DV indirect (all PCS),0.000417811979714966
+center,500.0,760.0,sw,DV indirect (all PCS),-0.005480232933516627
+center,500.0,770.0,sw,DV indirect (all PCS),-0.002986393018255762
+center,500.0,780.0,sw,DV indirect (all PCS),-0.002223992905985045
+center,500.0,790.0,sw,DV indirect (all PCS),-0.002037273136155676
+center,500.0,800.0,sw,DV indirect (all PCS),-0.0005385326722847084
+center,500.0,810.0,sw,DV indirect (all PCS),0.0028777076077411423
+center,500.0,820.0,sw,DV indirect (all PCS),0.008997248296013949
+center,500.0,830.0,sw,DV indirect (all PCS),0.0030688689041921957
+center,500.0,840.0,sw,DV indirect (all PCS),-0.0007036902982680837
+center,500.0,850.0,sw,DV indirect (all PCS),9.985044647192742e-06
+center,500.0,860.0,sw,DV indirect (all PCS),-0.0021229934424973063
+center,500.0,870.0,sw,DV indirect (all PCS),-0.0014470618805281499
+center,500.0,880.0,sw,DV indirect (all PCS),-0.0016146022773917412
+center,500.0,890.0,sw,DV indirect (all PCS),-0.0004526681406215871
+center,500.0,900.0,sw,DV indirect (all PCS),0.00020589612930135837
+center,500.0,910.0,sw,DV indirect (all PCS),0.0020313450940391
+center,500.0,920.0,sw,DV indirect (all PCS),0.0014887229260484858
+center,500.0,930.0,sw,DV indirect (all PCS),0.0005079299330491838
+center,500.0,940.0,sw,DV indirect (all PCS),0.00011527570676470034
+center,500.0,950.0,sw,DV indirect (all PCS),-0.0017188107214431148
+center,500.0,960.0,sw,DV indirect (all PCS),-0.0006174089127757576
+center,500.0,970.0,sw,DV indirect (all PCS),-0.00029907222277805734
+center,500.0,980.0,sw,DV indirect (all PCS),0.0
+center,500.0,990.0,sw,DV indirect (all PCS),0.0
+center,500.0,0.0,sw,DV indirect (Sw only),0.0
+center,500.0,10.0,sw,DV indirect (Sw only),0.0
+center,500.0,20.0,sw,DV indirect (Sw only),0.0
+center,500.0,30.0,sw,DV indirect (Sw only),0.0
+center,500.0,40.0,sw,DV indirect (Sw only),0.0
+center,500.0,50.0,sw,DV indirect (Sw only),0.0
+center,500.0,60.0,sw,DV indirect (Sw only),0.0
+center,500.0,70.0,sw,DV indirect (Sw only),0.0
+center,500.0,80.0,sw,DV indirect (Sw only),0.0
+center,500.0,90.0,sw,DV indirect (Sw only),0.004780592668081063
+center,500.0,100.0,sw,DV indirect (Sw only),0.0013802092884775963
+center,500.0,110.0,sw,DV indirect (Sw only),0.0036067571712896374
+center,500.0,120.0,sw,DV indirect (Sw only),9.932743853358073e-05
+center,500.0,130.0,sw,DV indirect (Sw only),0.004240915239111243
+center,500.0,140.0,sw,DV indirect (Sw only),0.004169286441585707
+center,500.0,150.0,sw,DV indirect (Sw only),0.004033318477692838
+center,500.0,160.0,sw,DV indirect (Sw only),0.0045816818700396555
+center,500.0,170.0,sw,DV indirect (Sw only),0.004195231194892957
+center,500.0,180.0,sw,DV indirect (Sw only),0.0007630116540929266
+center,500.0,190.0,sw,DV indirect (Sw only),-0.014417471707364737
+center,500.0,200.0,sw,DV indirect (Sw only),-0.013506149055738936
+center,500.0,210.0,sw,DV indirect (Sw only),-0.028589448450713817
+center,500.0,220.0,sw,DV indirect (Sw only),-0.030328637095969113
+center,500.0,230.0,sw,DV indirect (Sw only),-0.028163833343643807
+center,500.0,240.0,sw,DV indirect (Sw only),-0.023087887200380797
+center,500.0,250.0,sw,DV indirect (Sw only),-0.03212172945446984
+center,500.0,260.0,sw,DV indirect (Sw only),-0.031595574386637404
+center,500.0,270.0,sw,DV indirect (Sw only),-0.024817177581596184
+center,500.0,280.0,sw,DV indirect (Sw only),-0.005015814409121355
+center,500.0,290.0,sw,DV indirect (Sw only),-0.0035771894842643315
+center,500.0,300.0,sw,DV indirect (Sw only),-0.005498988275884464
+center,500.0,310.0,sw,DV indirect (Sw only),-0.0191650642978779
+center,500.0,320.0,sw,DV indirect (Sw only),-0.02456650402081484
+center,500.0,330.0,sw,DV indirect (Sw only),-0.029227347296963413
+center,500.0,340.0,sw,DV indirect (Sw only),-0.055667608471494545
+center,500.0,350.0,sw,DV indirect (Sw only),-0.06732202792067721
+center,500.0,360.0,sw,DV indirect (Sw only),-0.011224735502118888
+center,500.0,370.0,sw,DV indirect (Sw only),-0.053741728297664715
+center,500.0,380.0,sw,DV indirect (Sw only),0.010506568151790185
+center,500.0,390.0,sw,DV indirect (Sw only),0.0
+center,500.0,400.0,sw,DV indirect (Sw only),0.013560318890539769
+center,500.0,410.0,sw,DV indirect (Sw only),0.0
+center,500.0,420.0,sw,DV indirect (Sw only),0.07264708067643144
+center,500.0,430.0,sw,DV indirect (Sw only),0.0
+center,500.0,440.0,sw,DV indirect (Sw only),0.0
+center,500.0,450.0,sw,DV indirect (Sw only),-0.08659175134879826
+center,500.0,460.0,sw,DV indirect (Sw only),-0.14987912104767098
+center,500.0,470.0,sw,DV indirect (Sw only),-0.07906615716929508
+center,500.0,480.0,sw,DV indirect (Sw only),0.0
+center,500.0,490.0,sw,DV indirect (Sw only),0.0
+center,500.0,500.0,sw,DV indirect (Sw only),0.0
+center,500.0,510.0,sw,DV indirect (Sw only),0.0
+center,500.0,520.0,sw,DV indirect (Sw only),0.0
+center,500.0,530.0,sw,DV indirect (Sw only),0.0
+center,500.0,540.0,sw,DV indirect (Sw only),0.0
+center,500.0,550.0,sw,DV indirect (Sw only),0.0
+center,500.0,560.0,sw,DV indirect (Sw only),0.0
+center,500.0,570.0,sw,DV indirect (Sw only),0.0
+center,500.0,580.0,sw,DV indirect (Sw only),-0.013118054322059883
+center,500.0,590.0,sw,DV indirect (Sw only),0.0
+center,500.0,600.0,sw,DV indirect (Sw only),0.0
+center,500.0,610.0,sw,DV indirect (Sw only),0.0
+center,500.0,620.0,sw,DV indirect (Sw only),-0.005606417008305096
+center,500.0,630.0,sw,DV indirect (Sw only),0.0
+center,500.0,640.0,sw,DV indirect (Sw only),0.0
+center,500.0,650.0,sw,DV indirect (Sw only),0.0
+center,500.0,660.0,sw,DV indirect (Sw only),0.0
+center,500.0,670.0,sw,DV indirect (Sw only),0.0
+center,500.0,680.0,sw,DV indirect (Sw only),0.0
+center,500.0,690.0,sw,DV indirect (Sw only),0.00034894761654184064
+center,500.0,700.0,sw,DV indirect (Sw only),-0.0015758489776953877
+center,500.0,710.0,sw,DV indirect (Sw only),0.0017352310364047996
+center,500.0,720.0,sw,DV indirect (Sw only),-0.00114259444215134
+center,500.0,730.0,sw,DV indirect (Sw only),0.000714837708745697
+center,500.0,740.0,sw,DV indirect (Sw only),-0.0005606697172428343
+center,500.0,750.0,sw,DV indirect (Sw only),0.00013256141902015517
+center,500.0,760.0,sw,DV indirect (Sw only),-0.0037791762371500726
+center,500.0,770.0,sw,DV indirect (Sw only),-0.0011110396499512676
+center,500.0,780.0,sw,DV indirect (Sw only),-0.0034180658562884825
+center,500.0,790.0,sw,DV indirect (Sw only),0.0018574646525880423
+center,500.0,800.0,sw,DV indirect (Sw only),0.0028309512531323744
+center,500.0,810.0,sw,DV indirect (Sw only),-0.0015773018805023131
+center,500.0,820.0,sw,DV indirect (Sw only),0.002800708234675875
+center,500.0,830.0,sw,DV indirect (Sw only),0.001488888674754274
+center,500.0,840.0,sw,DV indirect (Sw only),-0.00020068292895722428
+center,500.0,850.0,sw,DV indirect (Sw only),0.0007095631032973393
+center,500.0,860.0,sw,DV indirect (Sw only),-0.001095546820230553
+center,500.0,870.0,sw,DV indirect (Sw only),-0.0005505025944647357
+center,500.0,880.0,sw,DV indirect (Sw only),-0.000596244244341293
+center,500.0,890.0,sw,DV indirect (Sw only),-0.00038762522076918327
+center,500.0,900.0,sw,DV indirect (Sw only),-0.0005391943067773186
+center,500.0,910.0,sw,DV indirect (Sw only),0.0012753630428205542
+center,500.0,920.0,sw,DV indirect (Sw only),0.0007884675794296025
+center,500.0,930.0,sw,DV indirect (Sw only),0.00024608953325927496
+center,500.0,940.0,sw,DV indirect (Sw only),0.00032191189202521175
+center,500.0,950.0,sw,DV indirect (Sw only),-0.0011304021201545833
+center,500.0,960.0,sw,DV indirect (Sw only),-2.7084804786692285e-05
+center,500.0,970.0,sw,DV indirect (Sw only),-0.00010911387371992376
+center,500.0,980.0,sw,DV indirect (Sw only),0.0
+center,500.0,990.0,sw,DV indirect (Sw only),0.0
+center,500.0,0.0,sw,PCS direct,0.0
+center,500.0,10.0,sw,PCS direct,0.0
+center,500.0,20.0,sw,PCS direct,0.0
+center,500.0,30.0,sw,PCS direct,0.0
+center,500.0,40.0,sw,PCS direct,0.0
+center,500.0,50.0,sw,PCS direct,0.0
+center,500.0,60.0,sw,PCS direct,0.0
+center,500.0,70.0,sw,PCS direct,0.0
+center,500.0,80.0,sw,PCS direct,0.0005745238622126836
+center,500.0,90.0,sw,PCS direct,-0.001658842233247082
+center,500.0,100.0,sw,PCS direct,-0.006186012631644866
+center,500.0,110.0,sw,PCS direct,0.0030381360803174995
+center,500.0,120.0,sw,PCS direct,-0.012040254939935685
+center,500.0,130.0,sw,PCS direct,0.005775432427887445
+center,500.0,140.0,sw,PCS direct,0.004894509425059007
+center,500.0,150.0,sw,PCS direct,0.0014009918578346825
+center,500.0,160.0,sw,PCS direct,0.009715749902115711
+center,500.0,170.0,sw,PCS direct,-0.0013133050771954313
+center,500.0,180.0,sw,PCS direct,-0.0015657118848414475
+center,500.0,190.0,sw,PCS direct,0.004742233210432545
+center,500.0,200.0,sw,PCS direct,-0.008487455500688773
+center,500.0,210.0,sw,PCS direct,-0.006154937776269409
+center,500.0,220.0,sw,PCS direct,-0.003066085031811855
+center,500.0,230.0,sw,PCS direct,0.006177509404048737
+center,500.0,240.0,sw,PCS direct,-0.002064799281498525
+center,500.0,250.0,sw,PCS direct,0.005824090857470626
+center,500.0,260.0,sw,PCS direct,0.00024756276611903605
+center,500.0,270.0,sw,PCS direct,0.00037986507769485756
+center,500.0,280.0,sw,PCS direct,0.001570487147388444
+center,500.0,290.0,sw,PCS direct,0.01289658006171307
+center,500.0,300.0,sw,PCS direct,0.0018375051754060678
+center,500.0,310.0,sw,PCS direct,0.005966555449154559
+center,500.0,320.0,sw,PCS direct,-0.0007640117073106634
+center,500.0,330.0,sw,PCS direct,0.008917885676743703
+center,500.0,340.0,sw,PCS direct,0.00011427194877842994
+center,500.0,350.0,sw,PCS direct,0.007463290865403774
+center,500.0,360.0,sw,PCS direct,-0.003172305164627409
+center,500.0,370.0,sw,PCS direct,0.07065028192378259
+center,500.0,380.0,sw,PCS direct,0.12038494032241218
+center,500.0,390.0,sw,PCS direct,0.10816331401544488
+center,500.0,400.0,sw,PCS direct,0.06926058829765722
+center,500.0,410.0,sw,PCS direct,0.10549492806793886
+center,500.0,420.0,sw,PCS direct,0.1331500145158965
+center,500.0,430.0,sw,PCS direct,0.12760493987876834
+center,500.0,440.0,sw,PCS direct,0.14099432998996178
+center,500.0,450.0,sw,PCS direct,0.1039248659755051
+center,500.0,460.0,sw,PCS direct,0.029071525724628344
+center,500.0,470.0,sw,PCS direct,0.0
+center,500.0,480.0,sw,PCS direct,0.0
+center,500.0,490.0,sw,PCS direct,0.011006767503723869
+center,500.0,500.0,sw,PCS direct,0.017741662850503714
+center,500.0,510.0,sw,PCS direct,0.012433044238285118
+center,500.0,520.0,sw,PCS direct,0.016394737423973432
+center,500.0,530.0,sw,PCS direct,0.0032908747564867336
+center,500.0,540.0,sw,PCS direct,0.0007788119513480636
+center,500.0,550.0,sw,PCS direct,0.0005964351168996143
+center,500.0,560.0,sw,PCS direct,0.013907180610042598
+center,500.0,570.0,sw,PCS direct,-0.0005282765201676254
+center,500.0,580.0,sw,PCS direct,-0.004351108807795184
+center,500.0,590.0,sw,PCS direct,-0.0020684753368804543
+center,500.0,600.0,sw,PCS direct,0.0
+center,500.0,610.0,sw,PCS direct,-0.01262273877382955
+center,500.0,620.0,sw,PCS direct,-0.006441577463022506
+center,500.0,630.0,sw,PCS direct,-0.012777156621387037
+center,500.0,640.0,sw,PCS direct,-0.007995496022716465
+center,500.0,650.0,sw,PCS direct,0.002541432867594118
+center,500.0,660.0,sw,PCS direct,-2.0857357325182457e-05
+center,500.0,670.0,sw,PCS direct,0.0016102577344051239
+center,500.0,680.0,sw,PCS direct,-0.012519799159376233
+center,500.0,690.0,sw,PCS direct,-0.006283558139811102
+center,500.0,700.0,sw,PCS direct,-0.0012788840485029318
+center,500.0,710.0,sw,PCS direct,-0.008915984521854048
+center,500.0,720.0,sw,PCS direct,0.0068478945059314705
+center,500.0,730.0,sw,PCS direct,0.006744852763238857
+center,500.0,740.0,sw,PCS direct,-0.004133477569209426
+center,500.0,750.0,sw,PCS direct,0.0054989750441026275
+center,500.0,760.0,sw,PCS direct,0.0005497174573689256
+center,500.0,770.0,sw,PCS direct,-0.002381121735839431
+center,500.0,780.0,sw,PCS direct,0.005179203349461647
+center,500.0,790.0,sw,PCS direct,-0.007251719918616895
+center,500.0,800.0,sw,PCS direct,0.008674350913050077
+center,500.0,810.0,sw,PCS direct,-0.005652174580522057
+center,500.0,820.0,sw,PCS direct,-0.004376766121571174
+center,500.0,830.0,sw,PCS direct,0.0019529865717714812
+center,500.0,840.0,sw,PCS direct,0.0006280539407245433
+center,500.0,850.0,sw,PCS direct,0.0004621904807699251
+center,500.0,860.0,sw,PCS direct,-0.0030188751203404918
+center,500.0,870.0,sw,PCS direct,-0.002585916569987634
+center,500.0,880.0,sw,PCS direct,-0.00030228985834217237
+center,500.0,890.0,sw,PCS direct,-0.002983080786185255
+center,500.0,900.0,sw,PCS direct,0.003988052334307268
+center,500.0,910.0,sw,PCS direct,-0.008586460543195285
+center,500.0,920.0,sw,PCS direct,-0.0036343470005428535
+center,500.0,930.0,sw,PCS direct,-0.0016518679796936608
+center,500.0,940.0,sw,PCS direct,6.33045165359114e-05
+center,500.0,950.0,sw,PCS direct,0.0037453847330284895
+center,500.0,960.0,sw,PCS direct,0.00039341782199014963
+center,500.0,970.0,sw,PCS direct,0.003189269446240317
+center,500.0,980.0,sw,PCS direct,0.0
+center,500.0,990.0,sw,PCS direct,0.0
+center,500.0,0.0,vp,Truth,0.0
+center,500.0,10.0,vp,Truth,0.0
+center,500.0,20.0,vp,Truth,0.0
+center,500.0,30.0,vp,Truth,0.0
+center,500.0,40.0,vp,Truth,0.0
+center,500.0,50.0,vp,Truth,0.0
+center,500.0,60.0,vp,Truth,0.0
+center,500.0,70.0,vp,Truth,0.0
+center,500.0,80.0,vp,Truth,0.0
+center,500.0,90.0,vp,Truth,0.0
+center,500.0,100.0,vp,Truth,0.0
+center,500.0,110.0,vp,Truth,0.0
+center,500.0,120.0,vp,Truth,0.0
+center,500.0,130.0,vp,Truth,0.0
+center,500.0,140.0,vp,Truth,0.0
+center,500.0,150.0,vp,Truth,0.0
+center,500.0,160.0,vp,Truth,0.0
+center,500.0,170.0,vp,Truth,0.0
+center,500.0,180.0,vp,Truth,0.0
+center,500.0,190.0,vp,Truth,0.0
+center,500.0,200.0,vp,Truth,0.0
+center,500.0,210.0,vp,Truth,0.0
+center,500.0,220.0,vp,Truth,0.0
+center,500.0,230.0,vp,Truth,0.0
+center,500.0,240.0,vp,Truth,0.0
+center,500.0,250.0,vp,Truth,0.0
+center,500.0,260.0,vp,Truth,0.0
+center,500.0,270.0,vp,Truth,0.0
+center,500.0,280.0,vp,Truth,0.0
+center,500.0,290.0,vp,Truth,0.0
+center,500.0,300.0,vp,Truth,0.0
+center,500.0,310.0,vp,Truth,0.0
+center,500.0,320.0,vp,Truth,0.0
+center,500.0,330.0,vp,Truth,0.0
+center,500.0,340.0,vp,Truth,0.0
+center,500.0,350.0,vp,Truth,0.0
+center,500.0,360.0,vp,Truth,0.0
+center,500.0,370.0,vp,Truth,53.765370686067854
+center,500.0,380.0,vp,Truth,53.765370686067854
+center,500.0,390.0,vp,Truth,53.765370686067854
+center,500.0,400.0,vp,Truth,53.765370686067854
+center,500.0,410.0,vp,Truth,53.765370686067854
+center,500.0,420.0,vp,Truth,53.765370686067854
+center,500.0,430.0,vp,Truth,53.765370686067854
+center,500.0,440.0,vp,Truth,53.765370686067854
+center,500.0,450.0,vp,Truth,0.0
+center,500.0,460.0,vp,Truth,0.0
+center,500.0,470.0,vp,Truth,0.0
+center,500.0,480.0,vp,Truth,0.0
+center,500.0,490.0,vp,Truth,0.0
+center,500.0,500.0,vp,Truth,0.0
+center,500.0,510.0,vp,Truth,0.0
+center,500.0,520.0,vp,Truth,0.0
+center,500.0,530.0,vp,Truth,0.0
+center,500.0,540.0,vp,Truth,0.0
+center,500.0,550.0,vp,Truth,0.0
+center,500.0,560.0,vp,Truth,0.0
+center,500.0,570.0,vp,Truth,0.0
+center,500.0,580.0,vp,Truth,0.0
+center,500.0,590.0,vp,Truth,0.0
+center,500.0,600.0,vp,Truth,0.0
+center,500.0,610.0,vp,Truth,0.0
+center,500.0,620.0,vp,Truth,0.0
+center,500.0,630.0,vp,Truth,0.0
+center,500.0,640.0,vp,Truth,0.0
+center,500.0,650.0,vp,Truth,0.0
+center,500.0,660.0,vp,Truth,0.0
+center,500.0,670.0,vp,Truth,0.0
+center,500.0,680.0,vp,Truth,0.0
+center,500.0,690.0,vp,Truth,0.0
+center,500.0,700.0,vp,Truth,0.0
+center,500.0,710.0,vp,Truth,0.0
+center,500.0,720.0,vp,Truth,0.0
+center,500.0,730.0,vp,Truth,0.0
+center,500.0,740.0,vp,Truth,0.0
+center,500.0,750.0,vp,Truth,0.0
+center,500.0,760.0,vp,Truth,0.0
+center,500.0,770.0,vp,Truth,0.0
+center,500.0,780.0,vp,Truth,0.0
+center,500.0,790.0,vp,Truth,0.0
+center,500.0,800.0,vp,Truth,0.0
+center,500.0,810.0,vp,Truth,0.0
+center,500.0,820.0,vp,Truth,0.0
+center,500.0,830.0,vp,Truth,0.0
+center,500.0,840.0,vp,Truth,0.0
+center,500.0,850.0,vp,Truth,0.0
+center,500.0,860.0,vp,Truth,0.0
+center,500.0,870.0,vp,Truth,0.0
+center,500.0,880.0,vp,Truth,0.0
+center,500.0,890.0,vp,Truth,0.0
+center,500.0,900.0,vp,Truth,0.0
+center,500.0,910.0,vp,Truth,0.0
+center,500.0,920.0,vp,Truth,0.0
+center,500.0,930.0,vp,Truth,0.0
+center,500.0,940.0,vp,Truth,0.0
+center,500.0,950.0,vp,Truth,0.0
+center,500.0,960.0,vp,Truth,0.0
+center,500.0,970.0,vp,Truth,0.0
+center,500.0,980.0,vp,Truth,0.0
+center,500.0,990.0,vp,Truth,0.0
+center,500.0,0.0,vp,DV,0.0
+center,500.0,10.0,vp,DV,0.0
+center,500.0,20.0,vp,DV,0.0
+center,500.0,30.0,vp,DV,0.0
+center,500.0,40.0,vp,DV,0.0
+center,500.0,50.0,vp,DV,0.0
+center,500.0,60.0,vp,DV,0.0
+center,500.0,70.0,vp,DV,0.0
+center,500.0,80.0,vp,DV,2.0147341984079503
+center,500.0,90.0,vp,DV,2.9149612155506475
+center,500.0,100.0,vp,DV,1.4423406089913442
+center,500.0,110.0,vp,DV,2.5742604830415985
+center,500.0,120.0,vp,DV,2.4750722186877283
+center,500.0,130.0,vp,DV,2.3995820221339272
+center,500.0,140.0,vp,DV,2.0350108850752804
+center,500.0,150.0,vp,DV,2.6475371426431593
+center,500.0,160.0,vp,DV,3.6027584726634814
+center,500.0,170.0,vp,DV,3.5995847805024823
+center,500.0,180.0,vp,DV,4.032140384166269
+center,500.0,190.0,vp,DV,1.7850267319913655
+center,500.0,200.0,vp,DV,2.189948117496897
+center,500.0,210.0,vp,DV,1.349699609603249
+center,500.0,220.0,vp,DV,2.888822287363382
+center,500.0,230.0,vp,DV,2.803418123893607
+center,500.0,240.0,vp,DV,3.790003661078117
+center,500.0,250.0,vp,DV,0.6064230949073135
+center,500.0,260.0,vp,DV,-0.6535777819490249
+center,500.0,270.0,vp,DV,-1.233229120940905
+center,500.0,280.0,vp,DV,1.779902506950748
+center,500.0,290.0,vp,DV,-3.2165745863435404
+center,500.0,300.0,vp,DV,-3.4059974601132126
+center,500.0,310.0,vp,DV,-2.525018554545113
+center,500.0,320.0,vp,DV,-3.434822683043876
+center,500.0,330.0,vp,DV,-1.0724567248853418
+center,500.0,340.0,vp,DV,-3.4691341507218567
+center,500.0,350.0,vp,DV,0.8680198520219164
+center,500.0,360.0,vp,DV,-8.24892462373873
+center,500.0,370.0,vp,DV,-10.365866784398804
+center,500.0,380.0,vp,DV,35.43751603361852
+center,500.0,390.0,vp,DV,57.60913334999077
+center,500.0,400.0,vp,DV,63.69666383064532
+center,500.0,410.0,vp,DV,66.0705584375387
+center,500.0,420.0,vp,DV,55.39765449610786
+center,500.0,430.0,vp,DV,25.296399737603224
+center,500.0,440.0,vp,DV,-4.065282356117223
+center,500.0,450.0,vp,DV,-46.8632170951646
+center,500.0,460.0,vp,DV,-79.92746559853367
+center,500.0,470.0,vp,DV,-59.282270994336386
+center,500.0,480.0,vp,DV,-14.866062429809745
+center,500.0,490.0,vp,DV,10.308617500758828
+center,500.0,500.0,vp,DV,22.025818840684906
+center,500.0,510.0,vp,DV,17.848738072830656
+center,500.0,520.0,vp,DV,11.498932583043597
+center,500.0,530.0,vp,DV,3.7704104271858796
+center,500.0,540.0,vp,DV,2.0712430920896168
+center,500.0,550.0,vp,DV,-1.6389109642927906
+center,500.0,560.0,vp,DV,-3.7703932806421108
+center,500.0,570.0,vp,DV,-3.1246733349244096
+center,500.0,580.0,vp,DV,-6.345967991934685
+center,500.0,590.0,vp,DV,-2.703408711706288
+center,500.0,600.0,vp,DV,-0.4982132124284817
+center,500.0,610.0,vp,DV,-5.589265634447429
+center,500.0,620.0,vp,DV,-4.258795505706075
+center,500.0,630.0,vp,DV,-6.658370540946635
+center,500.0,640.0,vp,DV,-3.896255760283111
+center,500.0,650.0,vp,DV,-0.5771613333702135
+center,500.0,660.0,vp,DV,-1.5003236071406718
+center,500.0,670.0,vp,DV,-1.9060778441162256
+center,500.0,680.0,vp,DV,-1.250323132647054
+center,500.0,690.0,vp,DV,-0.3583934949917875
+center,500.0,700.0,vp,DV,-1.6515865852602474
+center,500.0,710.0,vp,DV,1.2040587960991616
+center,500.0,720.0,vp,DV,-0.7164682227062258
+center,500.0,730.0,vp,DV,0.7471792910155273
+center,500.0,740.0,vp,DV,-0.0626786627472029
+center,500.0,750.0,vp,DV,0.06063743500089913
+center,500.0,760.0,vp,DV,-2.6484310621740406
+center,500.0,770.0,vp,DV,-1.0531061094493452
+center,500.0,780.0,vp,DV,-1.997700679128684
+center,500.0,790.0,vp,DV,0.17486373699875912
+center,500.0,800.0,vp,DV,1.4127099383090354
+center,500.0,810.0,vp,DV,0.1066288141255427
+center,500.0,820.0,vp,DV,2.615004233054151
+center,500.0,830.0,vp,DV,1.2706944229576038
+center,500.0,840.0,vp,DV,-0.2723102839254352
+center,500.0,850.0,vp,DV,0.32581762811787485
+center,500.0,860.0,vp,DV,-0.8761582788738451
+center,500.0,870.0,vp,DV,-0.5679654052278238
+center,500.0,880.0,vp,DV,-0.47769313697017424
+center,500.0,890.0,vp,DV,-0.15030869498241373
+center,500.0,900.0,vp,DV,-0.12302632690943938
+center,500.0,910.0,vp,DV,0.8419031158600774
+center,500.0,920.0,vp,DV,0.5373072430998036
+center,500.0,930.0,vp,DV,0.13784289942304895
+center,500.0,940.0,vp,DV,0.15814899667338977
+center,500.0,950.0,vp,DV,-0.728762081923378
+center,500.0,960.0,vp,DV,-0.10809556686399446
+center,500.0,970.0,vp,DV,-0.036229807370091294
+center,500.0,980.0,vp,DV,0.0
+center,500.0,990.0,vp,DV,0.0
+center,500.0,0.0,vp,PCS,0.0
+center,500.0,10.0,vp,PCS,0.0
+center,500.0,20.0,vp,PCS,0.0
+center,500.0,30.0,vp,PCS,0.0
+center,500.0,40.0,vp,PCS,0.0
+center,500.0,50.0,vp,PCS,0.0
+center,500.0,60.0,vp,PCS,0.0
+center,500.0,70.0,vp,PCS,0.0
+center,500.0,80.0,vp,PCS,0.30720931147379815
+center,500.0,90.0,vp,PCS,-0.8870677124173199
+center,500.0,100.0,vp,PCS,-3.262862643097378
+center,500.0,110.0,vp,PCS,1.5999965611308653
+center,500.0,120.0,vp,PCS,-6.436713296749076
+center,500.0,130.0,vp,PCS,3.1104451147571126
+center,500.0,140.0,vp,PCS,2.6671548928584343
+center,500.0,150.0,vp,PCS,0.7480619836137521
+center,500.0,160.0,vp,PCS,5.233028005222877
+center,500.0,170.0,vp,PCS,-0.7094468163768397
+center,500.0,180.0,vp,PCS,-0.8511960607202127
+center,500.0,190.0,vp,PCS,2.564017732829143
+center,500.0,200.0,vp,PCS,-4.608757363681434
+center,500.0,210.0,vp,PCS,-3.3567955403796077
+center,500.0,220.0,vp,PCS,-1.6774253031221633
+center,500.0,230.0,vp,PCS,3.3896593980884973
+center,500.0,240.0,vp,PCS,-1.1036298342150985
+center,500.0,250.0,vp,PCS,3.2454439672701483
+center,500.0,260.0,vp,PCS,0.13726529237192153
+center,500.0,270.0,vp,PCS,0.20972493718272744
+center,500.0,280.0,vp,PCS,0.8909985948826034
+center,500.0,290.0,vp,PCS,7.293064060964753
+center,500.0,300.0,vp,PCS,1.0616837662369107
+center,500.0,310.0,vp,PCS,3.4996312275025048
+center,500.0,320.0,vp,PCS,-0.44866558797093603
+center,500.0,330.0,vp,PCS,5.386403102098939
+center,500.0,340.0,vp,PCS,0.0698093401715596
+center,500.0,350.0,vp,PCS,4.563598474219816
+center,500.0,360.0,vp,PCS,-1.8582576200499261
+center,500.0,370.0,vp,PCS,32.433081941312594
+center,500.0,380.0,vp,PCS,64.6110256086613
+center,500.0,390.0,vp,PCS,59.410255573593986
+center,500.0,400.0,vp,PCS,39.02875162659848
+center,500.0,410.0,vp,PCS,63.57748022032638
+center,500.0,420.0,vp,PCS,78.66204883089858
+center,500.0,430.0,vp,PCS,70.21013987853348
+center,500.0,440.0,vp,PCS,72.65655940336774
+center,500.0,450.0,vp,PCS,47.59284863512221
+center,500.0,460.0,vp,PCS,12.408485231944269
+center,500.0,470.0,vp,PCS,0.0
+center,500.0,480.0,vp,PCS,0.0
+center,500.0,490.0,vp,PCS,3.0246692852074375
+center,500.0,500.0,vp,PCS,6.526599303045941
+center,500.0,510.0,vp,PCS,6.0708285889761555
+center,500.0,520.0,vp,PCS,8.614473847855834
+center,500.0,530.0,vp,PCS,2.0308033073722527
+center,500.0,540.0,vp,PCS,0.5119661873466157
+center,500.0,550.0,vp,PCS,0.3788516070035257
+center,500.0,560.0,vp,PCS,8.75607134982647
+center,500.0,570.0,vp,PCS,-0.2760530105754242
+center,500.0,580.0,vp,PCS,-2.4156048080262735
+center,500.0,590.0,vp,PCS,-1.1728062458096247
+center,500.0,600.0,vp,PCS,0.0
+center,500.0,610.0,vp,PCS,-7.2844177440638305
+center,500.0,620.0,vp,PCS,-4.01955792427043
+center,500.0,630.0,vp,PCS,-7.936015184693588
+center,500.0,640.0,vp,PCS,-5.049703789249634
+center,500.0,650.0,vp,PCS,1.5894581142040352
+center,500.0,660.0,vp,PCS,-0.012399052086266238
+center,500.0,670.0,vp,PCS,0.8883634143080599
+center,500.0,680.0,vp,PCS,-6.823846296559395
+center,500.0,690.0,vp,PCS,-3.475257352199833
+center,500.0,700.0,vp,PCS,-0.6985898338116385
+center,500.0,710.0,vp,PCS,-5.129310404199259
+center,500.0,720.0,vp,PCS,4.009371627358632
+center,500.0,730.0,vp,PCS,3.914718177420127
+center,500.0,740.0,vp,PCS,-2.378495111446682
+center,500.0,750.0,vp,PCS,3.2003648852946753
+center,500.0,760.0,vp,PCS,0.312192455094646
+center,500.0,770.0,vp,PCS,-1.3081322496018402
+center,500.0,780.0,vp,PCS,2.5234142173571854
+center,500.0,790.0,vp,PCS,-3.9756342782156935
+center,500.0,800.0,vp,PCS,4.364328143587045
+center,500.0,810.0,vp,PCS,-2.9939256487332386
+center,500.0,820.0,vp,PCS,-2.266337269894393
+center,500.0,830.0,vp,PCS,1.0698012491129703
+center,500.0,840.0,vp,PCS,0.34319658624281146
+center,500.0,850.0,vp,PCS,0.254296100267311
+center,500.0,860.0,vp,PCS,-1.6674522613348017
+center,500.0,870.0,vp,PCS,-1.4984588514475945
+center,500.0,880.0,vp,PCS,-0.17874853407829505
+center,500.0,890.0,vp,PCS,-1.6059627317322338
+center,500.0,900.0,vp,PCS,2.3564821597633454
+center,500.0,910.0,vp,PCS,-4.824161023320812
+center,500.0,920.0,vp,PCS,-1.9169001466648297
+center,500.0,930.0,vp,PCS,-0.8879741553223539
+center,500.0,940.0,vp,PCS,0.03616392340654784
+center,500.0,950.0,vp,PCS,2.0868105793178984
+center,500.0,960.0,vp,PCS,0.209212956686315
+center,500.0,970.0,vp,PCS,1.8203368369904638
+center,500.0,980.0,vp,PCS,0.0
+center,500.0,990.0,vp,PCS,0.0
+center,500.0,0.0,vs,Truth,0.0
+center,500.0,10.0,vs,Truth,0.0
+center,500.0,20.0,vs,Truth,0.0
+center,500.0,30.0,vs,Truth,0.0
+center,500.0,40.0,vs,Truth,0.0
+center,500.0,50.0,vs,Truth,0.0
+center,500.0,60.0,vs,Truth,0.0
+center,500.0,70.0,vs,Truth,0.0
+center,500.0,80.0,vs,Truth,0.0
+center,500.0,90.0,vs,Truth,0.0
+center,500.0,100.0,vs,Truth,0.0
+center,500.0,110.0,vs,Truth,0.0
+center,500.0,120.0,vs,Truth,0.0
+center,500.0,130.0,vs,Truth,0.0
+center,500.0,140.0,vs,Truth,0.0
+center,500.0,150.0,vs,Truth,0.0
+center,500.0,160.0,vs,Truth,0.0
+center,500.0,170.0,vs,Truth,0.0
+center,500.0,180.0,vs,Truth,0.0
+center,500.0,190.0,vs,Truth,0.0
+center,500.0,200.0,vs,Truth,0.0
+center,500.0,210.0,vs,Truth,0.0
+center,500.0,220.0,vs,Truth,0.0
+center,500.0,230.0,vs,Truth,0.0
+center,500.0,240.0,vs,Truth,0.0
+center,500.0,250.0,vs,Truth,0.0
+center,500.0,260.0,vs,Truth,0.0
+center,500.0,270.0,vs,Truth,0.0
+center,500.0,280.0,vs,Truth,0.0
+center,500.0,290.0,vs,Truth,0.0
+center,500.0,300.0,vs,Truth,0.0
+center,500.0,310.0,vs,Truth,0.0
+center,500.0,320.0,vs,Truth,0.0
+center,500.0,330.0,vs,Truth,0.0
+center,500.0,340.0,vs,Truth,0.0
+center,500.0,350.0,vs,Truth,0.0
+center,500.0,360.0,vs,Truth,0.0
+center,500.0,370.0,vs,Truth,-6.905392189011991
+center,500.0,380.0,vs,Truth,-6.905392189011991
+center,500.0,390.0,vs,Truth,-6.905392189011991
+center,500.0,400.0,vs,Truth,-6.905392189011991
+center,500.0,410.0,vs,Truth,-6.905392189011991
+center,500.0,420.0,vs,Truth,-6.905392189011991
+center,500.0,430.0,vs,Truth,-6.905392189011991
+center,500.0,440.0,vs,Truth,-6.905392189011991
+center,500.0,450.0,vs,Truth,0.0
+center,500.0,460.0,vs,Truth,0.0
+center,500.0,470.0,vs,Truth,0.0
+center,500.0,480.0,vs,Truth,0.0
+center,500.0,490.0,vs,Truth,0.0
+center,500.0,500.0,vs,Truth,0.0
+center,500.0,510.0,vs,Truth,0.0
+center,500.0,520.0,vs,Truth,0.0
+center,500.0,530.0,vs,Truth,0.0
+center,500.0,540.0,vs,Truth,0.0
+center,500.0,550.0,vs,Truth,0.0
+center,500.0,560.0,vs,Truth,0.0
+center,500.0,570.0,vs,Truth,0.0
+center,500.0,580.0,vs,Truth,0.0
+center,500.0,590.0,vs,Truth,0.0
+center,500.0,600.0,vs,Truth,0.0
+center,500.0,610.0,vs,Truth,0.0
+center,500.0,620.0,vs,Truth,0.0
+center,500.0,630.0,vs,Truth,0.0
+center,500.0,640.0,vs,Truth,0.0
+center,500.0,650.0,vs,Truth,0.0
+center,500.0,660.0,vs,Truth,0.0
+center,500.0,670.0,vs,Truth,0.0
+center,500.0,680.0,vs,Truth,0.0
+center,500.0,690.0,vs,Truth,0.0
+center,500.0,700.0,vs,Truth,0.0
+center,500.0,710.0,vs,Truth,0.0
+center,500.0,720.0,vs,Truth,0.0
+center,500.0,730.0,vs,Truth,0.0
+center,500.0,740.0,vs,Truth,0.0
+center,500.0,750.0,vs,Truth,0.0
+center,500.0,760.0,vs,Truth,0.0
+center,500.0,770.0,vs,Truth,0.0
+center,500.0,780.0,vs,Truth,0.0
+center,500.0,790.0,vs,Truth,0.0
+center,500.0,800.0,vs,Truth,0.0
+center,500.0,810.0,vs,Truth,0.0
+center,500.0,820.0,vs,Truth,0.0
+center,500.0,830.0,vs,Truth,0.0
+center,500.0,840.0,vs,Truth,0.0
+center,500.0,850.0,vs,Truth,0.0
+center,500.0,860.0,vs,Truth,0.0
+center,500.0,870.0,vs,Truth,0.0
+center,500.0,880.0,vs,Truth,0.0
+center,500.0,890.0,vs,Truth,0.0
+center,500.0,900.0,vs,Truth,0.0
+center,500.0,910.0,vs,Truth,0.0
+center,500.0,920.0,vs,Truth,0.0
+center,500.0,930.0,vs,Truth,0.0
+center,500.0,940.0,vs,Truth,0.0
+center,500.0,950.0,vs,Truth,0.0
+center,500.0,960.0,vs,Truth,0.0
+center,500.0,970.0,vs,Truth,0.0
+center,500.0,980.0,vs,Truth,0.0
+center,500.0,990.0,vs,Truth,0.0
+center,500.0,0.0,vs,DV,0.0
+center,500.0,10.0,vs,DV,0.0
+center,500.0,20.0,vs,DV,0.0
+center,500.0,30.0,vs,DV,0.0
+center,500.0,40.0,vs,DV,0.0
+center,500.0,50.0,vs,DV,0.0
+center,500.0,60.0,vs,DV,0.0
+center,500.0,70.0,vs,DV,0.0
+center,500.0,80.0,vs,DV,1.071311101041374
+center,500.0,90.0,vs,DV,0.44026545429210273
+center,500.0,100.0,vs,DV,1.8707113011125784
+center,500.0,110.0,vs,DV,1.2597858284739232
+center,500.0,120.0,vs,DV,0.345729806549798
+center,500.0,130.0,vs,DV,-0.38040145575587303
+center,500.0,140.0,vs,DV,-0.043332377985507264
+center,500.0,150.0,vs,DV,-0.06669750897231097
+center,500.0,160.0,vs,DV,-0.11356858574822581
+center,500.0,170.0,vs,DV,0.8702781804970527
+center,500.0,180.0,vs,DV,0.2729870353316528
+center,500.0,190.0,vs,DV,0.6501669677263635
+center,500.0,200.0,vs,DV,0.685658282375698
+center,500.0,210.0,vs,DV,1.6125425532211466
+center,500.0,220.0,vs,DV,1.9865197506005643
+center,500.0,230.0,vs,DV,2.685603892591189
+center,500.0,240.0,vs,DV,2.0841003634570825
+center,500.0,250.0,vs,DV,2.560279358049911
+center,500.0,260.0,vs,DV,2.3722476440043465
+center,500.0,270.0,vs,DV,1.7086938292652576
+center,500.0,280.0,vs,DV,1.1823811258796013
+center,500.0,290.0,vs,DV,2.855633341511293
+center,500.0,300.0,vs,DV,2.0800894089002213
+center,500.0,310.0,vs,DV,0.27873489450234956
+center,500.0,320.0,vs,DV,2.1678660014079014
+center,500.0,330.0,vs,DV,2.4795144866031933
+center,500.0,340.0,vs,DV,1.051728298991975
+center,500.0,350.0,vs,DV,-1.3293548475087391
+center,500.0,360.0,vs,DV,0.7223580328839034
+center,500.0,370.0,vs,DV,2.545849675229647
+center,500.0,380.0,vs,DV,-3.403641374159406
+center,500.0,390.0,vs,DV,-5.701231506797967
+center,500.0,400.0,vs,DV,-8.06828263086004
+center,500.0,410.0,vs,DV,-9.305718059162928
+center,500.0,420.0,vs,DV,-8.821775104783683
+center,500.0,430.0,vs,DV,-4.725610324664558
+center,500.0,440.0,vs,DV,5.979309060439164
+center,500.0,450.0,vs,DV,17.971166684468926
+center,500.0,460.0,vs,DV,17.753519636668216
+center,500.0,470.0,vs,DV,6.779256805750492
+center,500.0,480.0,vs,DV,0.8768215921918454
+center,500.0,490.0,vs,DV,-1.993885088422985
+center,500.0,500.0,vs,DV,-7.127290552394015
+center,500.0,510.0,vs,DV,-3.7937852439822564
+center,500.0,520.0,vs,DV,-1.8277953007741417
+center,500.0,530.0,vs,DV,-2.1723115052345747
+center,500.0,540.0,vs,DV,-1.1571085629557274
+center,500.0,550.0,vs,DV,2.3810898892616024
+center,500.0,560.0,vs,DV,1.7387877131616278
+center,500.0,570.0,vs,DV,-2.096324918677965
+center,500.0,580.0,vs,DV,-0.741787816839178
+center,500.0,590.0,vs,DV,5.9074123820180375
+center,500.0,600.0,vs,DV,1.6589907344496169
+center,500.0,610.0,vs,DV,-3.047566020917202
+center,500.0,620.0,vs,DV,-0.23023094480799955
+center,500.0,630.0,vs,DV,1.0307092835137155
+center,500.0,640.0,vs,DV,0.4645777926368737
+center,500.0,650.0,vs,DV,-0.2278341760988951
+center,500.0,660.0,vs,DV,0.44988607399750435
+center,500.0,670.0,vs,DV,-0.029076663436171657
+center,500.0,680.0,vs,DV,-0.1482758156134878
+center,500.0,690.0,vs,DV,0.6574269737384384
+center,500.0,700.0,vs,DV,0.1766274712165341
+center,500.0,710.0,vs,DV,-0.5656752529230289
+center,500.0,720.0,vs,DV,-0.12945655033649928
+center,500.0,730.0,vs,DV,-0.03671425951210949
+center,500.0,740.0,vs,DV,0.09036300715615653
+center,500.0,750.0,vs,DV,-0.14112013113299327
+center,500.0,760.0,vs,DV,0.2813914170492353
+center,500.0,770.0,vs,DV,0.20554251886983366
+center,500.0,780.0,vs,DV,-0.3695563752223734
+center,500.0,790.0,vs,DV,0.2635959608733174
+center,500.0,800.0,vs,DV,0.8765508091498759
+center,500.0,810.0,vs,DV,-0.3149541133054754
+center,500.0,820.0,vs,DV,-0.9285578343469751
+center,500.0,830.0,vs,DV,-0.1529446982524405
+center,500.0,840.0,vs,DV,0.0031720981767193734
+center,500.0,850.0,vs,DV,0.12101940264528821
+center,500.0,860.0,vs,DV,0.16930054898421076
+center,500.0,870.0,vs,DV,0.05849031492107315
+center,500.0,880.0,vs,DV,0.23876147367400335
+center,500.0,890.0,vs,DV,0.1283167727590353
+center,500.0,900.0,vs,DV,-0.02682606463281445
+center,500.0,910.0,vs,DV,-0.23236074975329757
+center,500.0,920.0,vs,DV,-0.20479875823184557
+center,500.0,930.0,vs,DV,-0.10902895908998289
+center,500.0,940.0,vs,DV,0.02796092108405901
+center,500.0,950.0,vs,DV,0.1823201627000799
+center,500.0,960.0,vs,DV,0.0992651991132334
+center,500.0,970.0,vs,DV,0.11030635743327366
+center,500.0,980.0,vs,DV,0.0
+center,500.0,990.0,vs,DV,0.0
+center,500.0,0.0,vs,PCS,0.0
+center,500.0,10.0,vs,PCS,0.0
+center,500.0,20.0,vs,PCS,0.0
+center,500.0,30.0,vs,PCS,0.0
+center,500.0,40.0,vs,PCS,0.0
+center,500.0,50.0,vs,PCS,0.0
+center,500.0,60.0,vs,PCS,0.0
+center,500.0,70.0,vs,PCS,0.0
+center,500.0,80.0,vs,PCS,-0.050252082511406115
+center,500.0,90.0,vs,PCS,0.1457252709444674
+center,500.0,100.0,vs,PCS,0.5472740444615738
+center,500.0,110.0,vs,PCS,-0.259574571320627
+center,500.0,120.0,vs,PCS,1.0234134879833618
+center,500.0,130.0,vs,PCS,-0.48402868429207047
+center,500.0,140.0,vs,PCS,-0.4045050803481445
+center,500.0,150.0,vs,PCS,-0.11537352885738983
+center,500.0,160.0,vs,PCS,-0.8041653963152839
+center,500.0,170.0,vs,PCS,0.10855689185586925
+center,500.0,180.0,vs,PCS,0.12853192970396776
+center,500.0,190.0,vs,PCS,-0.3883262963438483
+center,500.0,200.0,vs,PCS,0.6903867301746232
+center,500.0,210.0,vs,PCS,0.4998336541136723
+center,500.0,220.0,vs,PCS,0.25074244907659704
+center,500.0,230.0,vs,PCS,-0.5043787242841518
+center,500.0,240.0,vs,PCS,0.1693475167851375
+center,500.0,250.0,vs,PCS,-0.47615198918106216
+center,500.0,260.0,vs,PCS,-0.020235024641124255
+center,500.0,270.0,vs,PCS,-0.030728879338539627
+center,500.0,280.0,vs,PCS,-0.12626038138159856
+center,500.0,290.0,vs,PCS,-1.0448644399734803
+center,500.0,300.0,vs,PCS,-0.1476738156038664
+center,500.0,310.0,vs,PCS,-0.4841811284140931
+center,500.0,320.0,vs,PCS,0.06194726207286294
+center,500.0,330.0,vs,PCS,-0.7041001656909884
+center,500.0,340.0,vs,PCS,-0.008691658328416452
+center,500.0,350.0,vs,PCS,-0.5746501729613556
+center,500.0,360.0,vs,PCS,0.2809602244319649
+center,500.0,370.0,vs,PCS,-5.374892034351205
+center,500.0,380.0,vs,PCS,-6.6625304926431
+center,500.0,390.0,vs,PCS,-5.973279733999561
+center,500.0,400.0,vs,PCS,-3.537246587093705
+center,500.0,410.0,vs,PCS,-4.504329826917683
+center,500.0,420.0,vs,PCS,-6.722567258578465
+center,500.0,430.0,vs,PCS,-5.970711450220733
+center,500.0,440.0,vs,PCS,-7.179624120138669
+center,500.0,450.0,vs,PCS,-5.054528888616915
+center,500.0,460.0,vs,PCS,-1.7361961516207884
+center,500.0,470.0,vs,PCS,0.0
+center,500.0,480.0,vs,PCS,0.0
+center,500.0,490.0,vs,PCS,-1.0298444265723674
+center,500.0,500.0,vs,PCS,-1.8641170503761941
+center,500.0,510.0,vs,PCS,-1.3209025520674231
+center,500.0,520.0,vs,PCS,-1.6630990721059788
+center,500.0,530.0,vs,PCS,-0.33134337419687654
+center,500.0,540.0,vs,PCS,-0.07566933695829903
+center,500.0,550.0,vs,PCS,-0.0583917679600745
+center,500.0,560.0,vs,PCS,-1.330103548866873
+center,500.0,570.0,vs,PCS,0.050433897102493574
+center,500.0,580.0,vs,PCS,0.4021507814272809
+center,500.0,590.0,vs,PCS,0.19802603061248192
+center,500.0,600.0,vs,PCS,0.0
+center,500.0,610.0,vs,PCS,1.0777362137296222
+center,500.0,620.0,vs,PCS,0.5928499030223975
+center,500.0,630.0,vs,PCS,1.1817731772987372
+center,500.0,640.0,vs,PCS,0.7657671342790309
+center,500.0,650.0,vs,PCS,-0.24784826553741368
+center,500.0,660.0,vs,PCS,0.002008871367934262
+center,500.0,670.0,vs,PCS,-0.1510212571217835
+center,500.0,680.0,vs,PCS,1.1416580662971683
+center,500.0,690.0,vs,PCS,0.5563944946720767
+center,500.0,700.0,vs,PCS,0.10915984184725858
+center,500.0,710.0,vs,PCS,0.7715228384145121
+center,500.0,720.0,vs,PCS,-0.5798332920071516
+center,500.0,730.0,vs,PCS,-0.5721111193950037
+center,500.0,740.0,vs,PCS,0.34445140147659004
+center,500.0,750.0,vs,PCS,-0.47039882410058453
+center,500.0,760.0,vs,PCS,-0.04651465269967048
+center,500.0,770.0,vs,PCS,0.20144039045862883
+center,500.0,780.0,vs,PCS,-0.43494755828373854
+center,500.0,790.0,vs,PCS,0.6263967917579976
+center,500.0,800.0,vs,PCS,-0.7557691968499967
+center,500.0,810.0,vs,PCS,0.48642549962505655
+center,500.0,820.0,vs,PCS,0.36944506353802353
+center,500.0,830.0,vs,PCS,-0.1651500262553327
+center,500.0,840.0,vs,PCS,-0.05281025364320158
+center,500.0,850.0,vs,PCS,-0.03880178397275813
+center,500.0,860.0,vs,PCS,0.26108107727873175
+center,500.0,870.0,vs,PCS,0.2188185613283622
+center,500.0,880.0,vs,PCS,0.024984103124779722
+center,500.0,890.0,vs,PCS,0.2473207105142592
+center,500.0,900.0,vs,PCS,-0.3394159853396559
+center,500.0,910.0,vs,PCS,0.7372025150275476
+center,500.0,920.0,vs,PCS,0.2953847732781014
+center,500.0,930.0,vs,PCS,0.13679445102275167
+center,500.0,940.0,vs,PCS,-0.00544676821050416
+center,500.0,950.0,vs,PCS,-0.31325148422251914
+center,500.0,960.0,vs,PCS,-0.03283158759154503
+center,500.0,970.0,vs,PCS,-0.2635189467887358
+center,500.0,980.0,vs,PCS,0.0
+center,500.0,990.0,vs,PCS,0.0
+center,500.0,0.0,rho,Truth,0.0
+center,500.0,10.0,rho,Truth,0.0
+center,500.0,20.0,rho,Truth,0.0
+center,500.0,30.0,rho,Truth,0.0
+center,500.0,40.0,rho,Truth,0.0
+center,500.0,50.0,rho,Truth,0.0
+center,500.0,60.0,rho,Truth,0.0
+center,500.0,70.0,rho,Truth,0.0
+center,500.0,80.0,rho,Truth,0.0
+center,500.0,90.0,rho,Truth,0.0
+center,500.0,100.0,rho,Truth,0.0
+center,500.0,110.0,rho,Truth,0.0
+center,500.0,120.0,rho,Truth,0.0
+center,500.0,130.0,rho,Truth,0.0
+center,500.0,140.0,rho,Truth,0.0
+center,500.0,150.0,rho,Truth,0.0
+center,500.0,160.0,rho,Truth,0.0
+center,500.0,170.0,rho,Truth,0.0
+center,500.0,180.0,rho,Truth,0.0
+center,500.0,190.0,rho,Truth,0.0
+center,500.0,200.0,rho,Truth,0.0
+center,500.0,210.0,rho,Truth,0.0
+center,500.0,220.0,rho,Truth,0.0
+center,500.0,230.0,rho,Truth,0.0
+center,500.0,240.0,rho,Truth,0.0
+center,500.0,250.0,rho,Truth,0.0
+center,500.0,260.0,rho,Truth,0.0
+center,500.0,270.0,rho,Truth,0.0
+center,500.0,280.0,rho,Truth,0.0
+center,500.0,290.0,rho,Truth,0.0
+center,500.0,300.0,rho,Truth,0.0
+center,500.0,310.0,rho,Truth,0.0
+center,500.0,320.0,rho,Truth,0.0
+center,500.0,330.0,rho,Truth,0.0
+center,500.0,340.0,rho,Truth,0.0
+center,500.0,350.0,rho,Truth,0.0
+center,500.0,360.0,rho,Truth,0.0
+center,500.0,370.0,rho,Truth,22.5
+center,500.0,380.0,rho,Truth,22.5
+center,500.0,390.0,rho,Truth,22.5
+center,500.0,400.0,rho,Truth,22.5
+center,500.0,410.0,rho,Truth,22.5
+center,500.0,420.0,rho,Truth,22.5
+center,500.0,430.0,rho,Truth,22.5
+center,500.0,440.0,rho,Truth,22.5
+center,500.0,450.0,rho,Truth,0.0
+center,500.0,460.0,rho,Truth,0.0
+center,500.0,470.0,rho,Truth,0.0
+center,500.0,480.0,rho,Truth,0.0
+center,500.0,490.0,rho,Truth,0.0
+center,500.0,500.0,rho,Truth,0.0
+center,500.0,510.0,rho,Truth,0.0
+center,500.0,520.0,rho,Truth,0.0
+center,500.0,530.0,rho,Truth,0.0
+center,500.0,540.0,rho,Truth,0.0
+center,500.0,550.0,rho,Truth,0.0
+center,500.0,560.0,rho,Truth,0.0
+center,500.0,570.0,rho,Truth,0.0
+center,500.0,580.0,rho,Truth,0.0
+center,500.0,590.0,rho,Truth,0.0
+center,500.0,600.0,rho,Truth,0.0
+center,500.0,610.0,rho,Truth,0.0
+center,500.0,620.0,rho,Truth,0.0
+center,500.0,630.0,rho,Truth,0.0
+center,500.0,640.0,rho,Truth,0.0
+center,500.0,650.0,rho,Truth,0.0
+center,500.0,660.0,rho,Truth,0.0
+center,500.0,670.0,rho,Truth,0.0
+center,500.0,680.0,rho,Truth,0.0
+center,500.0,690.0,rho,Truth,0.0
+center,500.0,700.0,rho,Truth,0.0
+center,500.0,710.0,rho,Truth,0.0
+center,500.0,720.0,rho,Truth,0.0
+center,500.0,730.0,rho,Truth,0.0
+center,500.0,740.0,rho,Truth,0.0
+center,500.0,750.0,rho,Truth,0.0
+center,500.0,760.0,rho,Truth,0.0
+center,500.0,770.0,rho,Truth,0.0
+center,500.0,780.0,rho,Truth,0.0
+center,500.0,790.0,rho,Truth,0.0
+center,500.0,800.0,rho,Truth,0.0
+center,500.0,810.0,rho,Truth,0.0
+center,500.0,820.0,rho,Truth,0.0
+center,500.0,830.0,rho,Truth,0.0
+center,500.0,840.0,rho,Truth,0.0
+center,500.0,850.0,rho,Truth,0.0
+center,500.0,860.0,rho,Truth,0.0
+center,500.0,870.0,rho,Truth,0.0
+center,500.0,880.0,rho,Truth,0.0
+center,500.0,890.0,rho,Truth,0.0
+center,500.0,900.0,rho,Truth,0.0
+center,500.0,910.0,rho,Truth,0.0
+center,500.0,920.0,rho,Truth,0.0
+center,500.0,930.0,rho,Truth,0.0
+center,500.0,940.0,rho,Truth,0.0
+center,500.0,950.0,rho,Truth,0.0
+center,500.0,960.0,rho,Truth,0.0
+center,500.0,970.0,rho,Truth,0.0
+center,500.0,980.0,rho,Truth,0.0
+center,500.0,990.0,rho,Truth,0.0
+center,500.0,0.0,rho,DV,0.0
+center,500.0,10.0,rho,DV,0.0
+center,500.0,20.0,rho,DV,0.0
+center,500.0,30.0,rho,DV,0.0
+center,500.0,40.0,rho,DV,0.0
+center,500.0,50.0,rho,DV,0.0
+center,500.0,60.0,rho,DV,0.0
+center,500.0,70.0,rho,DV,0.0
+center,500.0,80.0,rho,DV,-2.0583427181773004
+center,500.0,90.0,rho,DV,1.4811463727039609
+center,500.0,100.0,rho,DV,1.0867472563584215
+center,500.0,110.0,rho,DV,1.4809321080711015
+center,500.0,120.0,rho,DV,1.4129713490260656
+center,500.0,130.0,rho,DV,2.0865769192630523
+center,500.0,140.0,rho,DV,1.5616227367954707
+center,500.0,150.0,rho,DV,0.7837029919658107
+center,500.0,160.0,rho,DV,0.24266486751344019
+center,500.0,170.0,rho,DV,0.7125737122164537
+center,500.0,180.0,rho,DV,1.6229056865040548
+center,500.0,190.0,rho,DV,0.4265767729821164
+center,500.0,200.0,rho,DV,1.779511349757513
+center,500.0,210.0,rho,DV,2.876702082803831
+center,500.0,220.0,rho,DV,2.512673962734425
+center,500.0,230.0,rho,DV,2.5728130324953327
+center,500.0,240.0,rho,DV,4.002709609355179
+center,500.0,250.0,rho,DV,2.7905633470438715
+center,500.0,260.0,rho,DV,1.8222808875646024
+center,500.0,270.0,rho,DV,1.1582843465648693
+center,500.0,280.0,rho,DV,2.6959924812197187
+center,500.0,290.0,rho,DV,2.4412422310629154
+center,500.0,300.0,rho,DV,0.9319449890028864
+center,500.0,310.0,rho,DV,1.1128133518441246
+center,500.0,320.0,rho,DV,3.101382406987341
+center,500.0,330.0,rho,DV,1.2063122937299795
+center,500.0,340.0,rho,DV,-5.62966719045744
+center,500.0,350.0,rho,DV,-9.097867363798969
+center,500.0,360.0,rho,DV,-9.821883299435513
+center,500.0,370.0,rho,DV,2.6774940974578385
+center,500.0,380.0,rho,DV,10.150815729366514
+center,500.0,390.0,rho,DV,4.797701484551453
+center,500.0,400.0,rho,DV,-1.8998966132930946
+center,500.0,410.0,rho,DV,0.8807613341382421
+center,500.0,420.0,rho,DV,1.3240200348607232
+center,500.0,430.0,rho,DV,5.595269365860759
+center,500.0,440.0,rho,DV,22.887143867598525
+center,500.0,450.0,rho,DV,14.869645787191985
+center,500.0,460.0,rho,DV,-22.71872935329816
+center,500.0,470.0,rho,DV,-31.96439525253254
+center,500.0,480.0,rho,DV,-11.672773225405535
+center,500.0,490.0,rho,DV,4.927210494714927
+center,500.0,500.0,rho,DV,-0.5976536343355292
+center,500.0,510.0,rho,DV,7.040048970868838
+center,500.0,520.0,rho,DV,5.433883420482971
+center,500.0,530.0,rho,DV,-0.3389442244949805
+center,500.0,540.0,rho,DV,0.10429824577249747
+center,500.0,550.0,rho,DV,3.876974246300506
+center,500.0,560.0,rho,DV,0.8124450698073815
+center,500.0,570.0,rho,DV,-2.6668648727945765
+center,500.0,580.0,rho,DV,-7.86921835366752
+center,500.0,590.0,rho,DV,11.90582241883817
+center,500.0,600.0,rho,DV,3.521728161025294
+center,500.0,610.0,rho,DV,-6.5025662229834325
+center,500.0,620.0,rho,DV,-3.247517615400284
+center,500.0,630.0,rho,DV,0.8795107189762348
+center,500.0,640.0,rho,DV,0.3318358325286681
+center,500.0,650.0,rho,DV,0.3461484248673514
+center,500.0,660.0,rho,DV,0.47056487374266
+center,500.0,670.0,rho,DV,-0.966081484771621
+center,500.0,680.0,rho,DV,0.4689090187118836
+center,500.0,690.0,rho,DV,1.5827231095386196
+center,500.0,700.0,rho,DV,0.6702640299124596
+center,500.0,710.0,rho,DV,-0.10828450763301589
+center,500.0,720.0,rho,DV,-0.45356152059071064
+center,500.0,730.0,rho,DV,-0.26623531959785396
+center,500.0,740.0,rho,DV,-0.5258740636218135
+center,500.0,750.0,rho,DV,-0.0458699621501637
+center,500.0,760.0,rho,DV,-0.2972463836542829
+center,500.0,770.0,rho,DV,0.3793526085103167
+center,500.0,780.0,rho,DV,-1.2163739208547213
+center,500.0,790.0,rho,DV,1.8234965469578128
+center,500.0,800.0,rho,DV,1.7190394107217344
+center,500.0,810.0,rho,DV,-1.8361589978101165
+center,500.0,820.0,rho,DV,-1.1410639746618472
+center,500.0,830.0,rho,DV,-0.2016189835867408
+center,500.0,840.0,rho,DV,0.14545521576428655
+center,500.0,850.0,rho,DV,0.42094760554527966
+center,500.0,860.0,rho,DV,0.12346187136517983
+center,500.0,870.0,rho,DV,0.20922752543924616
+center,500.0,880.0,rho,DV,0.18778084901259717
+center,500.0,890.0,rho,DV,-0.10482780940810699
+center,500.0,900.0,rho,DV,-0.4298810669197337
+center,500.0,910.0,rho,DV,0.07129073777241501
+center,500.0,920.0,rho,DV,-0.03186006124337837
+center,500.0,930.0,rho,DV,-0.010487135225730526
+center,500.0,940.0,rho,DV,0.15305325445729068
+center,500.0,950.0,rho,DV,-0.09220640071680464
+center,500.0,960.0,rho,DV,0.18602200500617982
+center,500.0,970.0,rho,DV,0.01967568570671574
+center,500.0,980.0,rho,DV,0.0
+center,500.0,990.0,rho,DV,0.0
+center,500.0,0.0,rho,PCS,0.0
+center,500.0,10.0,rho,PCS,0.0
+center,500.0,20.0,rho,PCS,0.0
+center,500.0,30.0,rho,PCS,0.0
+center,500.0,40.0,rho,PCS,0.0
+center,500.0,50.0,rho,PCS,0.0
+center,500.0,60.0,rho,PCS,0.0
+center,500.0,70.0,rho,PCS,0.0
+center,500.0,80.0,rho,PCS,0.15945181832194066
+center,500.0,90.0,rho,PCS,-0.46567298909576493
+center,500.0,100.0,rho,PCS,-1.7707943733412321
+center,500.0,110.0,rho,PCS,0.8443749867612951
+center,500.0,120.0,rho,PCS,-3.3364041091160743
+center,500.0,130.0,rho,PCS,1.5736518639319002
+center,500.0,140.0,rho,PCS,1.3103382128308567
+center,500.0,150.0,rho,PCS,0.37721608178958377
+center,500.0,160.0,rho,PCS,2.632462004019544
+center,500.0,170.0,rho,PCS,-0.35519944949692217
+center,500.0,180.0,rho,PCS,-0.41618760196047333
+center,500.0,190.0,rho,PCS,1.252245969812975
+center,500.0,200.0,rho,PCS,-2.217052353977124
+center,500.0,210.0,rho,PCS,-1.601158465449089
+center,500.0,220.0,rho,PCS,-0.7993461982400731
+center,500.0,230.0,rho,PCS,1.605100062423844
+center,500.0,240.0,rho,PCS,-0.5461149902150737
+center,500.0,250.0,rho,PCS,1.5183964071368337
+center,500.0,260.0,rho,PCS,0.06470184321324268
+center,500.0,270.0,rho,PCS,0.09830729990494547
+center,500.0,280.0,rho,PCS,0.40086329776045204
+center,500.0,290.0,rho,PCS,3.31255559386409
+center,500.0,300.0,rho,PCS,0.46115240796484613
+center,500.0,310.0,rho,PCS,1.5014470804917437
+center,500.0,320.0,rho,PCS,-0.19212719248366739
+center,500.0,330.0,rho,PCS,2.141224205031449
+center,500.0,340.0,rho,PCS,0.025921436173575785
+center,500.0,350.0,rho,PCS,1.7180476654843915
+center,500.0,360.0,rho,PCS,-0.8771964106986161
+center,500.0,370.0,rho,PCS,17.72563457871547
+center,500.0,380.0,rho,PCS,19.218727257841238
+center,500.0,390.0,rho,PCS,17.480862530040213
+center,500.0,400.0,rho,PCS,10.097711518038977
+center,500.0,410.0,rho,PCS,11.832661717571227
+center,500.0,420.0,rho,PCS,18.66537720336146
+center,500.0,430.0,rho,PCS,15.899105201196107
+center,500.0,440.0,rho,PCS,19.99098708678639
+center,500.0,450.0,rho,PCS,14.089587626949651
+center,500.0,460.0,rho,PCS,5.382175866346643
+center,500.0,470.0,rho,PCS,0.0
+center,500.0,480.0,rho,PCS,0.0
+center,500.0,490.0,rho,PCS,4.450656192700762
+center,500.0,500.0,rho,PCS,7.17192654547739
+center,500.0,510.0,rho,PCS,4.599372138554372
+center,500.0,520.0,rho,PCS,5.557842569702416
+center,500.0,530.0,rho,PCS,1.0559317245517832
+center,500.0,540.0,rho,PCS,0.23734609600160184
+center,500.0,550.0,rho,PCS,0.18595665338852996
+center,500.0,560.0,rho,PCS,4.2249235142132875
+center,500.0,570.0,rho,PCS,-0.16916399093042855
+center,500.0,580.0,rho,PCS,-1.3246573583271584
+center,500.0,590.0,rho,PCS,-0.6485406817901094
+center,500.0,600.0,rho,PCS,0.0
+center,500.0,610.0,rho,PCS,-3.4138490145803644
+center,500.0,620.0,rho,PCS,-1.869377495730987
+center,500.0,630.0,rho,PCS,-3.7185667405956337
+center,500.0,640.0,rho,PCS,-2.395027171920219
+center,500.0,650.0,rho,PCS,0.7804804801173759
+center,500.0,660.0,rho,PCS,-0.0064797976103818655
+center,500.0,670.0,rho,PCS,0.4997343315278613
+center,500.0,680.0,rho,PCS,-3.7756076091802697
+center,500.0,690.0,rho,PCS,-1.8268686473431899
+center,500.0,700.0,rho,PCS,-0.35620061284635085
+center,500.0,710.0,rho,PCS,-2.4765773241110765
+center,500.0,720.0,rho,PCS,1.8480707383657773
+center,500.0,730.0,rho,PCS,1.8213496342950748
+center,500.0,740.0,rho,PCS,-1.0882805242915765
+center,500.0,750.0,rho,PCS,1.4840882063472236
+center,500.0,760.0,rho,PCS,0.14822276242102816
+center,500.0,770.0,rho,PCS,-0.6505296620262015
+center,500.0,780.0,rho,PCS,1.4514648906372258
+center,500.0,790.0,rho,PCS,-2.019196634762011
+center,500.0,800.0,rho,PCS,2.509069864344383
+center,500.0,810.0,rho,PCS,-1.5903685449063687
+center,500.0,820.0,rho,PCS,-1.2141487935059558
+center,500.0,830.0,rho,PCS,0.5330597861475326
+center,500.0,840.0,rho,PCS,0.17010860119921745
+center,500.0,850.0,rho,PCS,0.1246683796725847
+center,500.0,860.0,rho,PCS,-0.8435430701536006
+center,500.0,870.0,rho,PCS,-0.6951994667256258
+center,500.0,880.0,rho,PCS,-0.07856128160392473
+center,500.0,890.0,rho,PCS,-0.7982122102425819
+center,500.0,900.0,rho,PCS,1.0718627581923101
+center,500.0,910.0,rho,PCS,-2.3668009487773816
+center,500.0,920.0,rho,PCS,-0.9556981645632732
+center,500.0,930.0,rho,PCS,-0.4415976970472002
+center,500.0,940.0,rho,PCS,0.017404388991053565
+center,500.0,950.0,rho,PCS,1.0030925593193842
+center,500.0,960.0,rho,PCS,0.10651559996017568
+center,500.0,970.0,rho,PCS,0.8368385943324483
+center,500.0,980.0,rho,PCS,0.0
+center,500.0,990.0,rho,PCS,0.0
