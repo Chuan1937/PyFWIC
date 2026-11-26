@@ -199,7 +199,7 @@ class WavePreparation:
 
         # Buffer for the whole shot residual: upload once per adjoint run
         # instead of copying five small slices at every time step.
-        res = np.zeros((self.nt_ext, self.nr)).astype(np.float32, order='C')
+        res = np.zeros((self.nt_ext, int(self.ns) * self.nr)).astype(np.float32, order='C')
 
         self.res_vx_b = cl.Buffer(self.ctx, self.mf.READ_WRITE |
                                   self.mf.COPY_HOST_PTR, hostbuf=res)
@@ -218,9 +218,13 @@ class WavePreparation:
             self.W_b[key] = cl.Buffer(
                 self.ctx, self.mf.READ_WRITE,
                 int(self.ns) * self.nchp * checkpoint_bytes)
+        self.srcx_b = cl.Buffer(self.ctx, self.mf.READ_ONLY | self.mf.COPY_HOST_PTR,
+                                hostbuf=np.ascontiguousarray(self.srcx, dtype=np.int32))
+        self.srcz_b = cl.Buffer(self.ctx, self.mf.READ_ONLY | self.mf.COPY_HOST_PTR,
+                                hostbuf=np.ascontiguousarray(self.srcz, dtype=np.int32))
 
 
-        v = np.zeros((self.tnz, self.tnx)).astype(np.float32, order='C')
+        v = np.zeros(int(self.ns) * self.tnz * self.tnx).astype(np.float32, order='C')
 
         # Buffer for forward modelling
         self.vx_b = cl.Buffer(self.ctx, self.mf.READ_WRITE |
@@ -235,7 +239,7 @@ class WavePreparation:
                                  self.mf.COPY_HOST_PTR, hostbuf=v)
 
         # Buffer for seismograms
-        seismogram_id = np.zeros((self.nt_ext, self.nr)).astype(np.float32, order='C')
+        seismogram_id = np.zeros((self.nt_ext, int(self.ns) * self.nr)).astype(np.float32, order='C')
 
         self.seismogramid_vx_b = cl.Buffer(
             self.ctx, self.mf.READ_WRITE | self.mf.COPY_HOST_PTR, hostbuf=seismogram_id)
@@ -275,8 +279,8 @@ class WavePreparation:
 
         self.g_rho_precond_b = cl.Buffer(self.ctx, self.mf.READ_WRITE | self.mf.COPY_HOST_PTR, hostbuf=g_mu_precond)
 
-        # Buffer for backward modelling
-        v = np.zeros((self.tnz, self.tnx)).astype(np.float32, order='C')
+        # Buffer for backward modelling (one slice per shot)
+        v = np.zeros(int(self.ns) * self.tnz * self.tnx).astype(np.float32, order='C')
         self.avx_b = cl.Buffer(self.ctx, self.mf.READ_WRITE |
                               self.mf.COPY_HOST_PTR, hostbuf=v)
         self.avz_b = cl.Buffer(self.ctx, self.mf.READ_WRITE |
@@ -343,39 +347,17 @@ class WavePreparation:
         return glam, gmu, grho
 
 
-    def make_seismogram(self, s, t):
-        """
-        This function read the seismogram buffer and put its value in the
-        right place in main seismogram matrix based on source and the
-        time step.
-
-        Parameters
-        ----------
-            s : int
-                Number of current acive source.
-
-            t : float
-                Current time step.
-        """
+    def make_seismogram(self, s=None, t=None):
+        """Copy all shots' seismograms once and restore (time, receiver, shot) order."""
         def get_from_opencl(buffer):
-            seismogram_id = np.zeros((self.nt_ext, self.nr)).astype(np.float32, order='C')
-            cl.enqueue_copy(self.queue, seismogram_id, buffer)
-            return np.copy(seismogram_id)
+            raw = np.zeros((self.nt_ext, int(self.ns), self.nr),
+                           dtype=np.float32, order='C')
+            cl.enqueue_copy(self.queue, raw, buffer)
+            return np.transpose(raw, (0, 2, 1))
 
-        self.seismogram['vx'][:, :, s] = \
-            get_from_opencl(self.seismogramid_vx_b)
-
-        self.seismogram['vz'][:, :, s] = \
-            get_from_opencl(self.seismogramid_vz_b)
-
-        self.seismogram['taux'][:, :, s] = \
-            get_from_opencl(self.seismogramid_taux_b)
-
-        self.seismogram['tauz'][:, :, s] = \
-            get_from_opencl(self.seismogramid_tauz_b)
-
-        self.seismogram['tauxz'][:, :, s] = \
-            get_from_opencl(self.seismogramid_tauxz_b)
+        for key in ("vx", "vz", "taux", "tauz", "tauxz"):
+            self.seismogram[key][:, :, :] = get_from_opencl(
+                getattr(self, f"seismogramid_{key}_b"))
 
     def make_residual(self, res, s, t):
         """
@@ -491,6 +473,8 @@ class WavePreparation:
             #define right3 (i)*Nx + (j+wide_offset(3))
             #define right4 (i)*Nx + (j+wide_offset(4))
 
+            #define ENERGY_BALANCING %d
+
             #define src_depth %d
             #define rec_top_left_const  %d
             #define rec_top_left_var %d
@@ -504,7 +488,7 @@ class WavePreparation:
                 //float Diff_Backward(float , float , float , float , int );
         """ % (self.tnz, self.tnx, self.ns, self.nr, self.dt, self.dh, self.dh, self.npml,
                self.n_surface_rec, self.n_well_rec, self.sdo,
-               c1, c2, c3, c4, self.src_cts,
+               c1, c2, c3, c4, int(bool(self.energy_balancing)), self.src_cts,
                self.rec_top_left_const, self.rec_top_left_var,
                self.rec_top_right_const, self.rec_top_right_var,
                self.rec_surface_const, self.rec_surface_var)
@@ -644,7 +628,8 @@ class WavePropagator(WavePreparation):
 
     def __enqueue(self, kernel):
         """Launch a kernel whose arguments were bound once with set_args."""
-        cl.enqueue_nd_range_kernel(self.queue, kernel, (self.tnz, self.tnx), None)
+        cl.enqueue_nd_range_kernel(self.queue, kernel,
+                                   (self.tnx, self.tnz, int(self.ns)), None)
 
     def __bind_forward(self):
         coeff = np.int32(+1)
@@ -675,20 +660,20 @@ class WavePropagator(WavePreparation):
             self.lam_b, self.mu_b, self.rho_b,
             self.Gmu_b, self.g_mu_precond_b, self.Glam_b, self.g_lam_precond_b,
             self.Grho_b, self.g_rho_precond_b)
-        self.adjoint_size = ((self.n_surface_rec,) if self.acq_type == 1
-                             else (self.tnz, self.tnx))
+        self.adjoint_size = ((self.n_surface_rec, int(self.ns)) if self.acq_type == 1
+                             else (self.tnz, self.tnx, int(self.ns)))
         self.prg.Adj_injSrc.set_args(
             self.avx_b, self.avz_b, self.ataux_b, self.atauz_b, self.atauxz_b,
             self.res_vx_b, self.res_vz_b, self.res_taux_b, self.res_tauz_b,
             self.res_tauxz_b, self.dxr, np.int32(0))
 
-    def __bind_source(self, s):
+    def __bind_source(self):
         self.prg.injSrc.set_args(
             self.vx_b, self.vz_b, self.taux_b, self.tauz_b, self.tauxz_b,
             self.seismogramid_vx_b, self.seismogramid_vz_b,
             self.seismogramid_taux_b, self.seismogramid_tauz_b,
             self.seismogramid_tauxz_b, self.dxr,
-            self.srcx[s], self.srcz[s],
+            self.srcx_b, self.srcz_b,
             np.float32(0), np.float32(0), np.float32(0), np.float32(0),
             np.int32(0))
 
@@ -707,17 +692,16 @@ class WavePropagator(WavePreparation):
         if self.forward_show:
             self.initial_wavefield_plot(model)
 
-        for s in range(self.ns):
-            self.prg.MakeAllZero(self.queue, (self.tnz, self.tnx), None,
-                                 self.vx_b, self.vz_b,
-                                 self.taux_b, self.tauz_b, self.tauxz_b
-                                 )
+        self.prg.MakeAllZero(self.queue, (self.tnz, self.tnx, int(self.ns)), None,
+                             self.vx_b, self.vz_b,
+                             self.taux_b, self.tauz_b, self.tauxz_b
+                             )
 
-            self.__kernel(s, coeff)
+        self.__kernel(coeff)
 
         return self.seismogram
     
-    def __injSrc(self, t, s):
+    def __injSrc(self, t):
         src_kv_x, src_kv_z, src_kt_x, src_kt_z, src_kt_xz = np.float32(self.src(t))
         kernel = self.prg.injSrc
         kernel.set_arg(13, np.float32(src_kv_x))
@@ -726,85 +710,86 @@ class WavePropagator(WavePreparation):
         kernel.set_arg(16, np.float32(src_kt_z))
         kernel.set_arg(17, np.int32(t))
         # The surface kernel uses one work item per receiver plus one for the source.
-        size = ((self.n_surface_rec + 1,) if self.acq_type == 1
-                else (self.tnz, self.tnx))
+        size = ((self.n_surface_rec + 1, int(self.ns)) if self.acq_type == 1
+                else (self.tnz, self.tnx, int(self.ns)))
         cl.enqueue_nd_range_kernel(self.queue, kernel, size, None)
         
     def __update_fwd(self, coeff):
         self.__enqueue(self.prg.update_vel)
         self.__enqueue(self.prg.update_tau)
             
-    def __kernel(self, s, coeff=+1):
+    def __kernel(self, coeff=+1):
         showpurose = np.zeros((self.tnz, self.tnx), dtype=np.float32)
         chpc = 0
         t_src = 0
-        self.__bind_source(s)
+        self.__bind_source()
+        block = int(self.ns) * self.checkpoint_bytes
         for t in np.arange(self.nt):
             if t % self.dt_scale == 0:
-                self.__injSrc(np.int32(t_src), s)
+                self.__injSrc(np.int32(t_src))
                 t_src += 1
 
             self.__update_fwd(coeff=coeff)
 
             if t in self.chp:
-                offset = (s * self.nchp + chpc) * self.checkpoint_bytes
+                offset = chpc * block
                 for key, buffer in (("vx", self.vx_b), ("vz", self.vz_b),
                                     ("taux", self.taux_b), ("tauz", self.tauz_b),
                                     ("tauxz", self.tauxz_b)):
                     cl.enqueue_copy(self.queue, self.W_b[key], buffer,
-                                    dst_offset=offset, byte_count=self.checkpoint_bytes)
+                                    dst_offset=offset, byte_count=block)
                 chpc += 1
 
 
             if self.forward_show and np.remainder(t, 20) == 0:
-                cl.enqueue_copy(self.queue, showpurose, self.vx_b)
+                cl.enqueue_copy(self.queue, showpurose, self.vx_b,
+                                byte_count=showpurose.nbytes)
                 self.plot_propagation(showpurose, t)
-        self.make_seismogram(s, t)
+        self.make_seismogram()
         
     def __adjoint_modelling_per_source(self, res):
         self.prg.MakeGradZero(self.queue, (self.tnz, self.tnx), None,
                               self.Gmu_b, self.Glam_b, self.Grho_b,
                               self.g_mu_precond_b, self.g_lam_precond_b, self.g_rho_precond_b)
 
-        for s in range(self.ns):
-            self.prg.MakeAllZero(self.queue, (self.tnz, self.tnx), None,
-                                 self.vx_b, self.vz_b,
-                                 self.taux_b, self.tauz_b, self.tauxz_b)
+        self.prg.MakeAllZero(self.queue, (self.tnz, self.tnx, int(self.ns)), None,
+                             self.vx_b, self.vz_b,
+                             self.taux_b, self.tauz_b, self.tauxz_b)
 
-            self.prg.MakeAllZero(self.queue, (self.tnz, self.tnx), None,
-                                 self.avx_b, self.avz_b,
-                                 self.ataux_b, self.atauz_b, self.atauxz_b)
+        self.prg.MakeAllZero(self.queue, (self.tnz, self.tnx, int(self.ns)), None,
+                             self.avx_b, self.avz_b,
+                             self.ataux_b, self.atauz_b, self.atauxz_b)
 
-            self.__kernel_gradient(res, s)
+        self.__kernel_gradient(res)
 
-    def __upload_residual(self, res, s):
-        """Upload one shot's full residual once; the adjoint kernel indexes time."""
-        columns = slice(s * self.nr, (s + 1) * self.nr)
+    def __upload_residual(self, res):
+        """Upload the full multi-shot residual once; kernels index by time and shot."""
         for key, buffer in (("vx", self.res_vx_b), ("vz", self.res_vz_b),
                             ("taux", self.res_taux_b), ("tauz", self.res_tauz_b),
                             ("tauxz", self.res_tauxz_b)):
-            data = np.ascontiguousarray(res[key][:, columns], dtype=np.float32)
+            data = np.ascontiguousarray(res[key], dtype=np.float32)
             cl.enqueue_copy(self.queue, buffer, data)
 
-    def __kernel_gradient(self, res, s, coeff=-1):
+    def __kernel_gradient(self, res, coeff=-1):
         chpc = self.nchp - 1
 
         coeff = np.int32(coeff)
-        self.__upload_residual(res, s)
+        self.__upload_residual(res)
 
         vx_show = np.zeros((self.tnz, self.tnx), dtype=np.float32)
         adj_vx_show = np.zeros((self.tnz, self.tnx), dtype=np.float32)
+        block = int(self.ns) * self.checkpoint_bytes
 
         t_src = np.int32(self.nt_ext)
         # time loop
         for t in range(self.nt - 1, 0, -1):  # range(self.nt-1,self.nt-2,-1):#
             if t == self.chp[chpc]:
-                offset = (s * self.nchp + chpc) * self.checkpoint_bytes
+                offset = chpc * block
                 for key, buffer in (("vx", self.vx_b), ("vz", self.vz_b),
                                     ("taux", self.taux_b), ("tauz", self.tauz_b),
                                     ("tauxz", self.tauxz_b)):
                     cl.enqueue_copy(self.queue, buffer, self.W_b[key],
-                                    src_offset=offset, byte_count=self.checkpoint_bytes)
+                                    src_offset=offset, byte_count=block)
                 chpc -= 1
 
             else:
@@ -821,13 +806,18 @@ class WavePropagator(WavePreparation):
 
             self.__enqueue(self.prg.Adj_update_tau)
             self.__enqueue(self.prg.Adj_update_v)
-            self.__enqueue(self.prg.Grad)
+            # Grad keeps one launch for all shots: it accumulates into shared
+            # gradient buffers in shot order, matching the original summation.
+            cl.enqueue_nd_range_kernel(self.queue, self.prg.Grad,
+                                       (self.tnx, self.tnz), None)
 
             # Plotting wave propagation
             if self.backward_show and (np.remainder(t, 20) == 0 or t == self.nt_ext - 2):
-                cl.enqueue_copy(self.queue, vx_show, self.taux_b)
+                cl.enqueue_copy(self.queue, vx_show, self.taux_b,
+                                byte_count=vx_show.nbytes)
 
-                cl.enqueue_copy(self.queue, adj_vx_show, self.ataux_b)
+                cl.enqueue_copy(self.queue, adj_vx_show, self.ataux_b,
+                                byte_count=adj_vx_show.nbytes)
 
                 self.plot_propagation(vx_show, t_src, adj_vx_show)
 
