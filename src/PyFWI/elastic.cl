@@ -111,6 +111,8 @@ __kernel void forward_hessian_src_preparing(__global float *w_vx,__global float 
   int i = get_global_id(0) ;
   int j = get_global_id(1) ;
 
+  if(i<sdo || j<sdo || i>=Nz-sdo || j>=Nx-sdo){return;}
+
   float DxmTx = (c1*(w_taux[center]-w_taux[left]) + c2*(w_taux[right]-w_taux[left2])+
                c3*(w_taux[right2]-w_taux[left3]) + c4*(w_taux[right3]-w_taux[left4]))/dx ;
 
@@ -163,7 +165,7 @@ __kernel void update_velx(int coeff,
   int i = get_global_id(0)+sdo ;
   int j = get_global_id(1)+sdo ;
 
-  if(i>Nz-sdo || j>Nx-sdo){return;}
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
 
   float DxmTx = (c1*(taux[center]-taux[left]) + c2*(taux[right]-taux[left2])+
                c3*(taux[right2]-taux[left3]) + c4*(taux[right3]-taux[left4]))/dx ;
@@ -201,7 +203,7 @@ __kernel void update_velz(int coeff,
   int i = get_global_id(0)+sdo ;
   int j = get_global_id(1)+sdo ;
 
-  if(i>Nz-sdo || j>Nx-sdo){return;}
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
 
 
 
@@ -243,7 +245,7 @@ __kernel void update_tauz(int coeff,
   int i = get_global_id(0)+sdo ;
   int j = get_global_id(1)+sdo ;
 
-  if(i>Nz-sdo || j>Nx-sdo){return;}
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
 
   float DxpVx= (c1*(vx[right]-vx[center]) + c2*(vx[right2]-vx[left])+
                c3*(vx[right3]-vx[left2]) + c4*(vx[right4]-vx[left3]))/dx;
@@ -285,7 +287,7 @@ __kernel void update_tauxz(int coeff,
   int i = get_global_id(0)+sdo ;
   int j = get_global_id(1)+sdo ;
 
-  if(i>Nz-sdo || j>Nx-sdo){return;}
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
 
 
   float DxmVz= (c1*(vz[center]-vz[left]) + c2*(vz[right]-vz[left2])+
@@ -379,7 +381,7 @@ __kernel void Adj_update_tau(__global float *Avx, __global float *Avz,
   int i = get_global_id(0)+sdo ;
   int j = get_global_id(1)+sdo ;
 
-  if(i>Nz-sdo || j>Nx-sdo){return;}
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
 
 
   float DxpAVx= (c1*(Avx[right]*rho_b[right] -Avx[center]*rho_b[center]) +
@@ -426,7 +428,7 @@ __kernel void Adj_update_v(__global float *Avx, __global float *Avz,
   int i = get_global_id(0)+sdo ;
   int j = get_global_id(1)+sdo ;
 
-  if(i>Nz-sdo || j>Nx-sdo){return;}
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
 
 
 float DxmAtaux =  (c1*((lam[center]+2*mu[center])*Ataux[center] - (lam[left]+2*mu[left])*Ataux[left]) +
@@ -480,7 +482,7 @@ __kernel void Grad(__global float *vx, __global float *vz,
   int i = get_global_id(0)+ npml + sdo ;
   int j = get_global_id(1)+ npml + sdo ;
 
-  if(i>Nz-sdo - npml || j>Nx-sdo - npml){return;}
+  if(i>=Nz-sdo - npml || j>=Nx-sdo - npml){return;}
 
   float DzpVx= (c1*(vz[below]-vz[center]) + c2*(vz[below2]-vz[above])+
                c3*(vz[below3]-vz[above2]) + c4*(vz[below4]-vz[above3]))/dz;

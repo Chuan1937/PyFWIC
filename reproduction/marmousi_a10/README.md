@@ -1,70 +1,68 @@
-# 在 NVIDIA A10 上复现 PyFWI Marmousi 时移反演
+# NVIDIA A10 上的 PyFWI Marmousi 时移反演
 
-从仓库根目录执行。请用当前仓库的 PyFWI/OpenCL 实现，在服务器上依次完成数据核验、两期正演、同时式 DV 时移反演、同时式 PCS 时移反演和结果对比。先用 **一张 A10** 跑通。两张卡可用于独立作业，分别记录每个进程实际选中的设备。
+服务器从仓库根目录运行现成脚本。脚本读取随分支提交的原始数据，完成两期正演、基线 FWI、同时式 DV 和 PCS 反演，并输出图、模型和误差表。一张 A10 即可启动一套作业。两张卡可分别调度独立的作业。
 
-## 数据与论文
+## 运行
 
-| 文件 | 参数键 | 原始数组尺寸 |
+在服务器准备 Python 3.10–3.12 的环境并安装依赖。已具备兼容依赖的环境可直接运行。运行节点须有 NVIDIA 驱动和可访问的 NVIDIA OpenCL ICD。
+
+```bash
+python3 -m venv "$PWD/.venv-marmousi"
+export PYFWI_PYTHON="$PWD/.venv-marmousi/bin/python"
+"$PYFWI_PYTHON" -m pip install -r reproduction/marmousi_a10/requirements.txt
+```
+
+在已分配 GPU 的计算节点先跑单炮短测，再跑 7 炮全频段。将结果放在服务器的作业盘。默认选择 OpenCL 可见的第一张 A10，也可指定 `--device 平台号:设备号`。
+
+```bash
+RUN_ROOT="${SCRATCH:-$PWD/runs}"
+reproduction/marmousi_a10/run_a10.sh --profile smoke --out "$RUN_ROOT/marmousi-smoke"
+reproduction/marmousi_a10/run_a10.sh --profile full --out "$RUN_ROOT/marmousi-full"
+```
+
+Slurm 环境可以从仓库根目录直接提交。分区名、A10 资源名与时限按集群配置覆盖。提交前设好 `PYFWI_PYTHON`，以及可写的输出目录。
+
+```bash
+sbatch reproduction/marmousi_a10/submit_a10.sbatch \
+  --profile full --out "$RUN_ROOT/marmousi-full"
+```
+
+- `--forward-only` 只做模型检查和正演。以后可以用同一输出目录加 `--resume` 继续反演。
+- `--resume` 复用已有炮集和已经完整保存的频段，要求提交号和计算配置一致。运行中退出的频段会重新计算。每个输出目录同时只提交一个作业。
+- `--truth author-dv` 使用原始弹性文件单独运行 DV 分支，用不同的输出目录。默认 `--truth pcs` 运行 DV 和 PCS 的同炮集对照。
+- `--allow-non-a10` 用于其他 OpenCL 设备上的小规模测试。正常服务器作业会检查实际选中的设备名。
+- 如需先检查数据，可执行 `"$PYFWI_PYTHON" reproduction/marmousi_a10/check_data.py`。主程序会自动执行该检查，无需解压。
+
+## 耗时估算
+
+单张 A10 的预算先按短测约 0.5–2 分钟、完整 DV + PCS 约 **1–6 小时**，首次可申请 8 小时。排队与首次环境安装另计。这个范围是根据求解次数和本地 CPU OpenCL 短测推算，A10 的实际速度以后续短测为准。
+
+完整运行有 7 炮、6 个频段、两个单期基线阶段和两个双期时移阶段。若每个阶段每频段约 11–20 次目标函数评估，计算量相当于约 2,800–5,000 次单炮单期的正演＋伴随。服务器短测后，取 `dv_baseline/band_01.csv` 最后一行的 `seconds / evaluation`，乘以 2,800–5,000 即可估计正式计算的秒数。实际线搜索次数会改变总耗时。
+
+## 模型来源与观测配置
+
+| 压缩包内文件 | 两期参数 | 原始数组尺寸 `[z, x]` |
 | --- | --- | --- |
 | `marmousi2_pcs_bl.mat`、`marmousi2_pcs_ml.mat` | `phi`、`cc`、`sw` | 96 × 227 |
 | `marmousi_bl.mat`、`marmousi_ml.mat` | `vp`、`vs`、`rho` | 116 × 227 |
 
-`data/marmousi_pcs.zip` 是作者提供的原始压缩包。BL 为基线期，ML 为监测期，数组按 `[z, x]` 读入。包内是合成模型真值，观测炮集由两期模型分别正演生成。原始速度数值量级为 m/s，密度为 g/cm³，PCS 参数为小数比例。全程约定时移量为 **ML − BL**。
+`data/marmousi_pcs.zip` 保留作者提供的文件，BL 为基线期，ML 为监测期，时移差统一为 **ML − BL**。两期 PCS 模型只有 57 个 `sw` 点改变。49 个下降 0.20，8 个上升 0.20。弹性变化掩膜下移 20 个深度采样点，读取弹性文件时用 `[20:, :]` 与 PCS 对齐，密度由 g/cm³ 转为 kg/m³。变换后与作者弹性真值的逐期相对 L2 差异写入 `run.json`。按论文方法和表 1 参数转换的基线模型与作者弹性文件在 Vp、Vs、密度上的差异分别约为 21%、31%、13%。因此默认用 **同一套 PCS→DV 真值**合成 DV 和 PCS 共用的观测，从而保证对照使用相同的地震数据。使用原始弹性文件的 DV 结果单独保存。
 
-- [PyFWI 软件论文（SoftwareX，2023）](https://doi.org/10.1016/j.softx.2023.101384) 第 3 节及 Fig. 3–5 给出真值、炮集和 DV／PCS 两种参数化下的弹性变化。
-- [含水饱和度监测论文（Geophysical Prospecting，2023）](https://doi.org/10.1111/1365-2478.13363) 的表 1、Fig. 9–14 给出岩石物理常数、Marmousi 模型、基线 FWI 结果、时移反演和穿过两个储层的剖面。
+以软件论文第 3 节和组会正演设置为依据，全算例采用 7 个地表附近爆炸源、30 Hz Ricker 子波、5 m 网格、约 0.55 s 记录时长、1 ms 外部采样、四阶空间差分和四周 20 点 PML。压力类记录使用 PyFWI 的 `(τxx + τzz)/2`。实际炮检点、时步、采样数和设备信息保存在输出中。全算例的 Butterworth 低通截止频率为 **10、20、25、35、40、55 Hz**，每段最多 10 次 L-BFGS-B 迭代。短测采用网格中央的单炮、10 Hz、最多 2 次迭代。
 
-## 1. 检查运行环境与数据
+## 反演实现与验收
 
-在分配到 A10 的节点执行以下命令。Slurm 分区名、GPU 资源参数和环境模块按服务器实际配置填写。
+- 正演与伴随调用仓库的 PyFWI OpenCL 传播器。入口脚本用 SciPy L-BFGS-B 实现基线及同时式目标函数，每个频段用上一段结果初始化。数据项按该频段观测总能量归一化。两期模型差惩罚基于无量纲的参数差，`--coupling` 可调。实际设置、上下界和每次目标函数评估都可追溯。
+- DV 在基线和时移阶段更新三种弹性参数。PCS 在基线阶段更新三种岩石物理参数，时移阶段固定共同的 `phi`、`cc`，只更新两期 `sw`，保留 [0, 1] 上下界。PCS 模型用方法论文 Eq. (9)–(15) 的 VRH、Pride 和 Gassmann 公式。纵波速度采用 Eq. (15) 的 `4/3` 系数。运行时先检查 PCS 转换的链式梯度，再跑 OpenCL 正演与伴随。
+- 上游四阶 OpenCL 核心仍写有零权重的宽模板项。本分支让这些项读取网格内的地址，并修正模板核的上界。此修正在本地 POCL 上解决了正演出现 NaN 的问题。此算例的几何、参数约束及归一化均已记录，论文报告的 11.7% 改进用于结果讨论。
+- 短测验收看 BL、ML 及差值记录有限且非零，并检查 DV、PCS 的基线和时移阶段都有实际模型更新。正式计算用两个储层的时移异常位置、符号和幅值验收，同时报告储层外伪影。
 
-```bash
-nvidia-smi -L
-clinfo -l
-python --version
-python -m pip show numpy scipy pyopencl
-export MPLBACKEND=Agg
-export PYTHONPATH="$PWD/src${PYTHONPATH:+:$PYTHONPATH}"
-python - <<'PY'
-from pathlib import Path
-import pyopencl as cl
-import PyFWI
+| 输出 | 内容 |
+| --- | --- |
+| `run.json`、`models.npz`、`observations.npz` | 数据来源、参数、版本、模型、实测设备、炮检点和波形 |
+| `dv_baseline/`、`dv_sim/`、`pcs_baseline/`、`pcs_sim/` | 每频段检查点、评估历史、目标函数和最终模型 |
+| `true_elastic*.png`、`shot_gathers.png` | 真值、两期差值、中间炮两期炮集和放大 5 倍的差值炮集 |
+| `elastic_change_comparison.png`、`saturation_change.png` | 真值和估计的弹性差值、PCS 含水饱和度差值及误差 |
+| `metrics.csv`、`reservoir_profiles.*`、`time_lapse_changes.npz` | 相对 L2、储层外 RMS、穿过两处储层的剖面及差值数组 |
 
-print("PyFWI", Path(PyFWI.__file__).resolve())
-for p_i, platform in enumerate(cl.get_platforms()):
-    for d_i, device in enumerate(platform.get_devices()):
-        print(f"{p_i}:{d_i}", platform.name, device.name, device.global_mem_size)
-PY
-```
-
-根据输出设置 `PYOPENCL_CTX` 为目标 A10 的 `平台索引:设备索引`。实际构建 `WavePropagator` 后记录 `ctx.devices` 和队列设备名。显卡驱动可见、OpenCL 可枚举，以及三个 OpenCL 内核成功编译是不同的检查。当前 `wave_propagation.py` 传入 `inpa['device']` 时会改写 `PYOPENCL_CTX`，用环境变量选卡时可以省略该键。保留环境和依赖版本、GPU 设备、作业号及运行时间。仓库 `requirements.txt` 含旧版本约束，先确认 Python 与依赖组合并做导入测试。若遇到 SciPy 或 NumPy 导入兼容性问题，记录环境并做最小兼容修正。
-
-```bash
-python reproduction/marmousi_a10/check_data.py
-unzip -n reproduction/marmousi_a10/data/marmousi_pcs.zip -d /path/to/workdir/input
-```
-
-以核验结果作为输入基准。PCS 的 `phi` 和 `cc` 两期一致，`sw` 恰有 57 点变化（49 点约为 −0.20，8 点约为 +0.20）。三种原始弹性参数的变化掩膜与 PCS 的变化掩膜相差 20 个深度采样点，因此可从 `dv[20:, :]` 开始做对齐核验。**掩膜对齐只证明异常位置一致。** 还需用两期模型及 PCS→DV 转换逐点核对背景、异常幅值和单位。原始包与前期汇报的 94 × 226 算例有尺寸差异。若为比较论文图另做裁剪，应记录具体切片、坐标原点及每块异常是否保留，并保留原始网格的结果。
-
-## 2. 正演与小规模验证
-
-- 参考软件论文设 7 个各向同性爆炸震源、30 Hz Ricker 子波、PML 和地表观测，使用压力类记录并记录 PyFWI 实际输出分量及符号约定。复现初始配置可用 `dh=5 m`、外部采样间隔 `dt=1 ms`、记录时长约 `0.55 s`、`npml=20`。后四项是组会算例的起始配置。用实际数组尺寸生成炮检坐标，记录采样点数、内部步长和边界设置。
-- 先跑一个炮的两期正演，检查数据尺寸、有限值、非零能量及 ML−BL 的差值。用相同绘图归一化对照基线和监测炮集，并单独标注差值放大倍数。通过后生成完整的 7 炮数据，保存炮检坐标、波形数组、参数和中间炮三联图。
-- 从同一个平滑初始模型开始，先用 10 Hz 低通及 2 次迭代验证 DV 和 PCS 的正演、伴随和目标函数路径。记录初始及最终目标函数、梯度范数和实际参数更新；若迭代失败或未更新，保留日志并修复后再提交正式作业。
-
-## 3. 完整 DV 与 PCS 反演
-
-**DV 对照组。** 用 `TimeLapse` 的同时式方法 `tl_method='sim'`，保存基线 FWI 的输出及后续时移结果。基线和监测期采用同一平滑初值或同一基线 FWI 结果作为时移初值，记录平滑参数和实际优化的参数块。完整多尺度按 **10、20、25、35、40、55 Hz** 低通截止频率运行，每段最多 10 次迭代，记录优化器实际迭代数和停止原因。若复现全部三个 DV 分量，核对仓库按 1 起始且上界排除的块索引，验证全部三个分量实际更新，科学对比时使用同一观测炮集。
-
-**PCS 组。** 使用基线期 `phi`、`cc`、`sw` 的平滑初始模型，先做基线 PCS FWI。时移阶段固定两期共用的 `phi`、`cc`，只更新 `sw`，检查迭代值位于 [0,1]。复用 `fwi_tools.py` 的 PCS 字典／向量转换，以及 `rock_physics.py` 和 `grad_switcher.py` 的 Gassmann 转换与链式梯度，经 `TimeLapse(..., param_functions=...)` 接入。仓库里的块顺序为 `phi, cc, sw`，仅更新第三块时核对 `n_params=1, k_0=3, k_end=4` 及实际更新。当前同时式实现的 L-BFGS-B 传入 `bounds=None`，如需要物理上下界，显式设置相应参数块的边界并记录。基线 FWI 和时移阶段的参数范围分别检查，因为 `TimeLapse.__call__` 的同时式入口将一组参数块范围传给两个阶段；需要区分时可单独调用基线 FWI，再用基线结果启动同时式反演。
-
-- 按方法论文表 1 设置岩石物理常数，统一密度、模量、速度的数值单位与换算。核对标准各向同性速度关系 `Vp²=(Ksat+4μ/3)/ρ` 与当前 `pcs2dv_gassmann` 中 `0.75 * mu_d` 系数的差异，并检查转换和梯度实现是否一致。先做小模型中心差分方向导数检查，保留各步长的数值结果。必要时把有依据的修正单独提交，并给出修正前后对照。
-- 逐期将 PCS 真值转换到弹性域，报告与对齐后作者弹性数组的差异。DV 和 PCS 的正式对比应使用同一套观测、网格和几何。若两套真值在弹性域并不一致，先查岩石物理参数、单位和裁剪。若仍有差异，可用同一套 PCS→DV 生成的真值和炮集作为两种参数化的共同对比基准，并标明与作者弹性包的偏差。作者弹性模型生成的 DV 结果可单独留作对照。
-- PCS 弹性差值用 `R(PCS_monitor) - R(PCS_baseline)` 计算，其中 `R` 是岩石物理转换。保存实际估计的 `ΔSw` 和两期模型。报告同时式模型差惩罚、正则化和参数缩放的实际设置。当前 `tl_fwi.py` 中的 `gamma` 是硬编码值，论文、组会与代码配置有差异时注明采用哪一套。
-
-## 4. 交付与验收
-
-- 提交可命令行运行的复现脚本、配置、服务器作业示例和中文说明，标注运行命令、代码提交号及依赖版本。数据和计算输出路径可配置。
-- 保存两期真值、初始模型、两期反演结果、各频段检查点、目标函数或数据残差历史和对应运行日志。大体积输出放在服务器作业目录，记录其路径。
-- 交付 Fig. 3 样式的真值图、Fig. 4 样式的正演炮集图，以及 Fig. 5 样式的 DV／PCS 弹性变化对比。另给出 PCS 的 `ΔSw` 真值／估计／误差图及穿过两处储层的剖面。同一参数的对比图统一坐标、单位和色标。
-- 对 `ΔVp`、`ΔVs`、`Δρ` 和 `ΔSw` 报告全域及两个储层内的相对 L2 误差，给出储层外异常幅值或能量。检查两处异常的位置、符号与幅值。论文的 11.7% 改进是其算例报告值，报告本次实测结果和差异。
+参考 [PyFWI 软件论文 Fig. 3–5](https://doi.org/10.1016/j.softx.2023.101384) 和 [含水饱和度监测论文表 1、Eq. (9)–(15)、Fig. 9–14](https://doi.org/10.1111/1365-2478.13363)。

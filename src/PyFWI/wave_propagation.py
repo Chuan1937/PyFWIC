@@ -191,6 +191,13 @@ class WavePreparation:
             self.prg.injSrc = self.prg_surf.injSrc
             self.prg.Adj_injSrc = self.prg_surf.Adj_injSrc
 
+        for name in ("MakeAllZero", "MakeGradZero", "update_velx", "update_velz",
+                     "update_tauz", "update_tauxz", "Adj_update_tau", "Adj_update_v", "Grad"):
+            setattr(self.prg, name, cl.Kernel(self.prg, name))
+        if self.acq_type == 2:
+            self.prg.injSrc = cl.Kernel(self.prg, "injSrc")
+            self.prg.Adj_injSrc = cl.Kernel(self.prg, "Adj_injSrc")
+
         self.mf = cl.mem_flags
 
         # Buffer for residuals
@@ -453,23 +460,31 @@ class WavePreparation:
 
             #define below    (i+1)*Nx + (j)
             #define below2   (i+2)*Nx + (j)
-            #define below3   (i+3)*Nx + (j)
-            #define below4   (i+4)*Nx + (j)
 
             #define above     (i-1)*Nx + (j)
             #define above2    (i-2)*Nx + (j)
-            #define above3    (i-3)*Nx + (j)
-            #define above4    (i-4)*Nx + (j)
 
             #define right     (i)*Nx + (j+1)
             #define right2    (i)*Nx + (j+2)
-            #define right3    (i)*Nx + (j+3)
-            #define right4    (i)*Nx + (j+4)
 
             #define left    (i)*Nx + (j-1)
             #define left2   (i)*Nx + (j-2)
-            #define left3   (i)*Nx + (j-3)
-            #define left4   (i)*Nx + (j-4)
+
+            // O4 kernels still contain c3/c4 terms. Use an in-bounds
+            // address for those zero-weight loads at the grid boundary.
+            #if sdo == 4
+            #define wide_offset(n) n
+            #else
+            #define wide_offset(n) 0
+            #endif
+            #define below3 (i+wide_offset(3))*Nx + (j)
+            #define below4 (i+wide_offset(4))*Nx + (j)
+            #define above3 (i-wide_offset(3))*Nx + (j)
+            #define above4 (i-wide_offset(4))*Nx + (j)
+            #define left3 (i)*Nx + (j-wide_offset(3))
+            #define left4 (i)*Nx + (j-wide_offset(4))
+            #define right3 (i)*Nx + (j+wide_offset(3))
+            #define right4 (i)*Nx + (j+wide_offset(4))
 
             #define src_depth %d
             #define rec_top_left_const  %d
