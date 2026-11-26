@@ -27,7 +27,7 @@ __kernel void injSrc(__global float *vx,__global float *vz,
    if(i%dxr==0 && j == rec_top_right_const){
     int ir =  i/dxr;
       seismogram_vxi[so + ir]  =  vx[o + (i+rec_top_right_var)*Nx + j];
-      seismogram_vzi[so + ir]  =  vx[(i+rec_top_right_var)*Nx + j];
+      seismogram_vzi[so + ir]  =  vx[o + (i+rec_top_right_var)*Nx + j];
       seismogram_tauxi[so + ir]  =  taux[o + (i+rec_top_right_var)*Nx + j];
       seismogram_tauzi[so + ir]  =  tauz[o + (i+rec_top_right_var)*Nx + j];
       seismogram_tauxzi[so + ir]  =  tauxz[o + (i+rec_top_right_var)*Nx + j];
