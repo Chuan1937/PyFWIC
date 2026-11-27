@@ -282,8 +282,6 @@ def acquisition_plan(ns, nr, src_loc, rec_loc, acq_type, n_well_rec, dh):
     data_guide[3, :] = np.kron(np.ones(ns), rec_loc[:, 0])
     data_guide[4, :] = np.kron(np.ones(ns), rec_loc[:, 1])
     
-    if acq_type == 2:
-        data_guide[4, :int(n_well_rec)] = np.flip(data_guide[4, :int(n_well_rec)])
     data_guide[5, :] = np.abs(data_guide[1, :] - data_guide[3, :])
         
     return data_guide

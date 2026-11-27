@@ -13,11 +13,13 @@ __kernel void MakeAllZero(__global float *vx, __global float *vz,
   int i = get_global_id(0);
   int j = get_global_id(1);
 
-  vx[center]=0;
-  vz[center]=0;
-  taux[center]=0;
-  tauz[center]=0;
-  tauxz[center]=0;
+  int s = get_global_id(2);
+  int o = s * Nx * Nz;
+    vx[o + center]=0;
+    vz[o + center]=0;
+    taux[o + center]=0;
+    tauz[o + center]=0;
+    tauxz[o + center]=0;
 }
 
 __kernel void MakeGradZero(__global float *Gmu,__global float *Glam, __global float *Grho,
@@ -30,9 +32,11 @@ __kernel void MakeGradZero(__global float *Gmu,__global float *Glam, __global fl
   Gmu[center]=0;
   Glam[center]=0;
   Grho[center]=0;
+#if ENERGY_BALANCING
   Gmu_precond[center]=0;
   Glam_precond[center]=0;
   Grho_precond[center]=0;
+#endif
 }
 
         ////////////////////////////////////////////////////////////////////////
@@ -45,7 +49,7 @@ __kernel void injSrc(__global float *vx,__global float *vz,
                      __global float *seismogram_vxi,__global float *seismogram_vzi,
                      __global float *seismogram_tauxi, __global float *seismogram_tauzi, __global float *seismogram_tauxzi,
                      int dxr,
-                     int sourcex, int sourcez,
+                     __global int *sourcex, __global int *sourcez,
                      float vsrcx, float vsrcz,
                      float tsrcx, float tsrcz,
                       int nt)
@@ -54,45 +58,48 @@ __kernel void injSrc(__global float *vx,__global float *vz,
 {
   int i = get_global_id(0) ;
   int j = get_global_id(1) ;
+  int s = get_global_id(2);
+  int o = s * Nx * Nz;
+  int so = nt * Ns * Nr + s * Nr;
 
-  if (i==sourcez && j==sourcex){
-    vx[center] += vsrcx;
-    vz[center] += vsrcz;
-    taux[center] += tsrcx;
-    tauz[center] += tsrcz;
+  if (i==sourcez[s] && j==sourcex[s]){
+    vx[o + center] += vsrcx;
+    vz[o + center] += vsrcz;
+    taux[o + center] += tsrcx;
+    tauz[o + center] += tsrcz;
   }
   
   if(i%dxr==0 && j == rec_top_left_const && i/dxr<n_extera_rec){
     int ir = i/dxr;    
 
-      seismogram_vxi[nt * Nr + ir]  =  vx[(i+ rec_top_left_var)*Nx + j];
-      seismogram_vzi[nt * Nr + ir]  =  vz[(i+ rec_top_left_var)*Nx + j];
-      seismogram_tauxi[nt * Nr + ir]  =  taux[(i+ rec_top_left_var)*Nx + j];
-      seismogram_tauzi[nt * Nr + ir]  =  tauz[(i+ rec_top_left_var)*Nx + j];
-      seismogram_tauxzi[nt * Nr + ir]  =  tauxz[(i+ rec_top_left_var)*Nx + j];
+      seismogram_vxi[so + ir]  =  vx[o + (i+ rec_top_left_var)*Nx + j];
+      seismogram_vzi[so + ir]  =  vz[o + (i+ rec_top_left_var)*Nx + j];
+      seismogram_tauxi[so + ir]  =  taux[o + (i+ rec_top_left_var)*Nx + j];
+      seismogram_tauzi[so + ir]  =  tauz[o + (i+ rec_top_left_var)*Nx + j];
+      seismogram_tauxzi[so + ir]  =  tauxz[o + (i+ rec_top_left_var)*Nx + j];
       
   }
 
   if(j%dxr==0 && i == rec_surface_const){
     int ir =  j/dxr;
     if (ir < n_main_rec){
-        seismogram_vxi[nt * Nr + n_extera_rec + ir]  =  vx[i*Nx + (j + rec_surface_var)];
-        seismogram_vzi[nt * Nr + n_extera_rec + ir]  =  vz[i*Nx + (j + rec_surface_var)];
-        seismogram_tauxi[nt * Nr + n_extera_rec + ir]  =  taux[i*Nx + (j + rec_surface_var)];
-        seismogram_tauzi[nt * Nr + n_extera_rec + ir]  =  tauz[i*Nx + (j + rec_surface_var)];
-        seismogram_tauxzi[nt * Nr + n_extera_rec + ir]  =  tauxz[i*Nx + (j + rec_surface_var)];
+        seismogram_vxi[so + n_extera_rec + ir]  =  vx[o + i*Nx + (j + rec_surface_var)];
+        seismogram_vzi[so + n_extera_rec + ir]  =  vz[o + i*Nx + (j + rec_surface_var)];
+        seismogram_tauxi[so + n_extera_rec + ir]  =  taux[o + i*Nx + (j + rec_surface_var)];
+        seismogram_tauzi[so + n_extera_rec + ir]  =  tauz[o + i*Nx + (j + rec_surface_var)];
+        seismogram_tauxzi[so + n_extera_rec + ir]  =  tauxz[o + i*Nx + (j + rec_surface_var)];
     }
   }
 
   int startOfThirdRec = n_extera_rec + n_main_rec;
 
-  if(i%dxr==0 && j == rec_top_right_const){
+  if(i%dxr==0 && j == rec_top_right_const && i/dxr<n_extera_rec){
     int ir = i/dxr;
-      seismogram_vxi[nt * Nr + startOfThirdRec + ir]  =  vx[(i+ rec_top_right_var)*Nx + j];
-      seismogram_vzi[nt * Nr + startOfThirdRec + ir]  =  vz[(i+ rec_top_right_var)*Nx + j];
-      seismogram_tauxi[nt * Nr + startOfThirdRec + ir]  =  taux[(i+ rec_top_right_var)*Nx + j];
-      seismogram_tauzi[nt * Nr + startOfThirdRec + ir]  =  tauz[(i+ rec_top_right_var)*Nx + j];
-      seismogram_tauxzi[nt * Nr + startOfThirdRec + ir]  =  tauxz[(i+ rec_top_right_var)*Nx + j];
+      seismogram_vxi[so + startOfThirdRec + ir]  =  vx[o + (i+ rec_top_right_var)*Nx + j];
+      seismogram_vzi[so + startOfThirdRec + ir]  =  vz[o + (i+ rec_top_right_var)*Nx + j];
+      seismogram_tauxi[so + startOfThirdRec + ir]  =  taux[o + (i+ rec_top_right_var)*Nx + j];
+      seismogram_tauzi[so + startOfThirdRec + ir]  =  tauz[o + (i+ rec_top_right_var)*Nx + j];
+      seismogram_tauxzi[so + startOfThirdRec + ir]  =  tauxz[o + (i+ rec_top_right_var)*Nx + j];
   }
 
 }
@@ -110,6 +117,8 @@ __kernel void forward_hessian_src_preparing(__global float *w_vx,__global float 
 {
   int i = get_global_id(0) ;
   int j = get_global_id(1) ;
+
+  if(i<sdo || j<sdo || i>=Nz-sdo || j>=Nx-sdo){return;}
 
   float DxmTx = (c1*(w_taux[center]-w_taux[left]) + c2*(w_taux[right]-w_taux[left2])+
                c3*(w_taux[right2]-w_taux[left3]) + c4*(w_taux[right3]-w_taux[left4]))/dx ;
@@ -160,10 +169,10 @@ __kernel void update_velx(int coeff,
             )
 
 {
-  int i = get_global_id(0)+sdo ;
-  int j = get_global_id(1)+sdo ;
+  int i = get_global_id(1)+sdo ;
+  int j = get_global_id(0)+sdo ;
 
-  if(i>Nz-sdo || j>Nx-sdo){return;}
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
 
   float DxmTx = (c1*(taux[center]-taux[left]) + c2*(taux[right]-taux[left2])+
                c3*(taux[right2]-taux[left3]) + c4*(taux[right3]-taux[left4]))/dx ;
@@ -198,10 +207,10 @@ __kernel void update_velz(int coeff,
             )
 
 {
-  int i = get_global_id(0)+sdo ;
-  int j = get_global_id(1)+sdo ;
+  int i = get_global_id(1)+sdo ;
+  int j = get_global_id(0)+sdo ;
 
-  if(i>Nz-sdo || j>Nx-sdo){return;}
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
 
 
 
@@ -240,10 +249,10 @@ __kernel void update_tauz(int coeff,
             )
 
 {
-  int i = get_global_id(0)+sdo ;
-  int j = get_global_id(1)+sdo ;
+  int i = get_global_id(1)+sdo ;
+  int j = get_global_id(0)+sdo ;
 
-  if(i>Nz-sdo || j>Nx-sdo){return;}
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
 
   float DxpVx= (c1*(vx[right]-vx[center]) + c2*(vx[right2]-vx[left])+
                c3*(vx[right3]-vx[left2]) + c4*(vx[right4]-vx[left3]))/dx;
@@ -282,10 +291,10 @@ __kernel void update_tauxz(int coeff,
             )
 
 {
-  int i = get_global_id(0)+sdo ;
-  int j = get_global_id(1)+sdo ;
+  int i = get_global_id(1)+sdo ;
+  int j = get_global_id(0)+sdo ;
 
-  if(i>Nz-sdo || j>Nx-sdo){return;}
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
 
 
   float DxmVz= (c1*(vz[center]-vz[left]) + c2*(vz[right]-vz[left2])+
@@ -309,8 +318,105 @@ __kernel void update_tauxz(int coeff,
 
 
         ////////////////////////////////////////////////////////////////////////
+        // Fused updates: same arithmetic and ordering as update_velx/velz and
+        // update_tauz/tauxz, with half the kernel launches per time step.
         ////////////////////////////////////////////////////////////////////////
-        ////                    adjoint    source injection                        ////
+__kernel void update_vel(int coeff,
+            __global float *vx, __global float *vz,
+            __global float *taux, __global float *tauz, __global float *tauxz,
+            __global float *rho_b,
+            __global float *dxpml, __global float *dzpml
+            )
+
+{
+  int i = get_global_id(1)+sdo ;
+  int j = get_global_id(0)+sdo ;
+
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
+
+  int s = get_global_id(2);
+  int o = s * Nx * Nz;
+
+    float DxmTx = (c1*(taux[o+center]-taux[o+left]) + c2*(taux[o+right]-taux[o+left2])+
+                 c3*(taux[o+right2]-taux[o+left3]) + c4*(taux[o+right3]-taux[o+left4]))/dx ;
+
+    float DzmTxz = (c1*(tauxz[o+center]-tauxz[o+above]) + c2*(tauxz[o+below]-tauxz[o+above2])+
+                 c3*(tauxz[o+below2]-tauxz[o+above3]) + c4*(tauxz[o+below3]-tauxz[o+above4]))/dz;
+
+    float DxpTxz= (c1*(tauxz[o+right]-tauxz[o+center]) + c2*(tauxz[o+right2]-tauxz[o+left])+
+                 c3*(tauxz[o+right3]-tauxz[o+left2]) + c4*(tauxz[o+right4]-tauxz[o+left3]))/dx;
+
+    float DzpTz= (c1*(tauz[o+below]-tauz[o+center]) + c2*(tauz[o+below2]-tauz[o+above])+
+                 c3*(tauz[o+below3]-tauz[o+above2]) + c4*(tauz[o+below4]-tauz[o+above3]))/dz;
+
+    if (coeff==1){
+        vx[o+center] += coeff * dt * (rho_b[center] * (DxmTx + DzmTxz));
+        vx[o+center] += coeff * dt * (- (dxpml[center] + dzpml[center])*vx[o+center]);
+
+        vz[o+center] += coeff * dt * (rho_b[center] * (DzpTz + DxpTxz));
+        vz[o+center] += coeff * dt * (-(dzpml[center] + dxpml[center])*vz[o+center]);
+
+      }else if(coeff==-1){
+        vx[o+center] += coeff * dt * (+ (dxpml[center] + dzpml[center])*vx[o+center]);
+        vx[o+center] += coeff * dt * (rho_b[center] * (DxmTx + DzmTxz));
+
+        vz[o+center] += coeff * dt * (+(dzpml[center] + dxpml[center])*vz[o+center]);
+        vz[o+center] += coeff * dt * (rho_b[center] * (DzpTz + DxpTxz));
+      }
+
+}
+
+__kernel void update_tau(int coeff,
+            __global float *vx, __global float *vz,
+            __global float *taux, __global float *tauz, __global float *tauxz,
+            __global float *lambda, __global float *mu,
+            __global float *dxpml, __global float *dzpml
+            )
+
+{
+  int i = get_global_id(1)+sdo ;
+  int j = get_global_id(0)+sdo ;
+
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
+
+  int s = get_global_id(2);
+  int o = s * Nx * Nz;
+
+    float DxpVx= (c1*(vx[o+right]-vx[o+center]) + c2*(vx[o+right2]-vx[o+left])+
+                 c3*(vx[o+right3]-vx[o+left2]) + c4*(vx[o+right4]-vx[o+left3]))/dx;
+
+    float DzmVz= (c1*(vz[o+center]-vz[o+above]) + c2*(vz[o+below]-vz[o+above2])+
+                 c3*(vz[o+below2]-vz[o+above3]) + c4*(vz[o+below3]-vz[o+above4]))/dz;
+
+    float DxmVz= (c1*(vz[o+center]-vz[o+left]) + c2*(vz[o+right]-vz[o+left2])+
+                 c3*(vz[o+right2]-vz[o+left3]) + c4*(vz[o+right3]-vz[o+left4]))/dx;
+
+    float DzpVx= (c1*(vx[o+below]-vx[o+center]) + c2*(vx[o+below2]-vx[o+above])+
+                 c3*(vx[o+below3]-vx[o+above2]) + c4*(vx[o+below4]-vx[o+above3]))/dz;
+
+    if (coeff==1){
+        taux[o+center]+= coeff* dt * ((lambda[center] + 2 * mu[center]) * DxpVx + lambda[center] * DzmVz);
+        tauz[o+center]+= coeff* dt * ((lambda[center] + 2 * mu[center]) * DzmVz + lambda[center] * DxpVx);
+
+        taux[o+center] += coeff * dt * (-(dxpml[center]+dzpml[center])*taux[o+center]);
+        tauz[o+center] += coeff * dt * (-(dxpml[center]+dzpml[center])*tauz[o+center]);
+
+        tauxz[o+center] += coeff * dt * (mu[center] *(DxmVz + DzpVx));
+        tauxz[o+center] += coeff * dt * (-(dxpml[center] + dzpml[center])*tauxz[o+center]);
+
+      }else if(coeff==-1){
+        taux[o+center] += coeff * dt * (+(dxpml[center]+dzpml[center])*taux[o+center]);
+        tauz[o+center] += coeff * dt * (+(dxpml[center]+dzpml[center])*tauz[o+center]);
+
+        taux[o+center]+= coeff* dt * ((lambda[center] + 2 * mu[center]) * DxpVx + lambda[center] * DzmVz);
+        tauz[o+center]+= coeff* dt * ((lambda[center] + 2 * mu[center]) * DzmVz + lambda[center] * DxpVx);
+
+        tauxz[o+center] += coeff * dt * (+(dxpml[center] + dzpml[center])*tauxz[o+center]);
+        tauxz[o+center] += coeff * dt * (mu[center] *(DxmVz + DzpVx));
+      }
+
+}
+
         ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
 __kernel void Adj_injSrc(
@@ -318,7 +424,7 @@ __kernel void Adj_injSrc(
                          __global float *Ataux, __global float *Atauz, __global float *Atauxz,
                          __global float *res_vx, __global float * res_vz,
                          __global float *res_taux, __global float *res_tauz, __global float *res_tauxz,
-                         int dxr
+                         int dxr, int ts
                          )
 
 
@@ -326,39 +432,41 @@ __kernel void Adj_injSrc(
 
   int i = get_global_id(0) ;
   int j = get_global_id(1);
-
-    if(i%dxr==0 && j == rec_top_left_const && i/dxr<n_extera_rec){
-    int ir = i/dxr;
-        Avx[(i+ rec_top_left_var)*Nx + j] += res_vx[ir];
-        Avz[(i+ rec_top_left_var)*Nx + j] += res_vz[ir];
-        Ataux[(i+ rec_top_left_var)*Nx + j] += res_taux[ir];
-        Atauz[(i+ rec_top_left_var)*Nx + j] += res_tauz[ir];
-        Atauxz[(i+ rec_top_left_var)*Nx + j] += res_tauxz[ir];
-}
-  if(j%dxr==0 && i == rec_surface_const){
-    int ir =  j/dxr;
-    if (ir < n_main_rec){
-
-        Avx[i*Nx + (j+ rec_surface_var)] += res_vx[n_extera_rec + ir];
-        Avz[i*Nx + (j+ rec_surface_var)] += res_vz[n_extera_rec + ir];
-        Ataux[i*Nx + (j+ rec_surface_var)] += res_taux[n_extera_rec + ir];
-        Atauz[i*Nx + (j+ rec_surface_var)] += res_tauz[n_extera_rec + ir];
-        Atauxz[i*Nx + (j+ rec_surface_var)] += res_tauxz[n_extera_rec + ir];
-        }
-  }
-
   int startOfThirdRec = n_extera_rec + n_main_rec;
 
-  if(i%dxr==0 && j == rec_top_right_const){
-    int ir = i/dxr;
+  int s = get_global_id(2);
+  int o = s * Nx * Nz;
+    int ofs = ts * Ns * Nr + s * Nr;
 
-      Avx[(i+ rec_top_right_var)*Nx + j] += res_vx[startOfThirdRec + ir];
-      Avz[(i+ rec_top_right_var)*Nx + j] += res_vz[startOfThirdRec + ir];
-      Ataux[(i+ rec_top_right_var)*Nx + j] += res_taux[startOfThirdRec + ir];
-      Atauz[(i+ rec_top_right_var)*Nx + j] += res_tauz[startOfThirdRec + ir];
-      Atauxz[(i+ rec_top_right_var)*Nx + j] += res_tauxz[startOfThirdRec + ir];
-      
-}
+    if(i%dxr==0 && j == rec_top_left_const && i/dxr<n_extera_rec){
+      int ir = i/dxr;
+        Avx[o + (i+ rec_top_left_var)*Nx + j] += res_vx[ofs + ir];
+        Avz[o + (i+ rec_top_left_var)*Nx + j] += res_vz[ofs + ir];
+        Ataux[o + (i+ rec_top_left_var)*Nx + j] += res_taux[ofs + ir];
+        Atauz[o + (i+ rec_top_left_var)*Nx + j] += res_tauz[ofs + ir];
+        Atauxz[o + (i+ rec_top_left_var)*Nx + j] += res_tauxz[ofs + ir];
+    }
+    if(j%dxr==0 && i == rec_surface_const){
+      int ir =  j/dxr;
+      if (ir < n_main_rec){
+
+          Avx[o + i*Nx + (j+ rec_surface_var)] += res_vx[ofs + n_extera_rec + ir];
+          Avz[o + i*Nx + (j+ rec_surface_var)] += res_vz[ofs + n_extera_rec + ir];
+          Ataux[o + i*Nx + (j+ rec_surface_var)] += res_taux[ofs + n_extera_rec + ir];
+          Atauz[o + i*Nx + (j+ rec_surface_var)] += res_tauz[ofs + n_extera_rec + ir];
+          Atauxz[o + i*Nx + (j+ rec_surface_var)] += res_tauxz[ofs + n_extera_rec + ir];
+          }
+    }
+
+    if(i%dxr==0 && j == rec_top_right_const && i/dxr<n_extera_rec){
+      int ir = i/dxr;
+
+        Avx[o + (i+ rec_top_right_var)*Nx + j] += res_vx[ofs + startOfThirdRec + ir];
+        Avz[o + (i+ rec_top_right_var)*Nx + j] += res_vz[ofs + startOfThirdRec + ir];
+        Ataux[o + (i+ rec_top_right_var)*Nx + j] += res_taux[ofs + startOfThirdRec + ir];
+        Atauz[o + (i+ rec_top_right_var)*Nx + j] += res_tauz[ofs + startOfThirdRec + ir];
+        Atauxz[o + (i+ rec_top_right_var)*Nx + j] += res_tauxz[ofs + startOfThirdRec + ir];
+    }
 
 }
 
@@ -376,94 +484,88 @@ __kernel void Adj_update_tau(__global float *Avx, __global float *Avz,
             )
 
 {
-  int i = get_global_id(0)+sdo ;
-  int j = get_global_id(1)+sdo ;
+  int i = get_global_id(1)+sdo ;
+  int j = get_global_id(0)+sdo ;
 
-  if(i>Nz-sdo || j>Nx-sdo){return;}
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
 
+  int s = get_global_id(2);
+  int o = s * Nx * Nz;
 
-  float DxpAVx= (c1*(Avx[right]*rho_b[right] -Avx[center]*rho_b[center]) +
-                 c2*(Avx[right2]*rho_b[right2] -Avx[left]*rho_b[left])+
-                 c3*(Avx[right3]*rho_b[right3] -Avx[left2]*rho_b[left2]) +
-                 c4*(Avx[right4]*rho_b[right4] -Avx[left3]*rho_b[left3]))/dx;
+    float DxpAVx= (c1*(Avx[o+right]*rho_b[right] -Avx[o+center]*rho_b[center]) +
+                   c2*(Avx[o+right2]*rho_b[right2] -Avx[o+left]*rho_b[left])+
+                   c3*(Avx[o+right3]*rho_b[right3] -Avx[o+left2]*rho_b[left2]) +
+                   c4*(Avx[o+right4]*rho_b[right4] -Avx[o+left3]*rho_b[left3]))/dx;
 
-  float DzmAVz= (c1*(Avz[center]*rho_b[center] -Avz[above]*rho_b[above]) +
-                 c2*(Avz[below]*rho_b[below] -Avz[above2]*rho_b[above2])+
-               c3*(Avz[below2]*rho_b[below2] -Avz[above3]*rho_b[above3]) +
-               c4*(Avz[below3]*rho_b[below3] -Avz[above4]*rho_b[above4]))/dz;
+    float DzmAVz= (c1*(Avz[o+center]*rho_b[center] -Avz[o+above]*rho_b[above]) +
+                   c2*(Avz[o+below]*rho_b[below] -Avz[o+above2]*rho_b[above2])+
+                 c3*(Avz[o+below2]*rho_b[below2] -Avz[o+above3]*rho_b[above3]) +
+                 c4*(Avz[o+below3]*rho_b[below3] -Avz[o+above4]*rho_b[above4]))/dz;
 
-  Ataux[center]+= - dt * ((dxpml[center])*Ataux[center] + DxpAVx);
-  Atauz[center]+= - dt * ((dzpml[center])*Atauz[center] + DzmAVz);
-    
-    float DzpAvx= (c1*(Avx[below]*rho_b[below] - Avx[center]*rho_b[center]) +
-                    c2*(Avx[below2]*rho_b[below2] -Avx[above]*rho_b[above])+
-                   c3*(Avx[below3]*rho_b[below3] -Avx[above2]*rho_b[above2]) +
-                   c4*(Avx[below4]*rho_b[below4] -Avx[above3]*rho_b[above3]))/dz;
+    Ataux[o+center]+= - dt * ((dxpml[center])*Ataux[o+center] + DxpAVx);
+    Atauz[o+center]+= - dt * ((dzpml[center])*Atauz[o+center] + DzmAVz);
 
-      float DxmAvz= (c1*(Avz[center]*rho_b[center] - Avz[left]*rho_b[left]) +
-                    c2*(Avz[right]*rho_b[right] - Avz[left2]*rho_b[left2])+
-                    c3*(Avz[right2]*rho_b[right2] - Avz[left3]*rho_b[left3]) +
-                    c4*(Avz[right3]*rho_b[right3] - Avz[left4]*rho_b[left4]))/dx;
+    float DzpAvx= (c1*(Avx[o+below]*rho_b[below] - Avx[o+center]*rho_b[center]) +
+                   c2*(Avx[o+below2]*rho_b[below2] -Avx[o+above]*rho_b[above])+
+                   c3*(Avx[o+below3]*rho_b[below3] -Avx[o+above2]*rho_b[above2]) +
+                   c4*(Avx[o+below4]*rho_b[below4] -Avx[o+above3]*rho_b[above3]))/dz;
 
-      Atauxz[center]+= - dt*(((dxpml[center] + dzpml[center]) *Atauxz[center]) + (DzpAvx +  DxmAvz));
+    float DxmAvz= (c1*(Avz[o+center]*rho_b[center] - Avz[o+left]*rho_b[left]) +
+                   c2*(Avz[o+right]*rho_b[right] - Avz[o+left2]*rho_b[left2])+
+                   c3*(Avz[o+right2]*rho_b[right2] - Avz[o+left3]*rho_b[left3]) +
+                   c4*(Avz[o+right3]*rho_b[right3] - Avz[o+left4]*rho_b[left4]))/dx;
 
+    Atauxz[o+center]+= - dt*(((dxpml[center] + dzpml[center]) *Atauxz[o+center]) + (DzpAvx +  DxmAvz));
 
 }
 
-        ////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
-        ////////          Update Ajoint velocities  in x-direction      ////////
-        ////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
-
 __kernel void Adj_update_v(__global float *Avx, __global float *Avz,
             __global float *Ataux, __global float *Atauz, __global float *Atauxz,
-            __global float *lam, __global float *mu, 
+            __global float *lam, __global float *mu,
             __global float *dxpml,__global float *dzpml
             )
 
 {
-  int i = get_global_id(0)+sdo ;
-  int j = get_global_id(1)+sdo ;
+  int i = get_global_id(1)+sdo ;
+  int j = get_global_id(0)+sdo ;
 
-  if(i>Nz-sdo || j>Nx-sdo){return;}
+  if(i>=Nz-sdo || j>=Nx-sdo){return;}
 
+  int s = get_global_id(2);
+  int o = s * Nx * Nz;
 
-float DxmAtaux =  (c1*((lam[center]+2*mu[center])*Ataux[center] - (lam[left]+2*mu[left])*Ataux[left]) +
-                     c2*((lam[right]+2*mu[right])*Ataux[right] - (lam[left2]+2*mu[left2])*Ataux[left2])+
-                    c3*((lam[right2]+2*mu[right2])*Ataux[right2] - (lam[left3]+2*mu[left3])*Ataux[left3]) +
-                     c4*((lam[right3]+2*mu[right3])*Ataux[right3] -(lam[left4]+2*mu[left4])*Ataux[left4]))/dx;
+    float DxmAtaux =  (c1*((lam[center]+2*mu[center])*Ataux[o+center] - (lam[left]+2*mu[left])*Ataux[o+left]) +
+                         c2*((lam[right]+2*mu[right])*Ataux[o+right] - (lam[left2]+2*mu[left2])*Ataux[o+left2])+
+                        c3*((lam[right2]+2*mu[right2])*Ataux[o+right2] - (lam[left3]+2*mu[left3])*Ataux[o+left3]) +
+                         c4*((lam[right3]+2*mu[right3])*Ataux[o+right3] -(lam[left4]+2*mu[left4])*Ataux[o+left4]))/dx;
 
-  float DxmAtauz = (c1*(lam[center]*Atauz[center] - lam[left]*Atauz[left]) + 
-                    c2*(lam[right]*Atauz[right] - lam[left2]*Atauz[left2]) +
-                    c3*(lam[right2]*Atauz[right2] - lam[left3]*Atauz[left3]) + 
-                    c4*(lam[right3]*Atauz[right3] - lam[left4]*Atauz[left4]))/dx;
+    float DxmAtauz = (c1*(lam[center]*Atauz[o+center] - lam[left]*Atauz[o+left]) +
+                      c2*(lam[right]*Atauz[o+right] - lam[left2]*Atauz[o+left2]) +
+                      c3*(lam[right2]*Atauz[o+right2] - lam[left3]*Atauz[o+left3]) +
+                      c4*(lam[right3]*Atauz[o+right3] - lam[left4]*Atauz[o+left4]))/dx;
 
-  float DzmAtauxz=  (c1*(mu[center]*Atauxz[center] -mu[above]*Atauxz[above]) + 
-                    c2*(mu[below]*Atauxz[below] - mu[above2]*Atauxz[above2])+
-                    c3*(mu[below2]*Atauxz[below2] -mu[above3]*Atauxz[above3]) + 
-                    c4*(mu[below3]*Atauxz[below3] - mu[above4]*Atauxz[above4]))/dz;
+    float DzmAtauxz=  (c1*(mu[center]*Atauxz[o+center] -mu[above]*Atauxz[o+above]) +
+                      c2*(mu[below]*Atauxz[o+below] - mu[above2]*Atauxz[o+above2])+
+                      c3*(mu[below2]*Atauxz[o+below2] -mu[above3]*Atauxz[o+above3]) +
+                      c4*(mu[below3]*Atauxz[o+below3] - mu[above4]*Atauxz[o+above4]))/dz;
 
+    float DzpAtauz =(c1*((lam[below]+2*mu[below])*Atauz[o+below] -(lam[center]+2*mu[center])*Atauz[o+center]) +
+                     c2*((lam[below2]+2*mu[below2])*Atauz[o+below2] -(lam[above]+2*mu[above])*Atauz[o+above])+
+                     c3*((lam[below3]+2*mu[below3])*Atauz[o+below3] -(lam[above2]+2*mu[above2])*Atauz[o+above2]) +
+                     c4*((lam[below4]+2*mu[below4])*Atauz[o+below4] -(lam[above3]+2*mu[above3])*Atauz[o+above3]))/dz;
 
+    float DzpAtaux = (c1*(lam[below]*Ataux[o+below] -lam[center]*Ataux[o+center]) +
+                      c2*(lam[below2]*Ataux[o+below2] -lam[above]*Ataux[o+above])+
+                      c3*(lam[below3]*Ataux[o+below3]-lam[above2]*Ataux[o+above2]) +
+                      c4*(lam[below4]*Ataux[o+below4]-lam[above3]*Ataux[o+above3]))/dz;
 
-  float DzpAtauz =(c1*((lam[below]+2*mu[below])*Atauz[below] -(lam[center]+2*mu[center])*Atauz[center]) +
-                   c2*((lam[below2]+2*mu[below2])*Atauz[below2] -(lam[above]+2*mu[above])*Atauz[above])+
-                   c3*((lam[below3]+2*mu[below3])*Atauz[below3] -(lam[above2]+2*mu[above2])*Atauz[above2]) +
-                   c4*((lam[below4]+2*mu[below4])*Atauz[below4] -(lam[above3]+2*mu[above3])*Atauz[above3]))/dz;
+    float DxpAtauxz= (c1*(mu[right] *Atauxz[o+right] - mu[center]*Atauxz[o+center]) +
+                      c2*(mu[right2]*Atauxz[o+right2] - mu[left]*Atauxz[o+left])+
+                      c3*(mu[right3]*Atauxz[o+right3] - mu[left2]*Atauxz[o+left2]) +
+                      c4*(mu[right4]*Atauxz[o+right4] - mu[left3]*Atauxz[o+left3]))/dx;
 
-  float DzpAtaux = (c1*(lam[below]*Ataux[below] -lam[center]*Ataux[center]) + 
-                    c2*(lam[below2]*Ataux[below2] -lam[above]*Ataux[above])+
-                    c3*(lam[below3]*Ataux[below3]-lam[above2]*Ataux[above2]) + 
-                    c4*(lam[below4]*Ataux[below4]-lam[above3]*Ataux[above3]))/dz;
-
-  
-  float DxpAtauxz= (c1*(mu[right] *Atauxz[right] - mu[center]*Atauxz[center]) +
-                    c2*(mu[right2]*Atauxz[right2] - mu[left]*Atauxz[left])+
-                    c3*(mu[right3]*Atauxz[right3] - mu[left2]*Atauxz[left2]) + 
-                    c4*(mu[right4]*Atauxz[right4] - mu[left3]*Atauxz[left3]))/dx;
-
-  Avx[center]+= -dt* ((2*dxpml[center] + dzpml[center]) * Avx[center] + (DxmAtaux + DxmAtauz + DzmAtauxz));
-  Avz[center]+= -dt* ((dxpml[center] + 2*dzpml[center]) * Avz[center] + (DzpAtaux + DzpAtauz + DxpAtauxz));
+    Avx[o+center]+= -dt* ((2*dxpml[center] + dzpml[center]) * Avx[o+center] + (DxmAtaux + DxmAtauz + DzmAtauxz));
+    Avz[o+center]+= -dt* ((dxpml[center] + 2*dzpml[center]) * Avz[o+center] + (DzpAtaux + DzpAtauz + DxpAtauxz));
 
 }
 
@@ -477,50 +579,58 @@ __kernel void Grad(__global float *vx, __global float *vz,
             __global float *Grho, __global float *Grho_precond
             )
 {
-  int i = get_global_id(0)+ npml + sdo ;
-  int j = get_global_id(1)+ npml + sdo ;
+  int i = get_global_id(1)+ npml + sdo ;
+  int j = get_global_id(0)+ npml + sdo ;
 
-  if(i>Nz-sdo - npml || j>Nx-sdo - npml){return;}
+  if(i>=Nz-sdo - npml || j>=Nx-sdo - npml){return;}
 
-  float DzpVx= (c1*(vz[below]-vz[center]) + c2*(vz[below2]-vz[above])+
-               c3*(vz[below3]-vz[above2]) + c4*(vz[below4]-vz[above3]))/dz;
+  for (int s = 0; s < Ns; ++s) {
+    int o = s * Nx * Nz;
 
-  float DxmVz= (c1*(vz[center]-vz[left]) + c2*(vz[right]-vz[left2])+
-               c3*(vz[right2]-vz[left3]) + c4*(vz[right3]-vz[left4]))/dx;
+    float DzpVx= (c1*(vz[o+below]-vz[o+center]) + c2*(vz[o+below2]-vz[o+above])+
+                 c3*(vz[o+below3]-vz[o+above2]) + c4*(vz[o+below4]-vz[o+above3]))/dz;
 
-  float DxpVx= (c1*(vx[right]-vx[center]) + c2*(vx[right2]-vx[left])+
-               c3*(vx[right3]-vx[left2]) + c4*(vx[right4]-vx[left3]))/dx;
+    float DxmVz= (c1*(vz[o+center]-vz[o+left]) + c2*(vz[o+right]-vz[o+left2])+
+                 c3*(vz[o+right2]-vz[o+left3]) + c4*(vz[o+right3]-vz[o+left4]))/dx;
 
-  float DzmVz= (c1*(vz[center]-vz[above]) + c2*(vz[below]-vz[above2])+
-               c3*(vz[below2]-vz[above3]) + c4*(vz[below3]-vz[above4]))/dz;    
+    float DxpVx= (c1*(vx[o+right]-vx[o+center]) + c2*(vx[o+right2]-vx[o+left])+
+                 c3*(vx[o+right3]-vx[o+left2]) + c4*(vx[o+right4]-vx[o+left3]))/dx;
 
-  float DzpPz= (c1*(tauz[below]-tauz[center]) + c2*(tauz[below2]-tauz[above])+
-               c3*(tauz[below3]-tauz[above2]) + c4*(tauz[below4]-tauz[above3]))/dz;
+    float DzmVz= (c1*(vz[o+center]-vz[o+above]) + c2*(vz[o+below]-vz[o+above2])+
+                 c3*(vz[o+below2]-vz[o+above3]) + c4*(vz[o+below3]-vz[o+above4]))/dz;
 
-  float DxmPx= (c1*(taux[center]-taux[left]) + c2*(taux[right]-taux[left2])+
-               c3*(taux[right2]-taux[left3]) + c4*(taux[right3]-taux[left4]))/dx;
+    float DzpPz= (c1*(tauz[o+below]-tauz[o+center]) + c2*(tauz[o+below2]-tauz[o+above])+
+                 c3*(tauz[o+below3]-tauz[o+above2]) + c4*(tauz[o+below4]-tauz[o+above3]))/dz;
 
-  float DxpPxz= (c1*(tauxz[right]-tauxz[center]) + c2*(tauxz[right2]-tauxz[left])+
-               c3*(tauxz[right3]-tauxz[left2]) + c4*(tauxz[right4]-tauxz[left3]))/dx;
+    float DxmPx= (c1*(taux[o+center]-taux[o+left]) + c2*(taux[o+right]-taux[o+left2])+
+                 c3*(taux[o+right2]-taux[o+left3]) + c4*(taux[o+right3]-taux[o+left4]))/dx;
 
-  float DzmPxz= (c1*(tauxz[center]-tauxz[above]) + c2*(tauxz[below]-tauxz[above2])+
-               c3*(tauxz[below2]-tauxz[above3]) + c4*(tauxz[below3]-tauxz[above4]))/dz;
+    float DxpPxz= (c1*(tauxz[o+right]-tauxz[o+center]) + c2*(tauxz[o+right2]-tauxz[o+left])+
+                  c3*(tauxz[o+right3]-tauxz[o+left2]) + c4*(tauxz[o+right4]-tauxz[o+left3]))/dx;
 
+    float DzmPxz= (c1*(tauxz[o+center]-tauxz[o+above]) + c2*(tauxz[o+below]-tauxz[o+above2])+
+                  c3*(tauxz[o+below2]-tauxz[o+above3]) + c4*(tauxz[o+below3]-tauxz[o+above4]))/dz;
 
-  Gmu[center]+= 2*dt*(Ataux[center]*DxpVx + Atauz[center]*DzmVz) + dt*Atauxz[center]*(DzpVx+DxmVz);
-    
-  
-  Gmu_precond[center]+= 4*dt*dt*(taux[center]*taux[center]*DxpVx*DxpVx + tauz[center]*tauz[center]*DzmVz*DzmVz)
-                          +dt*dt*tauxz[center]*tauxz[center]*(DzpVx*DzpVx+DxmVz*DxmVz);
+    Gmu[center]+= 2*dt*(Ataux[o+center]*DxpVx + Atauz[o+center]*DzmVz) + dt*Atauxz[o+center]*(DzpVx+DxmVz);
 
-  Glam[center]+= dt*(Ataux[center] + Atauz[center])*(DxpVx+DzmVz);
+#if ENERGY_BALANCING
+    Gmu_precond[center]+= 4*dt*dt*(taux[o+center]*taux[o+center]*DxpVx*DxpVx + tauz[o+center]*tauz[o+center]*DzmVz*DzmVz)
+                          +dt*dt*tauxz[o+center]*tauxz[o+center]*(DzpVx*DzpVx+DxmVz*DxmVz);
+#endif
 
-  Glam_precond[center] += dt*dt*(taux[center]*taux[center] + tauz[center]*tauz[center])*(DxpVx*DxpVx+DzmVz*DzmVz);
+    Glam[center]+= dt*(Ataux[o+center] + Atauz[o+center])*(DxpVx+DzmVz);
 
-  Grho[center]+= -(dt*(rho_b[center]*rho_b[center]))*(Avx[center]*(DxmPx + DzmPxz)+
-                                                  Avz[center]*(DzpPz+DxpPxz));
+#if ENERGY_BALANCING
+    Glam_precond[center] += dt*dt*(taux[o+center]*taux[o+center] + tauz[o+center]*tauz[o+center])*(DxpVx*DxpVx+DzmVz*DzmVz);
+#endif
 
-  Grho_precond[center] += dt*dt*(vx[center]*vx[center]*(DxmPx*DxmPx + DzmPxz*DzmPxz)+
-                                            vz[center]*vz[center]*(DzpPz*DzpPz + DxpPxz*DxpPxz));
+    Grho[center]+= -(dt*(rho_b[center]*rho_b[center]))*(Avx[o+center]*(DxmPx + DzmPxz)+
+                                                    Avz[o+center]*(DzpPz+DxpPxz));
+
+#if ENERGY_BALANCING
+    Grho_precond[center] += dt*dt*(vx[o+center]*vx[o+center]*(DxmPx*DxmPx + DzmPxz*DzmPxz)+
+                                              vz[o+center]*vz[o+center]*(DzpPz*DzpPz + DxpPxz*DxpPxz));
+#endif
+  }
 
 }
